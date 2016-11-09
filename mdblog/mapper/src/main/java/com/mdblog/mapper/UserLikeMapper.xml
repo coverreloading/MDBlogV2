@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.UserLikeMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.UserLike" >
+    <id column="UL_ID" property="ulId" jdbcType="BIGINT" />
+    <result column="UL_UID" property="ulUid" jdbcType="BIGINT" />
+    <result column="UL_UID2" property="ulUid2" jdbcType="BIGINT" />
+    <result column="UL_Nickname" property="ulNickname" jdbcType="CHAR" />
+    <result column="UL_Pic" property="ulPic" jdbcType="CHAR" />
+    <result column="UL_Createtime" property="ulCreatetime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    UL_ID, UL_UID, UL_UID2, UL_Nickname, UL_Pic, UL_Createtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.UserLikeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_like
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_like
+    where UL_ID = #{ulId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_like
+    where UL_ID = #{ulId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.UserLikeExample" >
+    delete from user_like
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.UserLike" >
+    insert into user_like (UL_ID, UL_UID, UL_UID2, 
+      UL_Nickname, UL_Pic, UL_Createtime
+      )
+    values (#{ulId,jdbcType=BIGINT}, #{ulUid,jdbcType=BIGINT}, #{ulUid2,jdbcType=BIGINT}, 
+      #{ulNickname,jdbcType=CHAR}, #{ulPic,jdbcType=CHAR}, #{ulCreatetime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.UserLike" >
+    insert into user_like
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ulId != null" >
+        UL_ID,
+      </if>
+      <if test="ulUid != null" >
+        UL_UID,
+      </if>
+      <if test="ulUid2 != null" >
+        UL_UID2,
+      </if>
+      <if test="ulNickname != null" >
+        UL_Nickname,
+      </if>
+      <if test="ulPic != null" >
+        UL_Pic,
+      </if>
+      <if test="ulCreatetime != null" >
+        UL_Createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ulId != null" >
+        #{ulId,jdbcType=BIGINT},
+      </if>
+      <if test="ulUid != null" >
+        #{ulUid,jdbcType=BIGINT},
+      </if>
+      <if test="ulUid2 != null" >
+        #{ulUid2,jdbcType=BIGINT},
+      </if>
+      <if test="ulNickname != null" >
+        #{ulNickname,jdbcType=CHAR},
+      </if>
+      <if test="ulPic != null" >
+        #{ulPic,jdbcType=CHAR},
+      </if>
+      <if test="ulCreatetime != null" >
+        #{ulCreatetime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.UserLikeExample" resultType="java.lang.Integer" >
+    select count(*) from user_like
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_like
+    <set >
+      <if test="record.ulId != null" >
+        UL_ID = #{record.ulId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ulUid != null" >
+        UL_UID = #{record.ulUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.ulUid2 != null" >
+        UL_UID2 = #{record.ulUid2,jdbcType=BIGINT},
+      </if>
+      <if test="record.ulNickname != null" >
+        UL_Nickname = #{record.ulNickname,jdbcType=CHAR},
+      </if>
+      <if test="record.ulPic != null" >
+        UL_Pic = #{record.ulPic,jdbcType=CHAR},
+      </if>
+      <if test="record.ulCreatetime != null" >
+        UL_Createtime = #{record.ulCreatetime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_like
+    set UL_ID = #{record.ulId,jdbcType=BIGINT},
+      UL_UID = #{record.ulUid,jdbcType=BIGINT},
+      UL_UID2 = #{record.ulUid2,jdbcType=BIGINT},
+      UL_Nickname = #{record.ulNickname,jdbcType=CHAR},
+      UL_Pic = #{record.ulPic,jdbcType=CHAR},
+      UL_Createtime = #{record.ulCreatetime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.UserLike" >
+    update user_like
+    <set >
+      <if test="ulUid != null" >
+        UL_UID = #{ulUid,jdbcType=BIGINT},
+      </if>
+      <if test="ulUid2 != null" >
+        UL_UID2 = #{ulUid2,jdbcType=BIGINT},
+      </if>
+      <if test="ulNickname != null" >
+        UL_Nickname = #{ulNickname,jdbcType=CHAR},
+      </if>
+      <if test="ulPic != null" >
+        UL_Pic = #{ulPic,jdbcType=CHAR},
+      </if>
+      <if test="ulCreatetime != null" >
+        UL_Createtime = #{ulCreatetime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where UL_ID = #{ulId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.UserLike" >
+    update user_like
+    set UL_UID = #{ulUid,jdbcType=BIGINT},
+      UL_UID2 = #{ulUid2,jdbcType=BIGINT},
+      UL_Nickname = #{ulNickname,jdbcType=CHAR},
+      UL_Pic = #{ulPic,jdbcType=CHAR},
+      UL_Createtime = #{ulCreatetime,jdbcType=BIGINT}
+    where UL_ID = #{ulId,jdbcType=BIGINT}
+  </update>
+</mapper>

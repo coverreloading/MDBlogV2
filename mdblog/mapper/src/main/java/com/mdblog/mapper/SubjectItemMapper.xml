@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.SubjectItemMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.SubjectItem" >
+    <id column="SI_ID" property="siId" jdbcType="BIGINT" />
+    <result column="SI_SID" property="siSid" jdbcType="BIGINT" />
+    <result column="SI_RA_ID" property="siRaId" jdbcType="BIGINT" />
+    <result column="SI_Title" property="siTitle" jdbcType="CHAR" />
+    <result column="SI_Desc" property="siDesc" jdbcType="CHAR" />
+    <result column="SI_Createtime" property="siCreatetime" jdbcType="BIGINT" />
+    <result column="SI_Updatetime" property="siUpdatetime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    SI_ID, SI_SID, SI_RA_ID, SI_Title, SI_Desc, SI_Createtime, SI_Updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.SubjectItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from subject_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from subject_item
+    where SI_ID = #{siId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from subject_item
+    where SI_ID = #{siId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.SubjectItemExample" >
+    delete from subject_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.SubjectItem" >
+    insert into subject_item (SI_ID, SI_SID, SI_RA_ID, 
+      SI_Title, SI_Desc, SI_Createtime, 
+      SI_Updatetime)
+    values (#{siId,jdbcType=BIGINT}, #{siSid,jdbcType=BIGINT}, #{siRaId,jdbcType=BIGINT}, 
+      #{siTitle,jdbcType=CHAR}, #{siDesc,jdbcType=CHAR}, #{siCreatetime,jdbcType=BIGINT}, 
+      #{siUpdatetime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.SubjectItem" >
+    insert into subject_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="siId != null" >
+        SI_ID,
+      </if>
+      <if test="siSid != null" >
+        SI_SID,
+      </if>
+      <if test="siRaId != null" >
+        SI_RA_ID,
+      </if>
+      <if test="siTitle != null" >
+        SI_Title,
+      </if>
+      <if test="siDesc != null" >
+        SI_Desc,
+      </if>
+      <if test="siCreatetime != null" >
+        SI_Createtime,
+      </if>
+      <if test="siUpdatetime != null" >
+        SI_Updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="siId != null" >
+        #{siId,jdbcType=BIGINT},
+      </if>
+      <if test="siSid != null" >
+        #{siSid,jdbcType=BIGINT},
+      </if>
+      <if test="siRaId != null" >
+        #{siRaId,jdbcType=BIGINT},
+      </if>
+      <if test="siTitle != null" >
+        #{siTitle,jdbcType=CHAR},
+      </if>
+      <if test="siDesc != null" >
+        #{siDesc,jdbcType=CHAR},
+      </if>
+      <if test="siCreatetime != null" >
+        #{siCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="siUpdatetime != null" >
+        #{siUpdatetime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.SubjectItemExample" resultType="java.lang.Integer" >
+    select count(*) from subject_item
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update subject_item
+    <set >
+      <if test="record.siId != null" >
+        SI_ID = #{record.siId,jdbcType=BIGINT},
+      </if>
+      <if test="record.siSid != null" >
+        SI_SID = #{record.siSid,jdbcType=BIGINT},
+      </if>
+      <if test="record.siRaId != null" >
+        SI_RA_ID = #{record.siRaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.siTitle != null" >
+        SI_Title = #{record.siTitle,jdbcType=CHAR},
+      </if>
+      <if test="record.siDesc != null" >
+        SI_Desc = #{record.siDesc,jdbcType=CHAR},
+      </if>
+      <if test="record.siCreatetime != null" >
+        SI_Createtime = #{record.siCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="record.siUpdatetime != null" >
+        SI_Updatetime = #{record.siUpdatetime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update subject_item
+    set SI_ID = #{record.siId,jdbcType=BIGINT},
+      SI_SID = #{record.siSid,jdbcType=BIGINT},
+      SI_RA_ID = #{record.siRaId,jdbcType=BIGINT},
+      SI_Title = #{record.siTitle,jdbcType=CHAR},
+      SI_Desc = #{record.siDesc,jdbcType=CHAR},
+      SI_Createtime = #{record.siCreatetime,jdbcType=BIGINT},
+      SI_Updatetime = #{record.siUpdatetime,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.SubjectItem" >
+    update subject_item
+    <set >
+      <if test="siSid != null" >
+        SI_SID = #{siSid,jdbcType=BIGINT},
+      </if>
+      <if test="siRaId != null" >
+        SI_RA_ID = #{siRaId,jdbcType=BIGINT},
+      </if>
+      <if test="siTitle != null" >
+        SI_Title = #{siTitle,jdbcType=CHAR},
+      </if>
+      <if test="siDesc != null" >
+        SI_Desc = #{siDesc,jdbcType=CHAR},
+      </if>
+      <if test="siCreatetime != null" >
+        SI_Createtime = #{siCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="siUpdatetime != null" >
+        SI_Updatetime = #{siUpdatetime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where SI_ID = #{siId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.SubjectItem" >
+    update subject_item
+    set SI_SID = #{siSid,jdbcType=BIGINT},
+      SI_RA_ID = #{siRaId,jdbcType=BIGINT},
+      SI_Title = #{siTitle,jdbcType=CHAR},
+      SI_Desc = #{siDesc,jdbcType=CHAR},
+      SI_Createtime = #{siCreatetime,jdbcType=BIGINT},
+      SI_Updatetime = #{siUpdatetime,jdbcType=BIGINT}
+    where SI_ID = #{siId,jdbcType=BIGINT}
+  </update>
+
+  <!-- 自定义方法 -->
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    *
+    from subject
+  </select>
+
+</mapper>

@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.UserInfo" >
+    <id column="UI_UID" property="uiUid" jdbcType="BIGINT" />
+    <result column="UI_Nickname" property="uiNickname" jdbcType="CHAR" />
+    <result column="UI_Pic" property="uiPic" jdbcType="CHAR" />
+    <result column="UI_Desc" property="uiDesc" jdbcType="CHAR" />
+    <result column="UI_Sex" property="uiSex" jdbcType="CHAR" />
+    <result column="UI_Birth" property="uiBirth" jdbcType="BIGINT" />
+    <result column="UI_Occupation" property="uiOccupation" jdbcType="CHAR" />
+    <result column="UI_Live_Place" property="uiLivePlace" jdbcType="CHAR" />
+    <result column="UI_Createtime" property="uiCreatetime" jdbcType="BIGINT" />
+    <result column="UI_Del" property="uiDel" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    UI_UID, UI_Nickname, UI_Pic, UI_Desc, UI_Sex, UI_Birth, UI_Occupation, UI_Live_Place, 
+    UI_Createtime, UI_Del
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.UserInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where UI_UID = #{uiUid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_info
+    where UI_UID = #{uiUid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.UserInfoExample" >
+    delete from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.UserInfo" >
+    insert into user_info (UI_UID, UI_Nickname, UI_Pic, 
+      UI_Desc, UI_Sex, UI_Birth, UI_Occupation, 
+      UI_Live_Place, UI_Createtime, UI_Del
+      )
+    values (#{uiUid,jdbcType=BIGINT}, #{uiNickname,jdbcType=CHAR}, #{uiPic,jdbcType=CHAR}, 
+      #{uiDesc,jdbcType=CHAR}, #{uiSex,jdbcType=CHAR}, #{uiBirth,jdbcType=BIGINT}, #{uiOccupation,jdbcType=CHAR}, 
+      #{uiLivePlace,jdbcType=CHAR}, #{uiCreatetime,jdbcType=BIGINT}, #{uiDel,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.UserInfo" >
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uiUid != null" >
+        UI_UID,
+      </if>
+      <if test="uiNickname != null" >
+        UI_Nickname,
+      </if>
+      <if test="uiPic != null" >
+        UI_Pic,
+      </if>
+      <if test="uiDesc != null" >
+        UI_Desc,
+      </if>
+      <if test="uiSex != null" >
+        UI_Sex,
+      </if>
+      <if test="uiBirth != null" >
+        UI_Birth,
+      </if>
+      <if test="uiOccupation != null" >
+        UI_Occupation,
+      </if>
+      <if test="uiLivePlace != null" >
+        UI_Live_Place,
+      </if>
+      <if test="uiCreatetime != null" >
+        UI_Createtime,
+      </if>
+      <if test="uiDel != null" >
+        UI_Del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uiUid != null" >
+        #{uiUid,jdbcType=BIGINT},
+      </if>
+      <if test="uiNickname != null" >
+        #{uiNickname,jdbcType=CHAR},
+      </if>
+      <if test="uiPic != null" >
+        #{uiPic,jdbcType=CHAR},
+      </if>
+      <if test="uiDesc != null" >
+        #{uiDesc,jdbcType=CHAR},
+      </if>
+      <if test="uiSex != null" >
+        #{uiSex,jdbcType=CHAR},
+      </if>
+      <if test="uiBirth != null" >
+        #{uiBirth,jdbcType=BIGINT},
+      </if>
+      <if test="uiOccupation != null" >
+        #{uiOccupation,jdbcType=CHAR},
+      </if>
+      <if test="uiLivePlace != null" >
+        #{uiLivePlace,jdbcType=CHAR},
+      </if>
+      <if test="uiCreatetime != null" >
+        #{uiCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="uiDel != null" >
+        #{uiDel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.UserInfoExample" resultType="java.lang.Integer" >
+    select count(*) from user_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_info
+    <set >
+      <if test="record.uiUid != null" >
+        UI_UID = #{record.uiUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.uiNickname != null" >
+        UI_Nickname = #{record.uiNickname,jdbcType=CHAR},
+      </if>
+      <if test="record.uiPic != null" >
+        UI_Pic = #{record.uiPic,jdbcType=CHAR},
+      </if>
+      <if test="record.uiDesc != null" >
+        UI_Desc = #{record.uiDesc,jdbcType=CHAR},
+      </if>
+      <if test="record.uiSex != null" >
+        UI_Sex = #{record.uiSex,jdbcType=CHAR},
+      </if>
+      <if test="record.uiBirth != null" >
+        UI_Birth = #{record.uiBirth,jdbcType=BIGINT},
+      </if>
+      <if test="record.uiOccupation != null" >
+        UI_Occupation = #{record.uiOccupation,jdbcType=CHAR},
+      </if>
+      <if test="record.uiLivePlace != null" >
+        UI_Live_Place = #{record.uiLivePlace,jdbcType=CHAR},
+      </if>
+      <if test="record.uiCreatetime != null" >
+        UI_Createtime = #{record.uiCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="record.uiDel != null" >
+        UI_Del = #{record.uiDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_info
+    set UI_UID = #{record.uiUid,jdbcType=BIGINT},
+      UI_Nickname = #{record.uiNickname,jdbcType=CHAR},
+      UI_Pic = #{record.uiPic,jdbcType=CHAR},
+      UI_Desc = #{record.uiDesc,jdbcType=CHAR},
+      UI_Sex = #{record.uiSex,jdbcType=CHAR},
+      UI_Birth = #{record.uiBirth,jdbcType=BIGINT},
+      UI_Occupation = #{record.uiOccupation,jdbcType=CHAR},
+      UI_Live_Place = #{record.uiLivePlace,jdbcType=CHAR},
+      UI_Createtime = #{record.uiCreatetime,jdbcType=BIGINT},
+      UI_Del = #{record.uiDel,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.UserInfo" >
+    update user_info
+    <set >
+      <if test="uiNickname != null" >
+        UI_Nickname = #{uiNickname,jdbcType=CHAR},
+      </if>
+      <if test="uiPic != null" >
+        UI_Pic = #{uiPic,jdbcType=CHAR},
+      </if>
+      <if test="uiDesc != null" >
+        UI_Desc = #{uiDesc,jdbcType=CHAR},
+      </if>
+      <if test="uiSex != null" >
+        UI_Sex = #{uiSex,jdbcType=CHAR},
+      </if>
+      <if test="uiBirth != null" >
+        UI_Birth = #{uiBirth,jdbcType=BIGINT},
+      </if>
+      <if test="uiOccupation != null" >
+        UI_Occupation = #{uiOccupation,jdbcType=CHAR},
+      </if>
+      <if test="uiLivePlace != null" >
+        UI_Live_Place = #{uiLivePlace,jdbcType=CHAR},
+      </if>
+      <if test="uiCreatetime != null" >
+        UI_Createtime = #{uiCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="uiDel != null" >
+        UI_Del = #{uiDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where UI_UID = #{uiUid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.UserInfo" >
+    update user_info
+    set UI_Nickname = #{uiNickname,jdbcType=CHAR},
+      UI_Pic = #{uiPic,jdbcType=CHAR},
+      UI_Desc = #{uiDesc,jdbcType=CHAR},
+      UI_Sex = #{uiSex,jdbcType=CHAR},
+      UI_Birth = #{uiBirth,jdbcType=BIGINT},
+      UI_Occupation = #{uiOccupation,jdbcType=CHAR},
+      UI_Live_Place = #{uiLivePlace,jdbcType=CHAR},
+      UI_Createtime = #{uiCreatetime,jdbcType=BIGINT},
+      UI_Del = #{uiDel,jdbcType=INTEGER}
+    where UI_UID = #{uiUid,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

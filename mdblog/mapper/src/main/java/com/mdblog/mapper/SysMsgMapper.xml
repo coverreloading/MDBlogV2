@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.SysMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.SysMsg" >
+    <id column="Sys_Msg_ID" property="sysMsgId" jdbcType="BIGINT" />
+    <result column="Sys_Msg_UID" property="sysMsgUid" jdbcType="BIGINT" />
+    <result column="Sys_Msg_Title" property="sysMsgTitle" jdbcType="CHAR" />
+    <result column="Sys_Msg_Createtime" property="sysMsgCreatetime" jdbcType="BIGINT" />
+    <result column="Sys_Msg_Del" property="sysMsgDel" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.mdblog.po.SysMsg" extends="BaseResultMap" >
+    <result column="Sys_Msg_Text" property="sysMsgText" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Sys_Msg_ID, Sys_Msg_UID, Sys_Msg_Title, Sys_Msg_Createtime, Sys_Msg_Del
+  </sql>
+  <sql id="Blob_Column_List" >
+    Sys_Msg_Text
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mdblog.po.SysMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.SysMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_msg
+    where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_msg
+    where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.SysMsgExample" >
+    delete from sys_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.SysMsg" >
+    insert into sys_msg (Sys_Msg_ID, Sys_Msg_UID, Sys_Msg_Title, 
+      Sys_Msg_Createtime, Sys_Msg_Del, Sys_Msg_Text
+      )
+    values (#{sysMsgId,jdbcType=BIGINT}, #{sysMsgUid,jdbcType=BIGINT}, #{sysMsgTitle,jdbcType=CHAR}, 
+      #{sysMsgCreatetime,jdbcType=BIGINT}, #{sysMsgDel,jdbcType=INTEGER}, #{sysMsgText,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.SysMsg" >
+    insert into sys_msg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sysMsgId != null" >
+        Sys_Msg_ID,
+      </if>
+      <if test="sysMsgUid != null" >
+        Sys_Msg_UID,
+      </if>
+      <if test="sysMsgTitle != null" >
+        Sys_Msg_Title,
+      </if>
+      <if test="sysMsgCreatetime != null" >
+        Sys_Msg_Createtime,
+      </if>
+      <if test="sysMsgDel != null" >
+        Sys_Msg_Del,
+      </if>
+      <if test="sysMsgText != null" >
+        Sys_Msg_Text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sysMsgId != null" >
+        #{sysMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="sysMsgUid != null" >
+        #{sysMsgUid,jdbcType=BIGINT},
+      </if>
+      <if test="sysMsgTitle != null" >
+        #{sysMsgTitle,jdbcType=CHAR},
+      </if>
+      <if test="sysMsgCreatetime != null" >
+        #{sysMsgCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="sysMsgDel != null" >
+        #{sysMsgDel,jdbcType=INTEGER},
+      </if>
+      <if test="sysMsgText != null" >
+        #{sysMsgText,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.SysMsgExample" resultType="java.lang.Integer" >
+    select count(*) from sys_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_msg
+    <set >
+      <if test="record.sysMsgId != null" >
+        Sys_Msg_ID = #{record.sysMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.sysMsgUid != null" >
+        Sys_Msg_UID = #{record.sysMsgUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sysMsgTitle != null" >
+        Sys_Msg_Title = #{record.sysMsgTitle,jdbcType=CHAR},
+      </if>
+      <if test="record.sysMsgCreatetime != null" >
+        Sys_Msg_Createtime = #{record.sysMsgCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="record.sysMsgDel != null" >
+        Sys_Msg_Del = #{record.sysMsgDel,jdbcType=INTEGER},
+      </if>
+      <if test="record.sysMsgText != null" >
+        Sys_Msg_Text = #{record.sysMsgText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update sys_msg
+    set Sys_Msg_ID = #{record.sysMsgId,jdbcType=BIGINT},
+      Sys_Msg_UID = #{record.sysMsgUid,jdbcType=BIGINT},
+      Sys_Msg_Title = #{record.sysMsgTitle,jdbcType=CHAR},
+      Sys_Msg_Createtime = #{record.sysMsgCreatetime,jdbcType=BIGINT},
+      Sys_Msg_Del = #{record.sysMsgDel,jdbcType=INTEGER},
+      Sys_Msg_Text = #{record.sysMsgText,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_msg
+    set Sys_Msg_ID = #{record.sysMsgId,jdbcType=BIGINT},
+      Sys_Msg_UID = #{record.sysMsgUid,jdbcType=BIGINT},
+      Sys_Msg_Title = #{record.sysMsgTitle,jdbcType=CHAR},
+      Sys_Msg_Createtime = #{record.sysMsgCreatetime,jdbcType=BIGINT},
+      Sys_Msg_Del = #{record.sysMsgDel,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.SysMsg" >
+    update sys_msg
+    <set >
+      <if test="sysMsgUid != null" >
+        Sys_Msg_UID = #{sysMsgUid,jdbcType=BIGINT},
+      </if>
+      <if test="sysMsgTitle != null" >
+        Sys_Msg_Title = #{sysMsgTitle,jdbcType=CHAR},
+      </if>
+      <if test="sysMsgCreatetime != null" >
+        Sys_Msg_Createtime = #{sysMsgCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="sysMsgDel != null" >
+        Sys_Msg_Del = #{sysMsgDel,jdbcType=INTEGER},
+      </if>
+      <if test="sysMsgText != null" >
+        Sys_Msg_Text = #{sysMsgText,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mdblog.po.SysMsg" >
+    update sys_msg
+    set Sys_Msg_UID = #{sysMsgUid,jdbcType=BIGINT},
+      Sys_Msg_Title = #{sysMsgTitle,jdbcType=CHAR},
+      Sys_Msg_Createtime = #{sysMsgCreatetime,jdbcType=BIGINT},
+      Sys_Msg_Del = #{sysMsgDel,jdbcType=INTEGER},
+      Sys_Msg_Text = #{sysMsgText,jdbcType=LONGVARCHAR}
+    where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.SysMsg" >
+    update sys_msg
+    set Sys_Msg_UID = #{sysMsgUid,jdbcType=BIGINT},
+      Sys_Msg_Title = #{sysMsgTitle,jdbcType=CHAR},
+      Sys_Msg_Createtime = #{sysMsgCreatetime,jdbcType=BIGINT},
+      Sys_Msg_Del = #{sysMsgDel,jdbcType=INTEGER}
+    where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
+  </update>
+</mapper>

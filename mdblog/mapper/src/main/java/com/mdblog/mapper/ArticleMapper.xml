@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.ArticleMapper" >
+<resultMap id="BaseResultMap" type="com.mdblog.po.Article" >
+  <id column="A_ID" property="aId" jdbcType="BIGINT" />
+  <result column="A_UID" property="aUid" jdbcType="BIGINT" />
+  <result column="A_Title" property="aTitle" jdbcType="CHAR" />
+  <result column="A_Desc" property="aDesc" jdbcType="CHAR" />
+  <result column="A_Pic" property="aPic" jdbcType="CHAR" />
+  <result column="A_Createtime" property="aCreatetime" jdbcType="BIGINT" />
+  <result column="A_Updatetime" property="aUpdatetime" jdbcType="BIGINT" />
+  <result column="A_Del" property="aDel" jdbcType="INTEGER" />
+</resultMap>
+<resultMap id="ResultMapWithBLOBs" type="com.mdblog.po.Article" extends="BaseResultMap" >
+  <result column="A_Text" property="aText" jdbcType="LONGVARCHAR" />
+</resultMap>
+<sql id="Example_Where_Clause" >
+  <where >
+    <foreach collection="oredCriteria" item="criteria" separator="or" >
+      <if test="criteria.valid" >
+        <trim prefix="(" suffix=")" prefixOverrides="and" >
+          <foreach collection="criteria.criteria" item="criterion" >
+            <choose >
+              <when test="criterion.noValue" >
+                and ${criterion.condition}
+              </when>
+              <when test="criterion.singleValue" >
+                and ${criterion.condition} #{criterion.value}
+              </when>
+              <when test="criterion.betweenValue" >
+                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+              </when>
+              <when test="criterion.listValue" >
+                and ${criterion.condition}
+                <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  #{listItem}
+                </foreach>
+              </when>
+            </choose>
+          </foreach>
+        </trim>
+      </if>
+    </foreach>
+  </where>
+</sql>
+<sql id="Update_By_Example_Where_Clause" >
+  <where >
+    <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+      <if test="criteria.valid" >
+        <trim prefix="(" suffix=")" prefixOverrides="and" >
+          <foreach collection="criteria.criteria" item="criterion" >
+            <choose >
+              <when test="criterion.noValue" >
+                and ${criterion.condition}
+              </when>
+              <when test="criterion.singleValue" >
+                and ${criterion.condition} #{criterion.value}
+              </when>
+              <when test="criterion.betweenValue" >
+                and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+              </when>
+              <when test="criterion.listValue" >
+                and ${criterion.condition}
+                <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  #{listItem}
+                </foreach>
+              </when>
+            </choose>
+          </foreach>
+        </trim>
+      </if>
+    </foreach>
+  </where>
+</sql>
+<sql id="Base_Column_List" >
+  A_ID, A_UID, A_Title, A_Desc, A_Pic, A_Createtime, A_Updatetime, A_Del
+</sql>
+<sql id="Blob_Column_List" >
+  A_Text
+</sql>
+<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mdblog.po.ArticleExample" >
+  select
+  <if test="distinct" >
+    distinct
+  </if>
+  <include refid="Base_Column_List" />
+  ,
+  <include refid="Blob_Column_List" />
+  from article
+  <if test="_parameter != null" >
+    <include refid="Example_Where_Clause" />
+  </if>
+  <if test="orderByClause != null" >
+    order by ${orderByClause}
+  </if>
+</select>
+<select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ArticleExample" >
+  select
+  <if test="distinct" >
+    distinct
+  </if>
+  <include refid="Base_Column_List" />
+  from article
+  <if test="_parameter != null" >
+    <include refid="Example_Where_Clause" />
+  </if>
+  <if test="orderByClause != null" >
+    order by ${orderByClause}
+  </if>
+</select>
+<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  select
+  <include refid="Base_Column_List" />
+  ,
+  <include refid="Blob_Column_List" />
+  from article
+  where A_ID = #{aId,jdbcType=BIGINT}
+</select>
+<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  delete from article
+  where A_ID = #{aId,jdbcType=BIGINT}
+</delete>
+<delete id="deleteByExample" parameterType="com.mdblog.po.ArticleExample" >
+  delete from article
+  <if test="_parameter != null" >
+    <include refid="Example_Where_Clause" />
+  </if>
+</delete>
+<insert id="insert" parameterType="com.mdblog.po.Article" >
+  insert into article (A_ID, A_UID, A_Title,
+  A_Desc, A_Pic, A_Createtime,
+  A_Updatetime, A_Del, A_Text
+  )
+  values (#{aId,jdbcType=BIGINT}, #{aUid,jdbcType=BIGINT}, #{aTitle,jdbcType=CHAR},
+  #{aDesc,jdbcType=CHAR}, #{aPic,jdbcType=CHAR}, #{aCreatetime,jdbcType=BIGINT},
+  #{aUpdatetime,jdbcType=BIGINT}, #{aDel,jdbcType=INTEGER}, #{aText,jdbcType=LONGVARCHAR}
+  )
+</insert>
+
+<insert id="insertSelective" parameterType="com.mdblog.po.Article" >
+  insert into article
+  <trim prefix="(" suffix=")" suffixOverrides="," >
+    <if test="aId != null" >
+      A_ID,
+    </if>
+    <if test="aUid != null" >
+      A_UID,
+    </if>
+    <if test="aTitle != null" >
+      A_Title,
+    </if>
+    <if test="aDesc != null" >
+      A_Desc,
+    </if>
+    <if test="aPic != null" >
+      A_Pic,
+    </if>
+    <if test="aCreatetime != null" >
+      A_Createtime,
+    </if>
+    <if test="aUpdatetime != null" >
+      A_Updatetime,
+    </if>
+    <if test="aDel != null" >
+      A_Del,
+    </if>
+    <if test="aText != null" >
+      A_Text,
+    </if>
+  </trim>
+  <trim prefix="values (" suffix=")" suffixOverrides="," >
+    <if test="aId != null" >
+      #{aId,jdbcType=BIGINT},
+    </if>
+    <if test="aUid != null" >
+      #{aUid,jdbcType=BIGINT},
+    </if>
+    <if test="aTitle != null" >
+      #{aTitle,jdbcType=CHAR},
+    </if>
+    <if test="aDesc != null" >
+      #{aDesc,jdbcType=CHAR},
+    </if>
+    <if test="aPic != null" >
+      #{aPic,jdbcType=CHAR},
+    </if>
+    <if test="aCreatetime != null" >
+      #{aCreatetime,jdbcType=BIGINT},
+    </if>
+    <if test="aUpdatetime != null" >
+      #{aUpdatetime,jdbcType=BIGINT},
+    </if>
+    <if test="aDel != null" >
+      #{aDel,jdbcType=INTEGER},
+    </if>
+    <if test="aText != null" >
+      #{aText,jdbcType=LONGVARCHAR},
+    </if>
+  </trim>
+</insert>
+<select id="countByExample" parameterType="com.mdblog.po.ArticleExample" resultType="java.lang.Integer" >
+  select count(*) from article
+  <if test="_parameter != null" >
+    <include refid="Example_Where_Clause" />
+  </if>
+</select>
+<update id="updateByExampleSelective" parameterType="map" >
+  update article
+  <set >
+    <if test="record.aId != null" >
+      A_ID = #{record.aId,jdbcType=BIGINT},
+    </if>
+    <if test="record.aUid != null" >
+      A_UID = #{record.aUid,jdbcType=BIGINT},
+    </if>
+    <if test="record.aTitle != null" >
+      A_Title = #{record.aTitle,jdbcType=CHAR},
+    </if>
+    <if test="record.aDesc != null" >
+      A_Desc = #{record.aDesc,jdbcType=CHAR},
+    </if>
+    <if test="record.aPic != null" >
+      A_Pic = #{record.aPic,jdbcType=CHAR},
+    </if>
+    <if test="record.aCreatetime != null" >
+      A_Createtime = #{record.aCreatetime,jdbcType=BIGINT},
+    </if>
+    <if test="record.aUpdatetime != null" >
+      A_Updatetime = #{record.aUpdatetime,jdbcType=BIGINT},
+    </if>
+    <if test="record.aDel != null" >
+      A_Del = #{record.aDel,jdbcType=INTEGER},
+    </if>
+    <if test="record.aText != null" >
+      A_Text = #{record.aText,jdbcType=LONGVARCHAR},
+    </if>
+  </set>
+  <if test="_parameter != null" >
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+</update>
+<update id="updateByExampleWithBLOBs" parameterType="map" >
+  update article
+  set A_ID = #{record.aId,jdbcType=BIGINT},
+  A_UID = #{record.aUid,jdbcType=BIGINT},
+  A_Title = #{record.aTitle,jdbcType=CHAR},
+  A_Desc = #{record.aDesc,jdbcType=CHAR},
+  A_Pic = #{record.aPic,jdbcType=CHAR},
+  A_Createtime = #{record.aCreatetime,jdbcType=BIGINT},
+  A_Updatetime = #{record.aUpdatetime,jdbcType=BIGINT},
+  A_Del = #{record.aDel,jdbcType=INTEGER},
+  A_Text = #{record.aText,jdbcType=LONGVARCHAR}
+  <if test="_parameter != null" >
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+</update>
+<update id="updateByExample" parameterType="map" >
+  update article
+  set A_ID = #{record.aId,jdbcType=BIGINT},
+  A_UID = #{record.aUid,jdbcType=BIGINT},
+  A_Title = #{record.aTitle,jdbcType=CHAR},
+  A_Desc = #{record.aDesc,jdbcType=CHAR},
+  A_Pic = #{record.aPic,jdbcType=CHAR},
+  A_Createtime = #{record.aCreatetime,jdbcType=BIGINT},
+  A_Updatetime = #{record.aUpdatetime,jdbcType=BIGINT},
+  A_Del = #{record.aDel,jdbcType=INTEGER}
+  <if test="_parameter != null" >
+    <include refid="Update_By_Example_Where_Clause" />
+  </if>
+</update>
+<update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.Article" >
+  update article
+  <set >
+    <if test="aUid != null" >
+      A_UID = #{aUid,jdbcType=BIGINT},
+    </if>
+    <if test="aTitle != null" >
+      A_Title = #{aTitle,jdbcType=CHAR},
+    </if>
+    <if test="aDesc != null" >
+      A_Desc = #{aDesc,jdbcType=CHAR},
+    </if>
+    <if test="aPic != null" >
+      A_Pic = #{aPic,jdbcType=CHAR},
+    </if>
+    <if test="aCreatetime != null" >
+      A_Createtime = #{aCreatetime,jdbcType=BIGINT},
+    </if>
+    <if test="aUpdatetime != null" >
+      A_Updatetime = #{aUpdatetime,jdbcType=BIGINT},
+    </if>
+    <if test="aDel != null" >
+      A_Del = #{aDel,jdbcType=INTEGER},
+    </if>
+    <if test="aText != null" >
+      A_Text = #{aText,jdbcType=LONGVARCHAR},
+    </if>
+  </set>
+  where A_ID = #{aId,jdbcType=BIGINT}
+</update>
+<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mdblog.po.Article" >
+  update article
+  set A_UID = #{aUid,jdbcType=BIGINT},
+  A_Title = #{aTitle,jdbcType=CHAR},
+  A_Desc = #{aDesc,jdbcType=CHAR},
+  A_Pic = #{aPic,jdbcType=CHAR},
+  A_Createtime = #{aCreatetime,jdbcType=BIGINT},
+  A_Updatetime = #{aUpdatetime,jdbcType=BIGINT},
+  A_Del = #{aDel,jdbcType=INTEGER},
+  A_Text = #{aText,jdbcType=LONGVARCHAR}
+  where A_ID = #{aId,jdbcType=BIGINT}
+</update>
+<update id="updateByPrimaryKey" parameterType="com.mdblog.po.Article" >
+  update article
+  set A_UID = #{aUid,jdbcType=BIGINT},
+  A_Title = #{aTitle,jdbcType=CHAR},
+  A_Desc = #{aDesc,jdbcType=CHAR},
+  A_Pic = #{aPic,jdbcType=CHAR},
+  A_Createtime = #{aCreatetime,jdbcType=BIGINT},
+  A_Updatetime = #{aUpdatetime,jdbcType=BIGINT},
+  A_Del = #{aDel,jdbcType=INTEGER}
+  where A_ID = #{aId,jdbcType=BIGINT}
+</update>
+<!--自定义方法-->
+  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="aId" parameterType="com.mdblog.po.Article" >
+    insert into article (A_ID, A_UID, A_Title,
+    A_Desc, A_Pic, A_Createtime,
+    A_Updatetime, A_Del, A_Text
+    )
+    values (#{aId,jdbcType=BIGINT}, #{aUid,jdbcType=BIGINT}, #{aTitle,jdbcType=CHAR},
+    #{aDesc,jdbcType=CHAR}, #{aPic,jdbcType=CHAR}, #{aCreatetime,jdbcType=BIGINT},
+    #{aUpdatetime,jdbcType=BIGINT}, #{aDel,jdbcType=INTEGER}, #{aText,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <select id="selectIdListByUserId"  resultType="java.lang.Long">
+    select
+    A_ID
+    from article
+    where A_UID = #{aUid,jdbcType=BIGINT}
+  </select>
+</mapper>

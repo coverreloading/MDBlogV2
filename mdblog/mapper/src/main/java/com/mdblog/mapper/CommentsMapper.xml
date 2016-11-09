@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.CommentsMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.Comments" >
+    <id column="C_ID" property="cId" jdbcType="BIGINT" />
+    <result column="C_RAID" property="cRaid" jdbcType="BIGINT" />
+    <result column="C_UID" property="cUid" jdbcType="BIGINT" />
+    <result column="C_ParentID" property="cParentid" jdbcType="BIGINT" />
+    <result column="C_U_Pic" property="cUPic" jdbcType="CHAR" />
+    <result column="C_U_Nickname" property="cUNickname" jdbcType="CHAR" />
+    <result column="C_Createtime" property="cCreatetime" jdbcType="BIGINT" />
+    <result column="C_Del" property="cDel" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    C_ID, C_RAID, C_UID, C_ParentID, C_U_Pic, C_U_Nickname, C_Createtime, C_Del
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.CommentsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from comments
+    where C_ID = #{cId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from comments
+    where C_ID = #{cId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.CommentsExample" >
+    delete from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.Comments" >
+    insert into comments (C_ID, C_RAID, C_UID, 
+      C_ParentID, C_U_Pic, C_U_Nickname, 
+      C_Createtime, C_Del)
+    values (#{cId,jdbcType=BIGINT}, #{cRaid,jdbcType=BIGINT}, #{cUid,jdbcType=BIGINT}, 
+      #{cParentid,jdbcType=BIGINT}, #{cUPic,jdbcType=CHAR}, #{cUNickname,jdbcType=CHAR}, 
+      #{cCreatetime,jdbcType=BIGINT}, #{cDel,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.Comments" >
+    insert into comments
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        C_ID,
+      </if>
+      <if test="cRaid != null" >
+        C_RAID,
+      </if>
+      <if test="cUid != null" >
+        C_UID,
+      </if>
+      <if test="cParentid != null" >
+        C_ParentID,
+      </if>
+      <if test="cUPic != null" >
+        C_U_Pic,
+      </if>
+      <if test="cUNickname != null" >
+        C_U_Nickname,
+      </if>
+      <if test="cCreatetime != null" >
+        C_Createtime,
+      </if>
+      <if test="cDel != null" >
+        C_Del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cId != null" >
+        #{cId,jdbcType=BIGINT},
+      </if>
+      <if test="cRaid != null" >
+        #{cRaid,jdbcType=BIGINT},
+      </if>
+      <if test="cUid != null" >
+        #{cUid,jdbcType=BIGINT},
+      </if>
+      <if test="cParentid != null" >
+        #{cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="cUPic != null" >
+        #{cUPic,jdbcType=CHAR},
+      </if>
+      <if test="cUNickname != null" >
+        #{cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        #{cCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="cDel != null" >
+        #{cDel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.CommentsExample" resultType="java.lang.Integer" >
+    select count(*) from comments
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update comments
+    <set >
+      <if test="record.cId != null" >
+        C_ID = #{record.cId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cRaid != null" >
+        C_RAID = #{record.cRaid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cUid != null" >
+        C_UID = #{record.cUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cParentid != null" >
+        C_ParentID = #{record.cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cUPic != null" >
+        C_U_Pic = #{record.cUPic,jdbcType=CHAR},
+      </if>
+      <if test="record.cUNickname != null" >
+        C_U_Nickname = #{record.cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="record.cCreatetime != null" >
+        C_Createtime = #{record.cCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="record.cDel != null" >
+        C_Del = #{record.cDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update comments
+    set C_ID = #{record.cId,jdbcType=BIGINT},
+      C_RAID = #{record.cRaid,jdbcType=BIGINT},
+      C_UID = #{record.cUid,jdbcType=BIGINT},
+      C_ParentID = #{record.cParentid,jdbcType=BIGINT},
+      C_U_Pic = #{record.cUPic,jdbcType=CHAR},
+      C_U_Nickname = #{record.cUNickname,jdbcType=CHAR},
+      C_Createtime = #{record.cCreatetime,jdbcType=BIGINT},
+      C_Del = #{record.cDel,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.Comments" >
+    update comments
+    <set >
+      <if test="cRaid != null" >
+        C_RAID = #{cRaid,jdbcType=BIGINT},
+      </if>
+      <if test="cUid != null" >
+        C_UID = #{cUid,jdbcType=BIGINT},
+      </if>
+      <if test="cParentid != null" >
+        C_ParentID = #{cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="cUPic != null" >
+        C_U_Pic = #{cUPic,jdbcType=CHAR},
+      </if>
+      <if test="cUNickname != null" >
+        C_U_Nickname = #{cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="cCreatetime != null" >
+        C_Createtime = #{cCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="cDel != null" >
+        C_Del = #{cDel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where C_ID = #{cId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.Comments" >
+    update comments
+    set C_RAID = #{cRaid,jdbcType=BIGINT},
+      C_UID = #{cUid,jdbcType=BIGINT},
+      C_ParentID = #{cParentid,jdbcType=BIGINT},
+      C_U_Pic = #{cUPic,jdbcType=CHAR},
+      C_U_Nickname = #{cUNickname,jdbcType=CHAR},
+      C_Createtime = #{cCreatetime,jdbcType=BIGINT},
+      C_Del = #{cDel,jdbcType=INTEGER}
+    where C_ID = #{cId,jdbcType=BIGINT}
+  </update>
+</mapper>

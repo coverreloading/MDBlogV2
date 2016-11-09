@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.ArticleTipsMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.ArticleTips" >
+    <id column="AT_ID" property="atId" jdbcType="BIGINT" />
+    <result column="AT_RA_ID" property="atRaId" jdbcType="BIGINT" />
+    <result column="AT_TIpName" property="atTipname" jdbcType="CHAR" />
+    <result column="AT_Createtime" property="atCreatetime" jdbcType="BIGINT" />
+    <result column="AT_UID" property="atUid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    AT_ID, AT_RA_ID, AT_TIpName, AT_Createtime, AT_UID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ArticleTipsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article_tips
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from article_tips
+    where AT_ID = #{atId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from article_tips
+    where AT_ID = #{atId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.ArticleTipsExample" >
+    delete from article_tips
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.ArticleTips" >
+    insert into article_tips (AT_ID, AT_RA_ID, AT_TIpName, 
+      AT_Createtime, AT_UID)
+    values (#{atId,jdbcType=BIGINT}, #{atRaId,jdbcType=BIGINT}, #{atTipname,jdbcType=CHAR}, 
+      #{atCreatetime,jdbcType=BIGINT}, #{atUid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.ArticleTips" >
+    insert into article_tips
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="atId != null" >
+        AT_ID,
+      </if>
+      <if test="atRaId != null" >
+        AT_RA_ID,
+      </if>
+      <if test="atTipname != null" >
+        AT_TIpName,
+      </if>
+      <if test="atCreatetime != null" >
+        AT_Createtime,
+      </if>
+      <if test="atUid != null" >
+        AT_UID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="atId != null" >
+        #{atId,jdbcType=BIGINT},
+      </if>
+      <if test="atRaId != null" >
+        #{atRaId,jdbcType=BIGINT},
+      </if>
+      <if test="atTipname != null" >
+        #{atTipname,jdbcType=CHAR},
+      </if>
+      <if test="atCreatetime != null" >
+        #{atCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="atUid != null" >
+        #{atUid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.ArticleTipsExample" resultType="java.lang.Integer" >
+    select count(*) from article_tips
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article_tips
+    <set >
+      <if test="record.atId != null" >
+        AT_ID = #{record.atId,jdbcType=BIGINT},
+      </if>
+      <if test="record.atRaId != null" >
+        AT_RA_ID = #{record.atRaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.atTipname != null" >
+        AT_TIpName = #{record.atTipname,jdbcType=CHAR},
+      </if>
+      <if test="record.atCreatetime != null" >
+        AT_Createtime = #{record.atCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="record.atUid != null" >
+        AT_UID = #{record.atUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article_tips
+    set AT_ID = #{record.atId,jdbcType=BIGINT},
+      AT_RA_ID = #{record.atRaId,jdbcType=BIGINT},
+      AT_TIpName = #{record.atTipname,jdbcType=CHAR},
+      AT_Createtime = #{record.atCreatetime,jdbcType=BIGINT},
+      AT_UID = #{record.atUid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.ArticleTips" >
+    update article_tips
+    <set >
+      <if test="atRaId != null" >
+        AT_RA_ID = #{atRaId,jdbcType=BIGINT},
+      </if>
+      <if test="atTipname != null" >
+        AT_TIpName = #{atTipname,jdbcType=CHAR},
+      </if>
+      <if test="atCreatetime != null" >
+        AT_Createtime = #{atCreatetime,jdbcType=BIGINT},
+      </if>
+      <if test="atUid != null" >
+        AT_UID = #{atUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where AT_ID = #{atId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.ArticleTips" >
+    update article_tips
+    set AT_RA_ID = #{atRaId,jdbcType=BIGINT},
+      AT_TIpName = #{atTipname,jdbcType=CHAR},
+      AT_Createtime = #{atCreatetime,jdbcType=BIGINT},
+      AT_UID = #{atUid,jdbcType=BIGINT}
+    where AT_ID = #{atId,jdbcType=BIGINT}
+  </update>
+</mapper>
