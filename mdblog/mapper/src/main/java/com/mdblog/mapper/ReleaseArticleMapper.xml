@@ -113,7 +113,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from release_article
+    where RA_ID = #{raId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPrimaryKeyWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     ,
@@ -405,4 +413,10 @@
     #{raCreatetime,jdbcType=BIGINT}, #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER},
     #{raText,jdbcType=LONGVARCHAR})
   </insert>
+  <select id="selectContentByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    RA_Text
+    from release_article
+    where RA_ID = #{raId,jdbcType=BIGINT}
+  </select>
 </mapper>

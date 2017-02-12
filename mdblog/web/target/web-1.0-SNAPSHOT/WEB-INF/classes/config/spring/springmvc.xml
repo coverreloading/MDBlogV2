@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:beans="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--自动扫描控制器-->
+    <context:component-scan base-package="com.mdblog.controller"/>
+
+    <!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+                p:defaultEncoding="UTF-8"
+                p:maxUploadSize="5400000"
+                p:uploadTempDir="WEB-INF/upload">
+    </bean>
+
+    <!--视图渲染-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">-->
+        <!--<property name="supportedMediaTypes">-->
+            <!--<list>-->
+                <!--<value>application/json; charset=UTF-8</value>-->
+                <!--<value>textml;charset=UTF-8</value>-->
+                <!--&lt;!&ndash;<value>application/x-www-form-urlencoded;charset=UTF-8</value>&ndash;&gt;-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; 定义注解驱动 &ndash;&gt;-->
+    <!--<mvc:annotation-driven>-->
+        <!--<mvc:message-converters>-->
+            <!--<ref bean="fastJsonHttpMessageConverter"/>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--控制器映射器和控制器适配器-->
+    <!--<mvc:annotation-driven></mvc:annotation-driven>-->
+    <!-- multipartresolver -->
+
+
+
+    <!-- 资源映射 -->
+    <mvc:resources location="/css/" mapping="css/**"/>
+    <mvc:resources location="/js/" mapping="js/**"/>
+    <mvc:resources location="/editormd/" mapping="editormd/**"/>
+    <mvc:resources location="/fonts/" mapping="fonts/**"/>
+    <mvc:resources location="/layui/" mapping="layui/**"/>
+    <mvc:resources location="/img/" mapping="img/**"/>
+
+
+</beans>

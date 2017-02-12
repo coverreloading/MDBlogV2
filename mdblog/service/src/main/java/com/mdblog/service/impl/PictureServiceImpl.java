@@ -44,7 +44,7 @@ public class PictureServiceImpl implements PictureService {
 	private ArticleMapper articleMapper;
 
 	@Override
-	public Map uploadPicture(String token, MultipartFile uploadFile) {
+	public Map uploadPicture(String token,String imagePath, MultipartFile uploadFile) {
 		// 万物根本 返回json包含(success,message,url)
 		Map resultMap = new HashMap();
 		// 验证用户session
@@ -63,7 +63,7 @@ public class PictureServiceImpl implements PictureService {
 			String newName = IDUtils.genImageName();
 			newName = newName + oldName.substring(oldName.lastIndexOf("."));
 			//图片上传
-			String imagePath ="/"+ userId + new DateTime().toString("/yyyy/MM/dd");
+			imagePath="/"+ userId + imagePath;
 			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD,
 					FTP_BASE_PATH, imagePath, newName, uploadFile.getInputStream());
 			//返回结果
@@ -87,52 +87,30 @@ public class PictureServiceImpl implements PictureService {
 	}
 
 	@Override
+	public Map uploadAPicture(String token, MultipartFile uploadFile) {
+		// 万物根本 返回json包含(success,message,url)
+		String imagePath ="/art"+ new DateTime().toString("/yyyy/MM/dd");
+		return uploadPicture(token, imagePath, uploadFile);
+	}
+
+	@Override
 	public Map uploadRAPicture(String token ,Long articleId, MultipartFile uploadFile) {
 		// 万物根本 返回json包含(success,message,url)
+		String imagePath ="/art"+ new DateTime().toString("/yyyy/MM/dd");
 		Map resultMap = new HashMap();
-		// 验证用户session
-		Long userId = userService.getUserIdByToken(token);
-		if (userId == -1) {
-			resultMap.put("success", 0);
-			resultMap.put("message", "文件上传失败");
-			return resultMap;
-		}
-		try {
-			//生成一个新的文件名
-			//取原始文件名
-			String oldName = uploadFile.getOriginalFilename();
-			//生成新文件名
-			//UUID.randomUUID();
-			String newName = IDUtils.genImageName();
-			newName = newName + oldName.substring(oldName.lastIndexOf("."));
-			//图片上传
-			String imagePath ="/"+ userId + new DateTime().toString("/yyyy/MM/dd");
-			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD,
-					FTP_BASE_PATH, imagePath, newName, uploadFile.getInputStream());
-			//返回结果
-			if(!result) {
-				resultMap.put("success", 0);
-				resultMap.put("message", "文件上传失败");
-				return resultMap;
-			}
-			String url =IMAGE_BASE_URL + imagePath + "/" + newName;
-			resultMap.put("success", 1);
-			resultMap.put("message","上传成功123123");
-			resultMap.put("url", url);
-//TODO 未测试
-			// 取Articlt 存放url
-			Article articleFromDB = articleMapper.selectByPrimaryKey(articleId);
-			articleFromDB.setaPic(url);
-			articleMapper.updateByPrimaryKey(articleFromDB);
+		resultMap = uploadPicture(token, imagePath, uploadFile);
 
-			//System.out.println(JSON.toJSONString(resultMap));
-			//System.out.println(resultMap.toString());
-			return resultMap;
+		Article articleFromDB = articleMapper.selectByPrimaryKey(articleId);
+		articleFromDB.setaPic(String.valueOf(resultMap.get("url")));
+		articleMapper.updateByPrimaryKey(articleFromDB);
 
-		} catch (Exception e) {
-			resultMap.put("success", 0);
-			resultMap.put("message", "文件上传发生异常");
-			return resultMap;
-		}
+		return resultMap;
+	}
+
+	@Override
+	public Map uploadUserPicture(String token , MultipartFile uploadFile) {
+		// 万物根本 返回json包含(success,message,url)
+		String imagePath ="/upic";
+		return uploadPicture(token, imagePath, uploadFile);
 	}
 }

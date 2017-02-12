@@ -22,6 +22,8 @@ public interface ReleaseArticleMapper {
 
     ReleaseArticle selectByPrimaryKey(Long raId);
 
+    ReleaseArticle selectByPrimaryKeyWithBLOBs(Long raId);
+
     int updateByExampleSelective(@Param("record") ReleaseArticle record, @Param("example") ReleaseArticleExample example);
 
     int updateByExampleWithBLOBs(@Param("record") ReleaseArticle record, @Param("example") ReleaseArticleExample example);
@@ -36,4 +38,6 @@ public interface ReleaseArticleMapper {
 
     //自定义方法
     int insertAndGetId(ReleaseArticle record);
+    // 获取文本内容
+    ReleaseArticle selectContentByPrimaryKey(Long raId);
 }

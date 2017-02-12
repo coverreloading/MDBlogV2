@@ -8,6 +8,7 @@ import com.mdblog.po.User;
  */
 
 public interface UserService {
+    User getUserById(Long Uid);
     ResponResult addUser(User user);
     ResponResult checkData(String param, Integer type);
     ResponResult getLogin(String email, String password);

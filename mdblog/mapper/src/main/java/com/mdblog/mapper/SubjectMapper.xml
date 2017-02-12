@@ -223,4 +223,9 @@
       S_Del = #{sDel,jdbcType=INTEGER}
     where S_ID = #{sId,jdbcType=BIGINT}
   </update>
+
+  <!--自定义方法-->
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select * from subject
+  </select>
 </mapper>

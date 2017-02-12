@@ -54,6 +54,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(Long Uid) {
+        return userMapper.selectByPrimaryKey(Uid);
+    }
+
+    @Override
     public ResponResult addUser(User user) {
         user.setuPassword(DigestUtils.md5DigestAsHex(user.getuPassword().getBytes()));
         userMapper.insert(user);
@@ -99,7 +104,6 @@ public class UserServiceImpl implements UserService {
     }
 
     // 根据token查询jedis中用户id,返回-1代表session过期
-
     @Override
     public Long getUserIdByToken(String token){
         String json = jedisClient.get(REDIS_USER_SESSION_KEY+":"+token);

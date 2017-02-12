@@ -31,6 +31,9 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
     String SUBJECT_ITEM;
     @Value("${SUBJECT_ITEM_Name}")
     String SUBJECT_ITEM_Name;
+    @Value("${SUBJECT_ITEM_Hash}")
+    String SUBJECT_ITEM_Hash;
+
 
     @Override
     public void addSubject(Subject subject) {
@@ -48,16 +51,23 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
     @Override
     public ResponResult setSubjectRedis() {
         List<Subject> subjectList = subjectMapper.selectAll();
+        // 存入所有项目
         jedisClient.set(SUBJECT_ITEM, JsonUtils.objectToJson(subjectList));
 
         Subject subject = new Subject();
         Iterator ite=subjectList.iterator();
         while (ite.hasNext()){
             subject= (Subject) ite.next();
+
+            // 将每个专题单独存入redis, 然后只留下id和名称
+            jedisClient.hset(SUBJECT_ITEM_Hash, String.valueOf(subject.getsId()),JsonUtils.objectToJson(subject));
+
             subject.setsPic(null);
             subject.setsCreatetime(null);
             subject.setsDesc(null);
         }
+
+        // 存入所有项目,不包含多余数据,方便一次性取出所有id和名称
         jedisClient.set(SUBJECT_ITEM_Name, JsonUtils.objectToJson(subjectList));
 
         return ResponResult.ok();

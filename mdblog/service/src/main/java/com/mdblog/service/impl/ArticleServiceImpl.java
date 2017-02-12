@@ -70,7 +70,6 @@ public class ArticleServiceImpl implements ArticleService {
         return ResponResult.ok(article);
     }
 
-
     @Override
     public ResponResult getArticle(String token, Long articleId) {
         // token过期判定
