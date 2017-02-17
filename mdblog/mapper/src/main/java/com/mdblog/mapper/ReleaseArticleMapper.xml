@@ -1,145 +1,148 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mdblog.mapper.ReleaseArticleMapper" >
-  <resultMap id="BaseResultMap" type="com.mdblog.po.ReleaseArticle" >
-    <id column="RA_ID" property="raId" jdbcType="BIGINT" />
-    <result column="RA_Article_ID" property="raArticleId" jdbcType="BIGINT" />
-    <result column="RA_UID" property="raUid" jdbcType="BIGINT" />
-    <result column="RA_Subject_ID" property="raSubjectId" jdbcType="BIGINT" />
-    <result column="RA_Title" property="raTitle" jdbcType="CHAR" />
-    <result column="RA_Pic" property="raPic" jdbcType="CHAR" />
-    <result column="RA_Desc" property="raDesc" jdbcType="CHAR" />
-    <result column="RA_Read" property="raRead" jdbcType="BIGINT" />
-    <result column="RA_Like" property="raLike" jdbcType="BIGINT" />
-    <result column="RA_Createtime" property="raCreatetime" jdbcType="BIGINT" />
-    <result column="RA_Updatetime" property="raUpdatetime" jdbcType="BIGINT" />
-    <result column="RA_Del" property="raDel" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.mdblog.po.ReleaseArticle" extends="BaseResultMap" >
-    <result column="RA_Text" property="raText" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+<mapper namespace="com.mdblog.mapper.ReleaseArticleMapper">
+    <resultMap id="BaseResultMap" type="com.mdblog.po.ReleaseArticle">
+        <id column="RA_ID" property="raId" jdbcType="BIGINT"/>
+        <result column="RA_Article_ID" property="raArticleId" jdbcType="BIGINT"/>
+        <result column="RA_UID" property="raUid" jdbcType="BIGINT"/>
+        <result column="RA_Subject_ID" property="raSubjectId" jdbcType="BIGINT"/>
+        <result column="RA_Title" property="raTitle" jdbcType="CHAR"/>
+        <result column="RA_Pic" property="raPic" jdbcType="CHAR"/>
+        <result column="RA_Desc" property="raDesc" jdbcType="CHAR"/>
+        <result column="RA_Read" property="raRead" jdbcType="BIGINT"/>
+        <result column="RA_Like" property="raLike" jdbcType="BIGINT"/>
+        <result column="RA_Createtime" property="raCreatetime" jdbcType="BIGINT"/>
+        <result column="RA_Updatetime" property="raUpdatetime" jdbcType="BIGINT"/>
+        <result column="RA_Del" property="raDel" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.mdblog.po.ReleaseArticle" extends="BaseResultMap">
+        <result column="RA_Text" property="raText" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     RA_ID, RA_Article_ID, RA_UID, RA_Subject_ID, RA_Title, RA_Pic, RA_Desc, RA_Read, 
     RA_Like, RA_Createtime, RA_Updatetime, RA_Del
   </sql>
-  <sql id="Blob_Column_List" >
+    <sql id="Blob_Column_List">
     RA_Text
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.mdblog.po.ReleaseArticleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from release_article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ReleaseArticleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from release_article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from release_article
-    where RA_ID = #{raId,jdbcType=BIGINT}
-  </select>
-  <select id="selectByPrimaryKeyWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from release_article
-    where RA_ID = #{raId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+            parameterType="com.mdblog.po.ReleaseArticleExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from release_article
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ReleaseArticleExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from release_article
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from release_article
+        where RA_ID = #{raId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPrimaryKeyWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from release_article
+        where RA_ID = #{raId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from release_article
     where RA_ID = #{raId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mdblog.po.ReleaseArticleExample" >
-    delete from release_article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.mdblog.po.ReleaseArticle" >
+    <delete id="deleteByExample" parameterType="com.mdblog.po.ReleaseArticleExample">
+        delete from release_article
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.mdblog.po.ReleaseArticle">
     insert into release_article (RA_ID, RA_Article_ID, RA_UID, 
       RA_Subject_ID, RA_Title, RA_Pic, 
       RA_Desc, RA_Read, RA_Like, 
@@ -151,224 +154,224 @@
       #{raCreatetime,jdbcType=BIGINT}, #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER}, 
       #{raText,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.mdblog.po.ReleaseArticle" >
-    insert into release_article
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="raId != null" >
-        RA_ID,
-      </if>
-      <if test="raArticleId != null" >
-        RA_Article_ID,
-      </if>
-      <if test="raUid != null" >
-        RA_UID,
-      </if>
-      <if test="raSubjectId != null" >
-        RA_Subject_ID,
-      </if>
-      <if test="raTitle != null" >
-        RA_Title,
-      </if>
-      <if test="raPic != null" >
-        RA_Pic,
-      </if>
-      <if test="raDesc != null" >
-        RA_Desc,
-      </if>
-      <if test="raRead != null" >
-        RA_Read,
-      </if>
-      <if test="raLike != null" >
-        RA_Like,
-      </if>
-      <if test="raCreatetime != null" >
-        RA_Createtime,
-      </if>
-      <if test="raUpdatetime != null" >
-        RA_Updatetime,
-      </if>
-      <if test="raDel != null" >
-        RA_Del,
-      </if>
-      <if test="raText != null" >
-        RA_Text,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="raId != null" >
-        #{raId,jdbcType=BIGINT},
-      </if>
-      <if test="raArticleId != null" >
-        #{raArticleId,jdbcType=BIGINT},
-      </if>
-      <if test="raUid != null" >
-        #{raUid,jdbcType=BIGINT},
-      </if>
-      <if test="raSubjectId != null" >
-        #{raSubjectId,jdbcType=BIGINT},
-      </if>
-      <if test="raTitle != null" >
-        #{raTitle,jdbcType=CHAR},
-      </if>
-      <if test="raPic != null" >
-        #{raPic,jdbcType=CHAR},
-      </if>
-      <if test="raDesc != null" >
-        #{raDesc,jdbcType=CHAR},
-      </if>
-      <if test="raRead != null" >
-        #{raRead,jdbcType=BIGINT},
-      </if>
-      <if test="raLike != null" >
-        #{raLike,jdbcType=BIGINT},
-      </if>
-      <if test="raCreatetime != null" >
-        #{raCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="raUpdatetime != null" >
-        #{raUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="raDel != null" >
-        #{raDel,jdbcType=INTEGER},
-      </if>
-      <if test="raText != null" >
-        #{raText,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.mdblog.po.ReleaseArticleExample" resultType="java.lang.Integer" >
-    select count(*) from release_article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update release_article
-    <set >
-      <if test="record.raId != null" >
-        RA_ID = #{record.raId,jdbcType=BIGINT},
-      </if>
-      <if test="record.raArticleId != null" >
+    <insert id="insertSelective" parameterType="com.mdblog.po.ReleaseArticle">
+        insert into release_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="raId != null">
+                RA_ID,
+            </if>
+            <if test="raArticleId != null">
+                RA_Article_ID,
+            </if>
+            <if test="raUid != null">
+                RA_UID,
+            </if>
+            <if test="raSubjectId != null">
+                RA_Subject_ID,
+            </if>
+            <if test="raTitle != null">
+                RA_Title,
+            </if>
+            <if test="raPic != null">
+                RA_Pic,
+            </if>
+            <if test="raDesc != null">
+                RA_Desc,
+            </if>
+            <if test="raRead != null">
+                RA_Read,
+            </if>
+            <if test="raLike != null">
+                RA_Like,
+            </if>
+            <if test="raCreatetime != null">
+                RA_Createtime,
+            </if>
+            <if test="raUpdatetime != null">
+                RA_Updatetime,
+            </if>
+            <if test="raDel != null">
+                RA_Del,
+            </if>
+            <if test="raText != null">
+                RA_Text,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="raId != null">
+                #{raId,jdbcType=BIGINT},
+            </if>
+            <if test="raArticleId != null">
+                #{raArticleId,jdbcType=BIGINT},
+            </if>
+            <if test="raUid != null">
+                #{raUid,jdbcType=BIGINT},
+            </if>
+            <if test="raSubjectId != null">
+                #{raSubjectId,jdbcType=BIGINT},
+            </if>
+            <if test="raTitle != null">
+                #{raTitle,jdbcType=CHAR},
+            </if>
+            <if test="raPic != null">
+                #{raPic,jdbcType=CHAR},
+            </if>
+            <if test="raDesc != null">
+                #{raDesc,jdbcType=CHAR},
+            </if>
+            <if test="raRead != null">
+                #{raRead,jdbcType=BIGINT},
+            </if>
+            <if test="raLike != null">
+                #{raLike,jdbcType=BIGINT},
+            </if>
+            <if test="raCreatetime != null">
+                #{raCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="raUpdatetime != null">
+                #{raUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="raDel != null">
+                #{raDel,jdbcType=INTEGER},
+            </if>
+            <if test="raText != null">
+                #{raText,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.mdblog.po.ReleaseArticleExample" resultType="java.lang.Integer">
+        select count(*) from release_article
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update release_article
+        <set>
+            <if test="record.raId != null">
+                RA_ID = #{record.raId,jdbcType=BIGINT},
+            </if>
+            <if test="record.raArticleId != null">
+                RA_Article_ID = #{record.raArticleId,jdbcType=BIGINT},
+            </if>
+            <if test="record.raUid != null">
+                RA_UID = #{record.raUid,jdbcType=BIGINT},
+            </if>
+            <if test="record.raSubjectId != null">
+                RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
+            </if>
+            <if test="record.raTitle != null">
+                RA_Title = #{record.raTitle,jdbcType=CHAR},
+            </if>
+            <if test="record.raPic != null">
+                RA_Pic = #{record.raPic,jdbcType=CHAR},
+            </if>
+            <if test="record.raDesc != null">
+                RA_Desc = #{record.raDesc,jdbcType=CHAR},
+            </if>
+            <if test="record.raRead != null">
+                RA_Read = #{record.raRead,jdbcType=BIGINT},
+            </if>
+            <if test="record.raLike != null">
+                RA_Like = #{record.raLike,jdbcType=BIGINT},
+            </if>
+            <if test="record.raCreatetime != null">
+                RA_Createtime = #{record.raCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="record.raUpdatetime != null">
+                RA_Updatetime = #{record.raUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="record.raDel != null">
+                RA_Del = #{record.raDel,jdbcType=INTEGER},
+            </if>
+            <if test="record.raText != null">
+                RA_Text = #{record.raText,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        update release_article
+        set RA_ID = #{record.raId,jdbcType=BIGINT},
         RA_Article_ID = #{record.raArticleId,jdbcType=BIGINT},
-      </if>
-      <if test="record.raUid != null" >
         RA_UID = #{record.raUid,jdbcType=BIGINT},
-      </if>
-      <if test="record.raSubjectId != null" >
         RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
-      </if>
-      <if test="record.raTitle != null" >
         RA_Title = #{record.raTitle,jdbcType=CHAR},
-      </if>
-      <if test="record.raPic != null" >
         RA_Pic = #{record.raPic,jdbcType=CHAR},
-      </if>
-      <if test="record.raDesc != null" >
         RA_Desc = #{record.raDesc,jdbcType=CHAR},
-      </if>
-      <if test="record.raRead != null" >
         RA_Read = #{record.raRead,jdbcType=BIGINT},
-      </if>
-      <if test="record.raLike != null" >
         RA_Like = #{record.raLike,jdbcType=BIGINT},
-      </if>
-      <if test="record.raCreatetime != null" >
         RA_Createtime = #{record.raCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="record.raUpdatetime != null" >
         RA_Updatetime = #{record.raUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="record.raDel != null" >
         RA_Del = #{record.raDel,jdbcType=INTEGER},
-      </if>
-      <if test="record.raText != null" >
-        RA_Text = #{record.raText,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update release_article
-    set RA_ID = #{record.raId,jdbcType=BIGINT},
-      RA_Article_ID = #{record.raArticleId,jdbcType=BIGINT},
-      RA_UID = #{record.raUid,jdbcType=BIGINT},
-      RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
-      RA_Title = #{record.raTitle,jdbcType=CHAR},
-      RA_Pic = #{record.raPic,jdbcType=CHAR},
-      RA_Desc = #{record.raDesc,jdbcType=CHAR},
-      RA_Read = #{record.raRead,jdbcType=BIGINT},
-      RA_Like = #{record.raLike,jdbcType=BIGINT},
-      RA_Createtime = #{record.raCreatetime,jdbcType=BIGINT},
-      RA_Updatetime = #{record.raUpdatetime,jdbcType=BIGINT},
-      RA_Del = #{record.raDel,jdbcType=INTEGER},
-      RA_Text = #{record.raText,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update release_article
-    set RA_ID = #{record.raId,jdbcType=BIGINT},
-      RA_Article_ID = #{record.raArticleId,jdbcType=BIGINT},
-      RA_UID = #{record.raUid,jdbcType=BIGINT},
-      RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
-      RA_Title = #{record.raTitle,jdbcType=CHAR},
-      RA_Pic = #{record.raPic,jdbcType=CHAR},
-      RA_Desc = #{record.raDesc,jdbcType=CHAR},
-      RA_Read = #{record.raRead,jdbcType=BIGINT},
-      RA_Like = #{record.raLike,jdbcType=BIGINT},
-      RA_Createtime = #{record.raCreatetime,jdbcType=BIGINT},
-      RA_Updatetime = #{record.raUpdatetime,jdbcType=BIGINT},
-      RA_Del = #{record.raDel,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.ReleaseArticle" >
-    update release_article
-    <set >
-      <if test="raArticleId != null" >
-        RA_Article_ID = #{raArticleId,jdbcType=BIGINT},
-      </if>
-      <if test="raUid != null" >
-        RA_UID = #{raUid,jdbcType=BIGINT},
-      </if>
-      <if test="raSubjectId != null" >
-        RA_Subject_ID = #{raSubjectId,jdbcType=BIGINT},
-      </if>
-      <if test="raTitle != null" >
-        RA_Title = #{raTitle,jdbcType=CHAR},
-      </if>
-      <if test="raPic != null" >
-        RA_Pic = #{raPic,jdbcType=CHAR},
-      </if>
-      <if test="raDesc != null" >
-        RA_Desc = #{raDesc,jdbcType=CHAR},
-      </if>
-      <if test="raRead != null" >
-        RA_Read = #{raRead,jdbcType=BIGINT},
-      </if>
-      <if test="raLike != null" >
-        RA_Like = #{raLike,jdbcType=BIGINT},
-      </if>
-      <if test="raCreatetime != null" >
-        RA_Createtime = #{raCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="raUpdatetime != null" >
-        RA_Updatetime = #{raUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="raDel != null" >
-        RA_Del = #{raDel,jdbcType=INTEGER},
-      </if>
-      <if test="raText != null" >
-        RA_Text = #{raText,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where RA_ID = #{raId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mdblog.po.ReleaseArticle" >
+        RA_Text = #{record.raText,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update release_article
+        set RA_ID = #{record.raId,jdbcType=BIGINT},
+        RA_Article_ID = #{record.raArticleId,jdbcType=BIGINT},
+        RA_UID = #{record.raUid,jdbcType=BIGINT},
+        RA_Subject_ID = #{record.raSubjectId,jdbcType=BIGINT},
+        RA_Title = #{record.raTitle,jdbcType=CHAR},
+        RA_Pic = #{record.raPic,jdbcType=CHAR},
+        RA_Desc = #{record.raDesc,jdbcType=CHAR},
+        RA_Read = #{record.raRead,jdbcType=BIGINT},
+        RA_Like = #{record.raLike,jdbcType=BIGINT},
+        RA_Createtime = #{record.raCreatetime,jdbcType=BIGINT},
+        RA_Updatetime = #{record.raUpdatetime,jdbcType=BIGINT},
+        RA_Del = #{record.raDel,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.ReleaseArticle">
+        update release_article
+        <set>
+            <if test="raArticleId != null">
+                RA_Article_ID = #{raArticleId,jdbcType=BIGINT},
+            </if>
+            <if test="raUid != null">
+                RA_UID = #{raUid,jdbcType=BIGINT},
+            </if>
+            <if test="raSubjectId != null">
+                RA_Subject_ID = #{raSubjectId,jdbcType=BIGINT},
+            </if>
+            <if test="raTitle != null">
+                RA_Title = #{raTitle,jdbcType=CHAR},
+            </if>
+            <if test="raPic != null">
+                RA_Pic = #{raPic,jdbcType=CHAR},
+            </if>
+            <if test="raDesc != null">
+                RA_Desc = #{raDesc,jdbcType=CHAR},
+            </if>
+            <if test="raRead != null">
+                RA_Read = #{raRead,jdbcType=BIGINT},
+            </if>
+            <if test="raLike != null">
+                RA_Like = #{raLike,jdbcType=BIGINT},
+            </if>
+            <if test="raCreatetime != null">
+                RA_Createtime = #{raCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="raUpdatetime != null">
+                RA_Updatetime = #{raUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="raDel != null">
+                RA_Del = #{raDel,jdbcType=INTEGER},
+            </if>
+            <if test="raText != null">
+                RA_Text = #{raText,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where RA_ID = #{raId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mdblog.po.ReleaseArticle">
     update release_article
     set RA_Article_ID = #{raArticleId,jdbcType=BIGINT},
       RA_UID = #{raUid,jdbcType=BIGINT},
@@ -384,7 +387,7 @@
       RA_Text = #{raText,jdbcType=LONGVARCHAR}
     where RA_ID = #{raId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.ReleaseArticle" >
+    <update id="updateByPrimaryKey" parameterType="com.mdblog.po.ReleaseArticle">
     update release_article
     set RA_Article_ID = #{raArticleId,jdbcType=BIGINT},
       RA_UID = #{raUid,jdbcType=BIGINT},
@@ -400,8 +403,8 @@
     where RA_ID = #{raId,jdbcType=BIGINT}
   </update>
 
-  <!-- 自定义方法 -->
-  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="raId" parameterType="com.mdblog.po.ReleaseArticle" >
+    <!-- 自定义方法 -->
+    <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="raId" parameterType="com.mdblog.po.ReleaseArticle">
     insert into release_article (RA_ID, RA_Article_ID, RA_UID,
     RA_Subject_ID, RA_Title, RA_Pic,
     RA_Desc, RA_Read, RA_Like,
@@ -413,10 +416,31 @@
     #{raCreatetime,jdbcType=BIGINT}, #{raUpdatetime,jdbcType=BIGINT}, #{raDel,jdbcType=INTEGER},
     #{raText,jdbcType=LONGVARCHAR})
   </insert>
-  <select id="selectContentByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    <select id="selectContentByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
     select
     RA_Text
     from release_article
     where RA_ID = #{raId,jdbcType=BIGINT}
   </select>
+    <select id="selectIdList" resultType="Long">
+        SELECT
+        RA_ID
+        FROM
+        release_article
+    </select>
+
+    <update id="updateReadLikeByPrimaryKey" parameterType="Long">
+        update release_article
+        <set>
+            <if test="read != 0">
+                RA_Read = #{read,jdbcType=BIGINT},
+            </if>
+            <if test="like != 0">
+                RA_Like = #{like,jdbcType=BIGINT},
+            </if>
+        </set>
+        where
+            RA_ID = #{id,jdbcType=BIGINT}
+    </update>
+
 </mapper>

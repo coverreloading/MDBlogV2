@@ -1,20 +1,13 @@
 package com.mdblog.controller;
 
-import com.mdblog.common.utils.JsonUtils;
-import com.mdblog.mapper.UserMapper;
 import com.mdblog.po.ReleaseArticle;
 import com.mdblog.po.ResponResult;
-import com.mdblog.po.User;
 import com.mdblog.po.UserInfo;
 import com.mdblog.pojo.UserArticleComment;
 import com.mdblog.service.ShowArticleService;
 import com.mdblog.service.UserInfoService;
-import com.mdblog.service.UserService;
-import com.sun.tools.javac.comp.Todo;
-import org.apache.ibatis.reflection.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +29,7 @@ public class ShowArticleCtrl {
 
     @RequestMapping(value = "/articleArea")
     public String showArticleArea() {
-        return "articleArea";
+        return "model/articleAreaold";
     }
 
     /**
@@ -138,12 +131,11 @@ public class ShowArticleCtrl {
             if (responResult.getStatus() == 404) {
                 return responResult;
             }
-            ReleaseArticle releaseArticle = JsonUtils.jsonToPojo(String.valueOf(responResult.getData()), ReleaseArticle.class);
+            ReleaseArticle releaseArticle = (ReleaseArticle)responResult.getData();
 
             userArticleComment.setReleaseArticle(releaseArticle);
-            // TODO: 2017/2/11 尚无用户信息
-            //UserInfo userInfo = userInfoService.getUserInfoByUid(releaseArticle.getRaUid());
-            //userArticleComment.setUserInfo(userInfo);
+            UserInfo userInfo = userInfoService.getUserInfoByUid(releaseArticle.getRaUid());
+            userArticleComment.setUserInfo(userInfo);
             // TODO: 2017/2/10 Comment 未赋值
             return ResponResult.ok(userArticleComment);
 

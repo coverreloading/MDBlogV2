@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+import java.util.Set;
+
 public class JedisClientSingle implements JedisClient{
 	
 	@Autowired
@@ -82,4 +84,10 @@ public class JedisClientSingle implements JedisClient{
 		return result;
 	}
 
+	@Override
+	public Boolean exits(String key) {
+		Jedis jedis = jedisPool.getResource();
+		Boolean result = jedis.exists(key);
+		return result;
+	}
 }

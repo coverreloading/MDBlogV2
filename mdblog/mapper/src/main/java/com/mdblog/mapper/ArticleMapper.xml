@@ -322,20 +322,20 @@
   where A_ID = #{aId,jdbcType=BIGINT}
 </update>
 <!--自定义方法-->
-  <insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="aId" parameterType="com.mdblog.po.Article" >
-    insert into article (A_ID, A_UID, A_Title,
-    A_Desc, A_Pic, A_Createtime,
-    A_Updatetime, A_Del, A_Text
-    )
-    values (#{aId,jdbcType=BIGINT}, #{aUid,jdbcType=BIGINT}, #{aTitle,jdbcType=CHAR},
-    #{aDesc,jdbcType=CHAR}, #{aPic,jdbcType=CHAR}, #{aCreatetime,jdbcType=BIGINT},
-    #{aUpdatetime,jdbcType=BIGINT}, #{aDel,jdbcType=INTEGER}, #{aText,jdbcType=LONGVARCHAR}
-    )
-  </insert>
-  <select id="selectIdListByUserId"  resultType="java.lang.Long">
-    select
-    A_ID
-    from article
-    where A_UID = #{aUid,jdbcType=BIGINT}
-  </select>
+<insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="aId" parameterType="com.mdblog.po.Article" >
+  insert into article (A_ID, A_UID, A_Title,
+  A_Desc, A_Pic, A_Createtime,
+  A_Updatetime, A_Del, A_Text
+  )
+  values (#{aId,jdbcType=BIGINT}, #{aUid,jdbcType=BIGINT}, #{aTitle,jdbcType=CHAR},
+  #{aDesc,jdbcType=CHAR}, #{aPic,jdbcType=CHAR}, #{aCreatetime,jdbcType=BIGINT},
+  #{aUpdatetime,jdbcType=BIGINT}, #{aDel,jdbcType=INTEGER}, #{aText,jdbcType=LONGVARCHAR}
+  )
+</insert>
+<select id="selectIdListByUserId"  resultType="java.lang.Long">
+  select
+  A_ID
+  from article
+  where A_UID = #{aUid,jdbcType=BIGINT}
+</select>
 </mapper>

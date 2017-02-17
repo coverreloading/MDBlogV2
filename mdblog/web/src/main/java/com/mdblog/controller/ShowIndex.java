@@ -9,25 +9,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class ShowIndex {
-    @RequestMapping("login")
+    @RequestMapping({"/","/index"})
+    public String index(){
+        return "index";
+    }
+    @RequestMapping("/login")
     public String login(){
         return "login";
-    }
-    @RequestMapping({"/index","/"})
-    public String showIndex(){
-        return "login";
-    }
-    @RequestMapping("/main")
-    public String showMain(){
-        return "main";
     }
     @RequestMapping("/register")
     public String showRegister(){
         return "register";
     }
-    @RequestMapping("/test}")
-    public String showtest(){
-        return "test";
+    @RequestMapping("/main")
+    public String showMain(){
+        return "main";
     }
     // TODO: 2016/11/8 测试用查看页面
     @RequestMapping("/page/{page}")

@@ -4,6 +4,8 @@ import com.mdblog.po.JedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.JedisCluster;
 
+import java.util.Set;
+
 public class JedisClientCluster implements JedisClient {
 
 	@Autowired
@@ -54,6 +56,12 @@ public class JedisClientCluster implements JedisClient {
 	public long hdel(String hkey, String key) {
 		
 		return jedisCluster.hdel(hkey, key);
+	}
+
+	@Override
+	public Boolean exits(String key) {
+
+		return jedisCluster.exists(key);
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.mdblog.po;
 
+import java.util.Set;
+
 public interface JedisClient {
 
 	String get(String key);
@@ -11,5 +13,6 @@ public interface JedisClient {
 	long ttl(String key);
 	long del(String key);
 	long hdel(String hkey, String key);
-	
+    // 是否有key存在
+	Boolean exits(String key);
 }

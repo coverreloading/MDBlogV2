@@ -28,7 +28,7 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
 
     @Override
     public ResponResult addRA(String token,Long articleId,String tipJson, ReleaseArticle releaseArticle) {
-        //TODO
+
         long UID= userService.getUserIdByToken(token);
         if (UID == -1) {
             return ResponResult.build(401, "session已过期,请重新登录");

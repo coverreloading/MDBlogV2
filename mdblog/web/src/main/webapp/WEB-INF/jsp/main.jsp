@@ -65,7 +65,6 @@
                     <a href="#" class="list-group-item active" ng-click="addArticle()">新建文章</a>
                 </div>
                 <div style="overflow:scroll; overflow-x:hidden; height:{{articleListHeight}}px;background-color:#337ab7; ">
-
                     <div ng-repeat="article in articles">
                         <a class="list-group-item " ng-click="getArticle(article.aId)">{{article.aTitle}}</a>
                     </div>

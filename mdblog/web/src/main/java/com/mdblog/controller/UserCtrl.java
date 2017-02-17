@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserCtrl {
 
     @Autowired

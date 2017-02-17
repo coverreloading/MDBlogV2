@@ -48,6 +48,10 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
         subjectMapper.insert(subject);
     }
 
+    /**
+     * 存入redis
+     * @return
+     */
     @Override
     public ResponResult setSubjectRedis() {
         List<Subject> subjectList = subjectMapper.selectAll();
@@ -66,10 +70,8 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
             subject.setsCreatetime(null);
             subject.setsDesc(null);
         }
-
         // 存入所有项目,不包含多余数据,方便一次性取出所有id和名称
         jedisClient.set(SUBJECT_ITEM_Name, JsonUtils.objectToJson(subjectList));
-
         return ResponResult.ok();
     }
 

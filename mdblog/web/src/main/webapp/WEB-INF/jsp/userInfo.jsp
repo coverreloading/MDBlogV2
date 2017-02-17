@@ -64,8 +64,7 @@
                     </div>
                     <br/>
                     <div style="text-align: left;">
-                        <%--todo 参数没写完呐--%>
-                        <form id="md-login-form" class="layui-form layui-form-pane" action="/uInfo/">
+                        <form id="info-form" class="layui-form layui-form-pane" action="" method="post">
                             <%--隐藏参数uid--%>
                             <div class="layui-form-item">
                                 <input hidden="hidden" id="token" name="token" value="${token}"/>
@@ -95,7 +94,7 @@
                                 <div class="layui-inline">
                                     <label class="layui-form-label">生日</label>
                                     <div class="layui-input-block">
-                                        <input type="text" name="uiBirth" id="date" autocomplete="off"
+                                        <input type="text" name="uiBirth-str" id="date" autocomplete="off"
                                                class="layui-input" lay-verify="required"
                                                onclick="layui.laydate({elem: this})">
                                     </div>
@@ -144,7 +143,7 @@
                                 </div>
                             </div>
                             <div class="layui-form-item">
-                                <button class="layui-btn" lay-submit="" lay-filter="login-sub-btn">完成</button>
+                                <button class="layui-btn" lay-submit="" lay-filter="info-sub-btn">完成</button>
                             </div>
                         </form>
                     </div>
@@ -186,14 +185,22 @@
         $('#newSubjectPicUrl').val("0");
 
         //监听提交
-        /*
-        form.on('submit(login-sub-btn)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+
+        form.on('submit(info-sub-btn)', function (data) {
+
+            $.post("/uinfo/update",$("#info-form").serialize(),function (result) {
+                var obj = new Function("return" + result)()
+                swal(obj.msg);
+                if(obj.status==200) {
+                    swal("成功", "信息已经保存");
+                }
+            });
+//            layer.alert(JSON.stringify(data.field), {
+//                title: '最终的提交信息'
+//            })
             return false;
         });
-        */
+
     });
 
 </script>

@@ -40,4 +40,10 @@ public interface ReleaseArticleMapper {
     int insertAndGetId(ReleaseArticle record);
     // 获取文本内容
     ReleaseArticle selectContentByPrimaryKey(Long raId);
+
+    // 获取全部id
+    List<Long> selectIdList();
+
+    // 更新read like
+    int updateReadLikeByPrimaryKey(@Param("id") Long id,@Param("read") Long read, @Param("like") Long like );
 }

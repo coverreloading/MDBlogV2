@@ -1,6 +1,7 @@
 package com.mdblog.po;
 
 public class UserInfo {
+
     private Long uiUid;
 
     private String uiNickname;
@@ -99,5 +100,20 @@ public class UserInfo {
 
     public void setUiDel(Integer uiDel) {
         this.uiDel = uiDel;
+    }
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "uiUid=" + uiUid +
+                ", uiNickname='" + uiNickname + '\'' +
+                ", uiPic='" + uiPic + '\'' +
+                ", uiDesc='" + uiDesc + '\'' +
+                ", uiSex='" + uiSex + '\'' +
+                ", uiBirth=" + uiBirth +
+                ", uiOccupation='" + uiOccupation + '\'' +
+                ", uiLivePlace='" + uiLivePlace + '\'' +
+                ", uiCreatetime=" + uiCreatetime +
+                ", uiDel=" + uiDel +
+                '}';
     }
 }

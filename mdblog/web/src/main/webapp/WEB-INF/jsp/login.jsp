@@ -66,7 +66,7 @@
                         if (data.status == 200) {
 //                            $scope.msg = "登录成功,跳转到主页";
                             $timeout(function () {
-                                $window.location.href = '${request.getContextPath()}/main';
+                                $window.location.href = '${request.getContextPath()}/';
                             }, 2000);
                             swal({
                                 title: "登录成功",
@@ -77,7 +77,7 @@
                                 confirmButtonText: "跳转到首页",
                                 closeOnConfirm: false
                             }, function () {
-                                $window.location.href = '${request.getContextPath()}/main';
+                                $window.location.href = '${request.getContextPath()}/';
                             });
                         } else {
                             swal("登录失败", data.msg, "error");

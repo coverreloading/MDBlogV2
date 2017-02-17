@@ -2,38 +2,47 @@ package com.mdblog.controller;
 
 import com.mdblog.po.ResponResult;
 import com.mdblog.po.UserInfo;
-import com.mdblog.service.UserService;
-import org.apache.ibatis.annotations.Param;
+import com.mdblog.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by loadi on 2017/2/12.
  */
 @Controller
-@RequestMapping("/uInfo")
+@RequestMapping("/uinfo")
 public class UserInfoCtrl {
 
     @Autowired
-    private UserService userService;
+    private UserInfoService userInfoService;
 
-    @RequestMapping("/update")
+    @RequestMapping("/userinfo")
+    public String showUserInfo() {
+        return "userInfo";
+    }
+
+    @RequestMapping(value = "/uibtok/{token}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponResult updateUInfo(@RequestParam(required=true) String token , UserInfo userInfo) {
-        System.out.println(token);
-        System.out.println(userInfo.toString());
-        long uid = userService.getUserIdByToken(token);
-        if (uid == -1) {
-            return ResponResult.build(400,"用户登陆过期");
-        }
-        userInfo.setUiUid(uid);
-        // TODO: 2017/2/12 先去写service
+    public ResponResult getUserInfoByToken(@PathVariable("token") String token) {
+        return userInfoService.getUserInfoByToken(token);
+    }
 
-
-        return null;
+    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponResult updateUInfo(String token, UserInfo userInfo, @RequestParam(value = "uiBirth-str") String birstr) throws ParseException {
+        System.out.println("更新用户信息");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = simpleDateFormat.parse(birstr);
+        long ts = date.getTime();
+        System.out.println(ts);
+        userInfo.setUiBirth(ts);
+        ResponResult result = userInfoService.updateUserInfo(token, userInfo);
+        System.out.println("更新结束");
+        return result;
     }
 }

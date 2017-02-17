@@ -9653,8 +9653,8 @@ button[data-color=green].disabled, button[data-color=green].disabled:hover, butt
  */
 @font-face {
     font-family: 'FontAwesome';
-    src: url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-43aaec5ca6392b07c737b0ae33812613.eot?v=4.3.0");
-    src: url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-43aaec5ca6392b07c737b0ae33812613.eot?#iefix&v=4.3.0") format("embedded-opentype"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-5ce528f8081e44c37827ec94e7e498ce.woff2?v=4.3.0") format("woff2"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-a7197a63540691845312c4d30cbf09d6.woff?v=4.3.0") format("woff"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-af3f71a44fe91b87e4fc4a4059fe7a02.ttf?v=4.3.0") format("truetype"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-3905d4d784916101f14dccbf2b79a3de.svg?v=4.3.0#fontawesomeregular") format("svg");
+    /*src: url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-43aaec5ca6392b07c737b0ae33812613.eot?v=4.3.0");*/
+    /*src: url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-43aaec5ca6392b07c737b0ae33812613.eot?#iefix&v=4.3.0") format("embedded-opentype"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-5ce528f8081e44c37827ec94e7e498ce.woff2?v=4.3.0") format("woff2"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-a7197a63540691845312c4d30cbf09d6.woff?v=4.3.0") format("woff"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-af3f71a44fe91b87e4fc4a4059fe7a02.ttf?v=4.3.0") format("truetype"), url("http://cdn-qn0.jianshu.io/assets/fontawesome-webfont-3905d4d784916101f14dccbf2b79a3de.svg?v=4.3.0#fontawesomeregular") format("svg");*/
     font-weight: normal;
     font-style: normal
 }
