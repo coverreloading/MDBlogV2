@@ -27,4 +27,10 @@ public interface UserLikeMapper {
     int updateByPrimaryKeySelective(UserLike record);
 
     int updateByPrimaryKey(UserLike record);
+
+    // 自定义方法
+
+    // 确定是否存在该记录
+    List<Long> checkExit(@Param("uid1")Long uid1,@Param("uid2")Long uid2);
+    // 删除
 }

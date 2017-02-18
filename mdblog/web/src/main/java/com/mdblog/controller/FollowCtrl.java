@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by loadi on 2017/2/17.
@@ -18,12 +20,24 @@ public class FollowCtrl {
     @Autowired
     private FollowService followService;
 
+    @RequestMapping(value = "/checkExit", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponResult checkExit(String token, Long uid) {
+
+        return followService.checkFollow(token, uid);
+    }
+
     @RequestMapping("/add")
+    @ResponseBody
     public ResponResult addFollow(String token, Long uid) {
+
         return followService.addFollow(token, uid);
     }
+
     @RequestMapping("/remove")
-    public ResponResult removeFollow( String token,Long uid) {
+    @ResponseBody
+    public ResponResult removeFollow(String token, Long uid) {
+
         return followService.removeFollow(token, uid);
     }
 }

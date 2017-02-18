@@ -225,4 +225,14 @@
       UL_Createtime = #{ulCreatetime,jdbcType=BIGINT}
     where UL_ID = #{ulId,jdbcType=BIGINT}
   </update>
+
+  <!--自定义方法-->
+  <select id="checkExit" parameterType="Long" resultType="Long">
+    SELECT UL_ID
+    FROM user_like
+    WHERE
+    UL_UID=#{uid1,jdbcType=BIGINT}
+    AND
+    Ul_UID2=#{uid2,jdbcType=BIGINT}
+  </select>
 </mapper>

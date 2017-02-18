@@ -8,4 +8,5 @@ import com.mdblog.po.ResponResult;
 public interface FollowService {
     ResponResult addFollow(String token, Long uid);
     ResponResult removeFollow(String token, Long uid);
+    ResponResult checkFollow(String token, Long uid);
 }

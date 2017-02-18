@@ -12,6 +12,7 @@
             <script src="/js/lib/utils.js" type="text/javascript"></script>
             <script>
                 $(document).ready(function () {
+                    var uid = 0;
 //                  异步获取文章信息,展示
                     $.get(window.location.href + "/getall", function (data) {
                         var obj = new Function("return" + data)();
@@ -24,7 +25,67 @@
                             $("#ra-createtime").html($.myTime.UnixToDate(obj.data.releaseArticle.raCreatetime));
                             $(".ui-uipic").attr("src", obj.data.userInfo.uiPic);
                             $(".ui-uiname").html(obj.data.userInfo.uiNickname);
+                            uid = obj.data.userInfo.uiUid;
+                        }
+                    });
+                    $(".following").hide();
+                    $(".follow").hide();
+                    // todo 2017-2-18  判断是否关注以显示对应按钮
 
+
+                    setTimeout(function checkExit(){
+                        if ("${token}" == "") {
+                            console.log("未登陆");
+                        } else {
+                            $.post("/follow/checkExit",
+                                    {
+                                        token: "${token}",
+                                        uid: uid
+                                    },
+                                    function (data) {
+                                        var obj = new Function("return" + data)();
+                                        if (obj.status == 401) {
+//                                            alert(obj.msg);
+                                            $(".following").show(200);
+                                        }
+                                        else {
+                                            $(".follow").show(200);
+                                        }
+                                    });
+                        }
+                    }, 300);
+
+                    $(".follow").click(function () {
+                        if ("${token}" == "") {
+                            swal("还没有登陆", "请登录", "error");
+                            $window.location.href = '/login';
+                        }
+                        $.post("/follow/add",
+                                {
+                                    token: "${token}",
+                                    uid: uid
+                                },
+                                function (data) {
+                                    $(".follow").hide(200);
+                                    $(".following").show(200);
+                                });
+                    });
+                    $(".following").click(function () {
+                        if ("${token}" == "") {
+                            swal("还没有登陆", "请登录", "error");
+                            $window.location.href = '/login';
+                        }
+                        $.post("/follow/remove",
+                                {
+                                    token: "${token}",
+                                    uid: uid
+                                },
+                                function (data) {
+                                    $(".following").hide(200);
+                                    $(".follow").show(200);
+                                });
+                    });
+                })
 //                raLike 1
 //                raRead 1
 //                raTitle 1
@@ -40,7 +101,7 @@
 
 //                userInfo
 
-//                uiUid;
+//                uiUid; 1
 //                uiNickname; 1
 //                uiPic; 1
 //                uiDesc;
@@ -50,9 +111,9 @@
 //                uiLivePlace;
 //                uiCreatetime;
 //                uiDel;
-                        }
-                    });
-                })
+
+
+
             </script>
             <div class="note">
                 <div class="post">
@@ -69,6 +130,8 @@
                                 <span class="name"><a class="ui-uiname" href=""></a></span>
                                 <!-- 关注用户按钮 -->
                                 <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+                                <a class="btn btn-default following"><i
+                                        class="iconfont ic-followed"></i><span>已关注</span></a>
                                 <!-- 文章数据信息 -->
                                 <div class="meta">
                                     <span id="ra-createtime" class="publish-time"></span>
