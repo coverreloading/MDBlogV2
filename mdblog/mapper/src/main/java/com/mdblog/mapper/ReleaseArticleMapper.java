@@ -45,5 +45,8 @@ public interface ReleaseArticleMapper {
     List<Long> selectIdList();
 
     // 更新read like
-    int updateReadLikeByPrimaryKey(@Param("id") Long id,@Param("read") Long read, @Param("like") Long like );
+    int updateReadLikeByPrimaryKey(@Param("id") Long id, @Param("read") Long read, @Param("like") Long like);
+
+    // 首页获取热门文章
+    List<ReleaseArticle> selectHot(@Param("page") int page, @Param("num") int num);
 }

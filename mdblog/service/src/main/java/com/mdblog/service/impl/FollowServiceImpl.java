@@ -104,6 +104,4 @@ public class FollowServiceImpl implements FollowService{
         }
         return ResponResult.ok();
     }
-
-
 }

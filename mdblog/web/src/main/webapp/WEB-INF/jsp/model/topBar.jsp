@@ -38,7 +38,7 @@
                         src=""
                         alt="100"></div>
             </div>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" style="z-index:9999">
                 <li>
                     <a href="/u/8814489783cd">
                         <i class="iconfont ic-navigation-profile"></i><span>我的主页</span>

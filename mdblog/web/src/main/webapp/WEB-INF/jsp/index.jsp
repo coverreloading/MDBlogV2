@@ -27,6 +27,7 @@
 <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base-read-mode.css">--%>
 <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry2-jianshu.css">
 
 </head>
 <body>
@@ -34,7 +35,7 @@
     <jsp:include page="model/leftBar1.jsp"/>
     <jsp:include page="model/leftBar2.jsp"/>
     <jsp:include page="model/topBar.jsp"/>
-    <%--<jsp:include page="model/articleAreaold.jsp"/>--%>
+    <jsp:include page="model/hotArt.jsp"/>
 </div>
 </body>
 </html>
