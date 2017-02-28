@@ -164,19 +164,21 @@
     var app = angular.module("uifApp", []);
     app.controller("uifCtrl", function ($scope, $http) {
 
-        var oldrecords;
+        // 默认加载10篇,按照最新的开始排
         $scope.num = 10;
-        $http.post("/a/hot/${uif.uiUid}/0/5")
+        $http.post("/a/hot/${uif.uiUid}/0/10")
                 .success(function (response) {
                     $scope.records = response.data;
-                    oldrecords = response.data;
-//                    console.log($scope.records);
+                    console.log($scope.records);
                 });
-        // 点击按钮添加更多文章
+        // 点击按钮添加更多文章每次加5篇
         $scope['getmore'] = getmoreFun = function (num) {
-            $http.post("/a/hot/${uif.uiUid}/0/" + num)
+            $http.post("/a/hot/${uif.uiUid}/"+num+"/5")
                     .success(function (response) {
-                        $scope.records = response.data;
+                        angular.forEach(response.data, function(data){
+                            //data等价于array[index]
+                            $scope.records.push(data);
+                        });
                         console.log($scope.records);
                     });
             $scope.num += 5;

@@ -371,11 +371,13 @@
                 swal("保存失败", "没有选中要保存的文章", "error");
                 return;
             }
+            // 编码
+            var getmd = window.encodeURIComponent(testEditor.getMarkdown());
             $http({
                 method: 'POST',
                 url: '${request.getContextPath()}/article/updateArticle',
                 data: "token=${token}&aId=" + articleId +
-                "&aText=" + testEditor.getMarkdown() +
+                "&aText=" + getmd +
                 "&aUid=" + $scope.articleInActiveaUid,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -401,11 +403,12 @@
         }
         // 文章自动保存方法
         var autpUpdate = function (articleId) {
+            var getmd = window.encodeURIComponent(testEditor.getMarkdown());
             $http({
                 method: 'POST',
                 url: '${request.getContextPath()}/article/updateArticle',
                 data: "token=${token}&aId=" + articleId +
-                "&aText=" + testEditor.getMarkdown() +
+                "&aText=" + getmd +
                 "&aUid=" + $scope.articleInActiveaUid,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
@@ -484,7 +487,7 @@
                 closeOnCancel: false
             }, function (isConfirm) {
                 if (isConfirm) {
-
+                    var gethtml = window.encodeURIComponent(testEditor.getPreviewedHTML());
                     $http({
                         method: 'POST',
                         url: '${request.getContextPath()}/RA/new',
@@ -494,7 +497,7 @@
                         "&raSubjectJson=" + $scope.selectSubject+
                         "&raTitle=" + $scope.raTitle +
                         "&raDesc=" + $scope.raDesc +
-                        "&raText=" + testEditor.getPreviewedHTML(),
+                        "&raText=" + gethtml,
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     })
                             .success(function (data) {

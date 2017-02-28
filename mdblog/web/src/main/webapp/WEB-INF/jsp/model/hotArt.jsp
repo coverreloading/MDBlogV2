@@ -141,6 +141,7 @@
 </div>
 
 <script>
+    /*
     var app = angular.module('ngHotArt', []);
     app.controller('HotCtrl', function ($scope, $http ) {
         // 添加热门文章
@@ -158,6 +159,39 @@
                     .success(function (response) {
 //                    console.log(response.data);
                         $scope.records = angular.merge({}, $scope.records, response.data);
+                        console.log($scope.records);
+                    });
+            $scope.num+=5;
+        }
+        // 添加专题图标内容
+        $http.post("/subject/getRand/7")
+                .success(function (response) {
+                    $scope.subjects = response.data;
+                    var oldrecords = angular.merge({},oldrecords , response.data);
+//                    console.log(oldrecords);
+                });
+    });
+    */
+
+    var app = angular.module('ngHotArt', []);
+    app.controller('HotCtrl', function ($scope, $http ) {
+        // 添加热门文章
+        var oldrecords ;
+        $scope.num=2;
+        $http.post("/a/hot/0/10")
+                .success(function (response) {
+                    $scope.records = response.data;
+                });
+        // 点击按钮添加更多文章
+        $scope['getmore'] = getmoreFun = function (num) {
+            $http.post("/a/hot/"+num+"/5")
+                    .success(function (response) {
+//                    console.log(response.data);
+//                        $scope.records.push(response.data);
+                        angular.forEach(response.data, function(data,index,array){
+                            //data等价于array[index]
+                            $scope.records.push(data);
+                        });
                         console.log($scope.records);
                     });
             $scope.num+=5;

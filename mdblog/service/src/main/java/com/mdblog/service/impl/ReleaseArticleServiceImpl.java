@@ -47,7 +47,6 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
         releaseArticle.setRaRead((long) 0);
         releaseArticle.setRaLike((long) 0);
 
-
         try {
             releaseArticleMapper.insertAndGetId(releaseArticle);
         } catch (Exception e) {
