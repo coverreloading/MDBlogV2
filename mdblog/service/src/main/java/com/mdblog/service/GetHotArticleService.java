@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface GetHotArticleService {
     List<ReleaseArticle> getByNum(int page, int num);
+    List<ReleaseArticle> getHotByUid(Long uid, Long page, Long num);
 }

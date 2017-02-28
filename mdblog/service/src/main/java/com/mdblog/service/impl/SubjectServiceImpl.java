@@ -1,5 +1,6 @@
 package com.mdblog.service.impl;
 
+        import com.mdblog.mapper.SubjectMapper;
         import com.mdblog.po.JedisClient;
         import com.mdblog.po.ResponResult;
         import com.mdblog.po.Subject;
@@ -21,11 +22,12 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Autowired
     private JedisClient jedisClient;
-    @Value("${SUBJECT_ITEM}")
-    String SUBJECT_ITEM;
+    @Autowired
+    private SubjectMapper subjectMapper;
+    @Value("${SUBJECT_ITEM_Hash}")
+    String SUBJECT_ITEM_Hash;
     @Value("${SUBJECT_ITEM_Name}")
     String SUBJECT_ITEM_Name;
-
 
     /**
      * 获取只包含id和名称的专题对象集合
@@ -44,6 +46,11 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     public Subject getSubjectById(Integer SubId) {
-        return JsonUtils.jsonToPojo(jedisClient.hget(SUBJECT_ITEM, String.valueOf(SubId)),Subject.class);
+        return JsonUtils.jsonToPojo(jedisClient.hget(SUBJECT_ITEM_Hash, String.valueOf(SubId)),Subject.class);
+    }
+
+    @Override
+    public ResponResult getSubjectRand(Integer num) {
+        return ResponResult.ok(subjectMapper.selectRand(num));
     }
 }

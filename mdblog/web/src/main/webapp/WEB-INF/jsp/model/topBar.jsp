@@ -40,7 +40,7 @@
             </div>
             <ul class="dropdown-menu" style="z-index:9999">
                 <li>
-                    <a href="/u/8814489783cd">
+                    <a href="/uinfo/u/${uid}">
                         <i class="iconfont ic-navigation-profile"></i><span>我的主页</span>
                     </a></li>
                 <li>
@@ -73,16 +73,16 @@
 <script>
     $("document").ready(function () {
         if ("${token}" != "") {
-            <%--alert("${token}");--%>
             $.post("/uinfo/uibtok/${token}", function (data) {
                 var obj = new Function("return" + data)();
                 console.log("已登录");
 //                console.log(obj.data);
 //                console.log(obj.data.uiPic);
                 $("#uipic").attr("src", obj.data.uiPic);
-                $(".un-log").hide();
-                $(".login-in").show();
+
             })
+            $(".un-log").hide();
+            $(".login-in").show();
         } else {
             console.log("尚未登录");
             $(".un-log").show();

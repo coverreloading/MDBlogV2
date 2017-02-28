@@ -14,6 +14,11 @@
                 var date = new Date(unixTime);
                 var month = date.getMonth()+1;
                 return date.getFullYear() + "-" + month + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            },
+            UnixToDateNoHour: function (unixTime) {
+                var date = new Date(unixTime);
+                var month = date.getMonth()+1;
+                return date.getFullYear() + "-" + month + "-" + date.getDate();
             }
         }
     });

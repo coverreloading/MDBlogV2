@@ -49,4 +49,7 @@ public interface ReleaseArticleMapper {
 
     // 首页获取热门文章
     List<ReleaseArticle> selectHot(@Param("page") int page, @Param("num") int num);
+
+    // 获取指定用户文章
+    List<ReleaseArticle> selectHotByUid(@Param("uid")Long uid, @Param("page") Long page, @Param("num") Long num);
 }

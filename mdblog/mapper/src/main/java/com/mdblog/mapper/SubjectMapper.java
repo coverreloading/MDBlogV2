@@ -30,4 +30,7 @@ public interface SubjectMapper {
     // 自定义方法
 
     List<Subject> selectAll();
+
+    //随机取条数
+    List<Subject> selectRand(@Param("num") Integer num);
 }

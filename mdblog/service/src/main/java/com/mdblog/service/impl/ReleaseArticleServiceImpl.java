@@ -1,12 +1,10 @@
 package com.mdblog.service.impl;
 
 import com.mdblog.mapper.ArticleMapper;
+import com.mdblog.mapper.ArticleTipsMapper;
 import com.mdblog.mapper.ReleaseArticleMapper;
 import com.mdblog.mapper.UserMapper;
-import com.mdblog.po.Article;
-import com.mdblog.po.JedisClient;
-import com.mdblog.po.ResponResult;
-import com.mdblog.po.ReleaseArticle;
+import com.mdblog.po.*;
 import com.mdblog.service.ReleaseArticleService;
 import com.mdblog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,8 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
     private ArticleMapper articleMapper;
     @Autowired
     private ReleaseArticleMapper releaseArticleMapper;
+    @Autowired
+    private ArticleTipsMapper articleTipsMapper;
 
     @Override
     public ResponResult addRA(String token,Long articleId,String tipJson, ReleaseArticle releaseArticle) {
@@ -47,7 +47,23 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
         releaseArticle.setRaRead((long) 0);
         releaseArticle.setRaLike((long) 0);
 
-        releaseArticleMapper.insert(releaseArticle);
+
+        try {
+            releaseArticleMapper.insertAndGetId(releaseArticle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // TODO: 2017/2/23 tip保存方式有毒
+        /*
+        ArticleTips articleTips = new ArticleTips();
+        articleTips.setAtRaId(releaseArticle.getRaId());
+        articleTips.setAtUid(UID);
+        articleTips.setAtCreatetime(System.currentTimeMillis());
+        String[] str = tipJson.split(",");
+        for(int i= 0;i<str.length;i++) {
+            articleTips.setAtTipname(str[i]);
+        }
+        */
 
         return ResponResult.ok();
     }

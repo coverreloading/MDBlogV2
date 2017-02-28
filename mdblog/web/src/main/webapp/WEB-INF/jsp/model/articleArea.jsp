@@ -16,7 +16,6 @@
 //                  异步获取文章信息,展示
                     $.get(window.location.href + "/getall", function (data) {
                         var obj = new Function("return" + data)();
-
                         if (obj.status == 200) {
                             $("#ra-title,#page-title").html(obj.data.releaseArticle.raTitle);
                             $("#ra-text").html(obj.data.releaseArticle.raText);
@@ -30,8 +29,6 @@
                     });
                     $(".following").hide();
                     $(".follow").hide();
-                    // todo 2017-2-18  判断是否关注以显示对应按钮
-
 
                     setTimeout(function checkExit(){
                         if ("${token}" == "") {
@@ -54,7 +51,6 @@
                                     });
                         }
                     }, 300);
-
                     $(".follow").click(function () {
                         if ("${token}" == "") {
                             swal("还没有登陆", "请登录", "error");
@@ -111,8 +107,6 @@
 //                uiLivePlace;
 //                uiCreatetime;
 //                uiDel;
-
-
 
             </script>
             <div class="note">

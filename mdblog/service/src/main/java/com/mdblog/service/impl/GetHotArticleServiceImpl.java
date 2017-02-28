@@ -20,8 +20,23 @@ public class GetHotArticleServiceImpl implements GetHotArticleService {
 
     @Override
     public List<ReleaseArticle> getByNum(int page, int num) {
-        List<ReleaseArticle> list = releaseArticleMapper.selectHot(page, num);
-        // TODO: 2017/2/19  
-        return list;
+        try {
+            List<ReleaseArticle> list = releaseArticleMapper.selectHot(page, num);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ReleaseArticle> getHotByUid(Long uid, Long page, Long num) {
+        try {
+            List<ReleaseArticle> list = releaseArticleMapper.selectHotByUid(uid, page, num);
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

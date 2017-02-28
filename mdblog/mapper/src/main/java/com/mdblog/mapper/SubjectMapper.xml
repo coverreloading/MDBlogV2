@@ -228,4 +228,8 @@
   <select id="selectAll" resultMap="BaseResultMap" >
     select * from subject
   </select>
+
+  <select id="selectRand" parameterType="Integer" resultMap="BaseResultMap">
+    SELECT * FROM subject ORDER BY RAND()  limit #{num,jdbcType=INTEGER}
+  </select>
 </mapper>

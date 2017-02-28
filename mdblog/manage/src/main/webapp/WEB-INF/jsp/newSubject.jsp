@@ -35,6 +35,7 @@
     </form>
     <br>
     <button class="layui-btn"  ng-click="setRedis()">刷新专题缓存</button>
+    <button class="layui-btn"  ng-click="updateRA()">保存文章阅读喜欢数</button>
 </div>
 
 <script>

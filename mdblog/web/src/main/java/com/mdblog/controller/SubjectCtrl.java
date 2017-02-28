@@ -28,10 +28,23 @@ public class SubjectCtrl {
         return subjectService.getSubject();
     }
 
-    // TODO: 2017/2/11 notest
     @RequestMapping("/sub/{id}")
     @ResponseBody
     public ResponResult getSubjectById(@PathVariable Integer id){
         return ResponResult.ok(subjectService.getSubjectById(id));
+    }
+
+
+    @RequestMapping("/getRand/{num}")
+    @ResponseBody
+    public ResponResult getSubjectRand(@PathVariable Integer num) {
+        return subjectService.getSubjectRand(num);
+    }
+
+    @RequestMapping("/subInfo/{id}")
+    @ResponseBody
+    public ResponResult getSubjectInfo(@PathVariable Long id) {
+        // TODO: 2017/2/23
+        return null;
     }
 }

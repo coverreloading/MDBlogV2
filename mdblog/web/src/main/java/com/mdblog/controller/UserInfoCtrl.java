@@ -5,8 +5,10 @@ import com.mdblog.po.UserInfo;
 import com.mdblog.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +24,9 @@ public class UserInfoCtrl {
     private UserInfoService userInfoService;
 
     @RequestMapping("/userinfo")
-    public String showUserInfo() {
+    public String showUserInfo(Model model, HttpSession session) {
+        Long uid = Long.valueOf(session.getAttribute("uid").toString());
+        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
         return "userInfo";
     }
 
@@ -44,5 +48,12 @@ public class UserInfoCtrl {
         ResponResult result = userInfoService.updateUserInfo(token, userInfo);
         System.out.println("更新结束");
         return result;
+    }
+
+    // 访问其他用户页面
+    @RequestMapping(value = "/u/{uid}")
+    public String getUserInfoByUid(@PathVariable Long uid, Model model) {
+        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
+        return "user";
     }
 }

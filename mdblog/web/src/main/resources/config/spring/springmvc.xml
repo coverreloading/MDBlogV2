@@ -12,7 +12,7 @@
     <!-- 配置MultipartResolver 用于文件上传 使用spring的CommosMultipartResolver -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
                 p:defaultEncoding="UTF-8"
-                p:maxUploadSize="5400000"
+                p:maxUploadSize="54000000"
                 p:uploadTempDir="WEB-INF/upload">
     </bean>
 

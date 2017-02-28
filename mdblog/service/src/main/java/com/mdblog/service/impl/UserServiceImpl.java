@@ -1,10 +1,8 @@
 package com.mdblog.service.impl;
 
+import com.mdblog.mapper.UserInfoMapper;
 import com.mdblog.mapper.UserMapper;
-import com.mdblog.po.JedisClient;
-import com.mdblog.po.ResponResult;
-import com.mdblog.po.User;
-import com.mdblog.po.UserExample;
+import com.mdblog.po.*;
 import com.mdblog.service.UserService;
 import com.mdblog.common.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
     @Autowired
     private JedisClient jedisClient;
     // 用户session在redis中保存的key
@@ -62,6 +62,16 @@ public class UserServiceImpl implements UserService {
     public ResponResult addUser(User user) {
         user.setuPassword(DigestUtils.md5DigestAsHex(user.getuPassword().getBytes()));
         userMapper.insert(user);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUiUid(user.getuId());
+        userInfo.setUiCreatetime(System.currentTimeMillis());
+        userInfo.setUiDel(0);
+        userInfo.setUiPic("http://192.168.186.128/images/3/2017/02/05/1486284491208044.png");
+        try {
+            userInfoMapper.insert(userInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ResponResult.ok();
     }
 

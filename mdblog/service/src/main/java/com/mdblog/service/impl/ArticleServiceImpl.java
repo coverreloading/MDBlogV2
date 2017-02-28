@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -101,7 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResponResult updateArticle(String token, Article article) {
+    public ResponResult updateArticle(String token, Article article) throws UnsupportedEncodingException {
         // 接受token查询userId结果
         Long userId = userService.getUserIdByToken(token);
         if (userId == -1) {
@@ -116,6 +117,9 @@ public class ArticleServiceImpl implements ArticleService {
         if(articleFromDB==null){
             return ResponResult.build(400,"没有指定保存的文章");
         }
+
+        //article.setaText(new String(article.getaText().getBytes("iso8859-1"),"utf-8"));
+
         String[] text = article.getaText().split("\n");
         articleFromDB.setaTitle(text[0]);
         articleFromDB.setaUpdatetime(System.currentTimeMillis());

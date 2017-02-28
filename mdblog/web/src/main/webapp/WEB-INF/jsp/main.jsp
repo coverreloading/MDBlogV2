@@ -395,7 +395,7 @@
                         }
                         else {
                             swal("session过期", "请重新登录5", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
+                            <%--$window.location.href = '${request.getContextPath()}/login';--%>
                         }
                     });
         }
@@ -484,6 +484,7 @@
                 closeOnCancel: false
             }, function (isConfirm) {
                 if (isConfirm) {
+
                     $http({
                         method: 'POST',
                         url: '${request.getContextPath()}/RA/new',

@@ -98,7 +98,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.mdblog.po.User" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="uId" parameterType="com.mdblog.po.User" >
     insert into user (U_ID, U_Email, U_Phone, 
       U_Password)
     values (#{uId,jdbcType=BIGINT}, #{uEmail,jdbcType=CHAR}, #{uPhone,jdbcType=CHAR}, 

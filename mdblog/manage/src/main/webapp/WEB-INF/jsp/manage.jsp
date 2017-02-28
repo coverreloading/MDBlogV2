@@ -125,6 +125,21 @@
                         }
                     });
         }
+        $scope['updateRA'] = updateRAFun = function () {
+            $http({
+                method: 'POST',
+                url: '${request.getContextPath()}/readlike/update',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            })
+                    .success(function (data) {
+                        console.log(data);
+                        if (data.status == 200) {
+                            swal("成功",data.data, "success");
+                        } else {
+                            swal("失败", "请重试", "error");
+                        }
+                    });
+        }
 
 
         $scope['subjectManage'] = subjectManageFun = function () {

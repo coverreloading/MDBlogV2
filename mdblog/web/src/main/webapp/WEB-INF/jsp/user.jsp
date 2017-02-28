@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${request.getContextPath()}/layui/css/layui.css">
     <script src="${request.getContextPath()}/layui/layui.js"></script>
     <script src="${request.getContextPath()}/layui/lay/dest/layui.all.js"></script>
+    <script src="${request.getContextPath()}/js/angular.min.js"></script>
     <%-- sweetalert --%>
     <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
@@ -27,7 +28,7 @@
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base-read-mode.css">--%>
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
-    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-index.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-user.css">
 
 </head>
 <body>
@@ -36,7 +37,7 @@
     <jsp:include page="model/leftBar2.jsp"/>
     <jsp:include page="model/topBar.jsp"/>
     <div id="main-bar" style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
-        <jsp:include page="model/hotArt.jsp"/>
+        <jsp:include page="model/userArea.jsp"/>
     </div>
 </div>
 </body>

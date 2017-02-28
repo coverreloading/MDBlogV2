@@ -5,6 +5,8 @@ package com.mdblog.controller;
 import com.mdblog.common.utils.JsonUtils;
 import com.mdblog.po.ResponResult;
 import com.mdblog.po.User;
+import com.mdblog.po.UserInfo;
+import com.mdblog.service.UserInfoService;
 import com.mdblog.service.UserService;
 import com.mdblog.common.utils.ExceptionUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +33,8 @@ public class UserCtrl {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 校验是否已经存在email
