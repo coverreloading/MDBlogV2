@@ -133,7 +133,7 @@
                         </div>
                     </ul>
                     <!-- 文章列表模块 -->
-                    <button class="btn btn-success" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
+                    <button class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
                 </div>
             </div>
         </div>

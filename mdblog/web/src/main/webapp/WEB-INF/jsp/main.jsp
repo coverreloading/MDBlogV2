@@ -9,7 +9,7 @@
 <!DOCTYPE HTML>
 <html style="overflow-y: hidden; ">
 <head>
-    <title>Home</title>
+    <title>写文章-MdBlog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="${request.getContextPath()}/css/style.css" rel='stylesheet' type='text/css'/>

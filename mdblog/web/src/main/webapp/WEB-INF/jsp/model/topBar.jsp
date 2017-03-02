@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<nav id="top-bar" style="background-color: #3f3f3f;width:70%;height: 55px; float: left;position: absolute;right: 0px;">
+<nav id="top-bar" style="background-color: #3f3f3f;width:70%;height: 55px; float: left;position: fixed;right: 0px;z-index: 9999">
     <%--搜索框--%>
     <ul class="nav navbar-nav">
         <li class="search">
@@ -49,8 +49,8 @@
                         <i class="iconfont ic-navigation-mark"></i><span>收藏的文章</span>
                     </a></li>
                 <li>
-                    <a href="/users/8814489783cd/liked_notes">
-                        <i class="iconfont ic-navigation-like"></i><span>喜欢的文章</span>
+                    <a href="/follow/">
+                        <i class="iconfont ic-navigation-like"></i><span>关注的用户</span>
                     </a></li>
                 <li>
                     <a href="/uinfo/userinfo">
@@ -61,7 +61,7 @@
                         <i class="iconfont ic-navigation-feedback"></i><span>帮助与反馈</span>
                     </a></li>
                 <li>
-                    <a rel="nofollow" data-method="delete" href="/sign_out">
+                    <a rel="nofollow" data-method="delete" href="/user/logout">
                         <i class="iconfont ic-navigation-signout"></i><span>退出</span>
                     </a></li>
             </ul>

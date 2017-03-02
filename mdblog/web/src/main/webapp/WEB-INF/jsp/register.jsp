@@ -8,15 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <title>注册-MdBlog</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${request.getContextPath()}/css/bootstrap.min.css">
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <script src="${request.getContextPath()}/js/bootstrap.min.js"></script>
     <script src="${request.getContextPath()}/js/angular.min.js"></script>
-    <%-- sweetalert --%>
+<%-- sweetalert --%>
     <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
-    <title>MD Blog 注册</title>
 </head>
 <body>
 <div ng-app="registApp" ng-controller="resgistCtrl" class="well"

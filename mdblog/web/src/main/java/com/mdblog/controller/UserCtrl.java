@@ -3,6 +3,7 @@ package com.mdblog.controller;
 
 
 import com.mdblog.common.utils.JsonUtils;
+import com.mdblog.po.JedisClient;
 import com.mdblog.po.ResponResult;
 import com.mdblog.po.User;
 import com.mdblog.po.UserInfo;
@@ -10,6 +11,7 @@ import com.mdblog.service.UserInfoService;
 import com.mdblog.service.UserService;
 import com.mdblog.common.utils.ExceptionUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.ognl.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by Vincent on 16/10/13.
@@ -35,6 +38,8 @@ public class UserCtrl {
     private UserService userService;
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private JedisClient jedisClient;
 
     /**
      * 校验是否已经存在email
@@ -156,5 +161,14 @@ public class UserCtrl {
             e.printStackTrace();
             return ResponResult.build(500, ExceptionUtil.getStackTrace(e));
         }
+    }
+
+    // 注销
+    @RequestMapping(value="/logout")
+    public String logout(HttpSession session) throws Exception{
+        jedisClient.del(String.valueOf(session.getAttribute("token")));
+        //清除Session
+        session.invalidate();
+        return "index";
     }
 }

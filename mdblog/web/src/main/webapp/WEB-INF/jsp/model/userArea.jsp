@@ -84,8 +84,8 @@
                                     </a>
                                     <div class="name">
                                         <a class="blue-link" target="_blank"
-                                           href="/u/e832b926acf9">${uif.uiNickname}</a>
-                                        <span class="time" data-shared-at="2017-02-25T10:55:53+08:00">{{ x.raCreatetime | date:'yyyy-MM-dd' }} {{ x.raCreatetime | date:'HH:mm:ss' }}</span>
+                                           href="/u/{{x.raUid}}">${uif.uiNickname}</a>
+                                        <span class="time" data-shared-at="">{{ x.raCreatetime | date:'yyyy-MM-dd' }} {{ x.raCreatetime | date:'HH:mm:ss' }}</span>
                                     </div>
                                 </div>
                                 <a class="title" target="_blank" href="/a/{{x.raId}}">{{x.raTitle}}</a>
@@ -102,7 +102,7 @@
                             </div>
                         </li>
                     </div>
-                    <button class="btn btn-success" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
+                    <button class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
                 </ul>
 
             </div>

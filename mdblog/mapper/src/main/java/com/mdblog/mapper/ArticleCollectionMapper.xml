@@ -1,107 +1,109 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.mdblog.mapper.ArticleCollectionMapper" >
-  <resultMap id="BaseResultMap" type="com.mdblog.po.ArticleCollection" >
-    <id column="AC_ID" property="acId" jdbcType="BIGINT" />
-    <result column="AC_UID" property="acUid" jdbcType="BIGINT" />
-    <result column="AC_RA_ID" property="acRaId" jdbcType="BIGINT" />
-    <result column="AC_RA_Title" property="acRaTitle" jdbcType="CHAR" />
-    <result column="AC_Createtime" property="acCreatetime" jdbcType="BIGINT" />
-    <result column="AC_Updatetime" property="acUpdatetime" jdbcType="BIGINT" />
-    <result column="AC_Del" property="acDel" jdbcType="INTEGER" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+<mapper namespace="com.mdblog.mapper.ArticleCollectionMapper">
+    <resultMap id="BaseResultMap" type="com.mdblog.po.ArticleCollection">
+        <id column="AC_ID" property="acId" jdbcType="BIGINT"/>
+        <result column="AC_UID" property="acUid" jdbcType="BIGINT"/>
+        <result column="AC_RA_ID" property="acRaId" jdbcType="BIGINT"/>
+        <result column="AC_RA_Title" property="acRaTitle" jdbcType="CHAR"/>
+        <result column="AC_Createtime" property="acCreatetime" jdbcType="BIGINT"/>
+        <result column="AC_Updatetime" property="acUpdatetime" jdbcType="BIGINT"/>
+        <result column="AC_Del" property="acDel" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
     AC_ID, AC_UID, AC_RA_ID, AC_RA_Title, AC_Createtime, AC_Updatetime, AC_Del
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ArticleCollectionExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from article_collection
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from article_collection
-    where AC_ID = #{acId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.ArticleCollectionExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from article_collection
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from article_collection
+        where AC_ID = #{acId,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from article_collection
     where AC_ID = #{acId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.mdblog.po.ArticleCollectionExample" >
-    delete from article_collection
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.mdblog.po.ArticleCollection" >
+    <delete id="deleteByExample" parameterType="com.mdblog.po.ArticleCollectionExample">
+        delete from article_collection
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.mdblog.po.ArticleCollection">
     insert into article_collection (AC_ID, AC_UID, AC_RA_ID, 
       AC_RA_Title, AC_Createtime, AC_Updatetime, 
       AC_Del)
@@ -109,128 +111,128 @@
       #{acRaTitle,jdbcType=CHAR}, #{acCreatetime,jdbcType=BIGINT}, #{acUpdatetime,jdbcType=BIGINT}, 
       #{acDel,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.mdblog.po.ArticleCollection" >
-    insert into article_collection
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="acId != null" >
-        AC_ID,
-      </if>
-      <if test="acUid != null" >
-        AC_UID,
-      </if>
-      <if test="acRaId != null" >
-        AC_RA_ID,
-      </if>
-      <if test="acRaTitle != null" >
-        AC_RA_Title,
-      </if>
-      <if test="acCreatetime != null" >
-        AC_Createtime,
-      </if>
-      <if test="acUpdatetime != null" >
-        AC_Updatetime,
-      </if>
-      <if test="acDel != null" >
-        AC_Del,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="acId != null" >
-        #{acId,jdbcType=BIGINT},
-      </if>
-      <if test="acUid != null" >
-        #{acUid,jdbcType=BIGINT},
-      </if>
-      <if test="acRaId != null" >
-        #{acRaId,jdbcType=BIGINT},
-      </if>
-      <if test="acRaTitle != null" >
-        #{acRaTitle,jdbcType=CHAR},
-      </if>
-      <if test="acCreatetime != null" >
-        #{acCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="acUpdatetime != null" >
-        #{acUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="acDel != null" >
-        #{acDel,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.mdblog.po.ArticleCollectionExample" resultType="java.lang.Integer" >
-    select count(*) from article_collection
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update article_collection
-    <set >
-      <if test="record.acId != null" >
-        AC_ID = #{record.acId,jdbcType=BIGINT},
-      </if>
-      <if test="record.acUid != null" >
+    <insert id="insertSelective" parameterType="com.mdblog.po.ArticleCollection">
+        insert into article_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="acId != null">
+                AC_ID,
+            </if>
+            <if test="acUid != null">
+                AC_UID,
+            </if>
+            <if test="acRaId != null">
+                AC_RA_ID,
+            </if>
+            <if test="acRaTitle != null">
+                AC_RA_Title,
+            </if>
+            <if test="acCreatetime != null">
+                AC_Createtime,
+            </if>
+            <if test="acUpdatetime != null">
+                AC_Updatetime,
+            </if>
+            <if test="acDel != null">
+                AC_Del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="acId != null">
+                #{acId,jdbcType=BIGINT},
+            </if>
+            <if test="acUid != null">
+                #{acUid,jdbcType=BIGINT},
+            </if>
+            <if test="acRaId != null">
+                #{acRaId,jdbcType=BIGINT},
+            </if>
+            <if test="acRaTitle != null">
+                #{acRaTitle,jdbcType=CHAR},
+            </if>
+            <if test="acCreatetime != null">
+                #{acCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="acUpdatetime != null">
+                #{acUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="acDel != null">
+                #{acDel,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.mdblog.po.ArticleCollectionExample" resultType="java.lang.Integer">
+        select count(*) from article_collection
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update article_collection
+        <set>
+            <if test="record.acId != null">
+                AC_ID = #{record.acId,jdbcType=BIGINT},
+            </if>
+            <if test="record.acUid != null">
+                AC_UID = #{record.acUid,jdbcType=BIGINT},
+            </if>
+            <if test="record.acRaId != null">
+                AC_RA_ID = #{record.acRaId,jdbcType=BIGINT},
+            </if>
+            <if test="record.acRaTitle != null">
+                AC_RA_Title = #{record.acRaTitle,jdbcType=CHAR},
+            </if>
+            <if test="record.acCreatetime != null">
+                AC_Createtime = #{record.acCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="record.acUpdatetime != null">
+                AC_Updatetime = #{record.acUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="record.acDel != null">
+                AC_Del = #{record.acDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update article_collection
+        set AC_ID = #{record.acId,jdbcType=BIGINT},
         AC_UID = #{record.acUid,jdbcType=BIGINT},
-      </if>
-      <if test="record.acRaId != null" >
         AC_RA_ID = #{record.acRaId,jdbcType=BIGINT},
-      </if>
-      <if test="record.acRaTitle != null" >
         AC_RA_Title = #{record.acRaTitle,jdbcType=CHAR},
-      </if>
-      <if test="record.acCreatetime != null" >
         AC_Createtime = #{record.acCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="record.acUpdatetime != null" >
         AC_Updatetime = #{record.acUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="record.acDel != null" >
-        AC_Del = #{record.acDel,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update article_collection
-    set AC_ID = #{record.acId,jdbcType=BIGINT},
-      AC_UID = #{record.acUid,jdbcType=BIGINT},
-      AC_RA_ID = #{record.acRaId,jdbcType=BIGINT},
-      AC_RA_Title = #{record.acRaTitle,jdbcType=CHAR},
-      AC_Createtime = #{record.acCreatetime,jdbcType=BIGINT},
-      AC_Updatetime = #{record.acUpdatetime,jdbcType=BIGINT},
-      AC_Del = #{record.acDel,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.ArticleCollection" >
-    update article_collection
-    <set >
-      <if test="acUid != null" >
-        AC_UID = #{acUid,jdbcType=BIGINT},
-      </if>
-      <if test="acRaId != null" >
-        AC_RA_ID = #{acRaId,jdbcType=BIGINT},
-      </if>
-      <if test="acRaTitle != null" >
-        AC_RA_Title = #{acRaTitle,jdbcType=CHAR},
-      </if>
-      <if test="acCreatetime != null" >
-        AC_Createtime = #{acCreatetime,jdbcType=BIGINT},
-      </if>
-      <if test="acUpdatetime != null" >
-        AC_Updatetime = #{acUpdatetime,jdbcType=BIGINT},
-      </if>
-      <if test="acDel != null" >
-        AC_Del = #{acDel,jdbcType=INTEGER},
-      </if>
-    </set>
-    where AC_ID = #{acId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.ArticleCollection" >
+        AC_Del = #{record.acDel,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.ArticleCollection">
+        update article_collection
+        <set>
+            <if test="acUid != null">
+                AC_UID = #{acUid,jdbcType=BIGINT},
+            </if>
+            <if test="acRaId != null">
+                AC_RA_ID = #{acRaId,jdbcType=BIGINT},
+            </if>
+            <if test="acRaTitle != null">
+                AC_RA_Title = #{acRaTitle,jdbcType=CHAR},
+            </if>
+            <if test="acCreatetime != null">
+                AC_Createtime = #{acCreatetime,jdbcType=BIGINT},
+            </if>
+            <if test="acUpdatetime != null">
+                AC_Updatetime = #{acUpdatetime,jdbcType=BIGINT},
+            </if>
+            <if test="acDel != null">
+                AC_Del = #{acDel,jdbcType=INTEGER},
+            </if>
+        </set>
+        where AC_ID = #{acId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.mdblog.po.ArticleCollection">
     update article_collection
     set AC_UID = #{acUid,jdbcType=BIGINT},
       AC_RA_ID = #{acRaId,jdbcType=BIGINT},
@@ -240,4 +242,13 @@
       AC_Del = #{acDel,jdbcType=INTEGER}
     where AC_ID = #{acId,jdbcType=BIGINT}
   </update>
+
+    <select id="getBookmark" parameterType="Long" resultType="java.lang.Long">
+        SELECT
+        AC_RA_ID
+        FROM article_collection
+        WHERE AC_UID = #{uid,jdbcType=BIGINT}
+        ORDER BY AC_Createtime DESC
+        limit #{page,jdbcType=BIGINT},#{num,jdbcType=BIGINT}
+    </select>
 </mapper>

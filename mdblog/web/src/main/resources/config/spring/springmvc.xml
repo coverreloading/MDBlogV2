@@ -49,6 +49,21 @@
     <!-- multipartresolver -->
 
 
+    <mvc:interceptors>
+        <!-- 多个拦截器，顺序执行 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/article/**"/>
+            <mvc:mapping path="/bookmarks/**"/>
+            <mvc:mapping path="/file/**"/>
+            <mvc:mapping path="/follow/**"/>
+            <mvc:mapping path="/pic/**"/>
+            <mvc:mapping path="/RA/**"/>
+            <!--特殊指定-->
+            <mvc:mapping path="/userinfo/update/**"/>
+
+            <bean class="com.mdblog.interceptor.LoginInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 资源映射 -->
     <mvc:resources location="/css/" mapping="css/**"/>

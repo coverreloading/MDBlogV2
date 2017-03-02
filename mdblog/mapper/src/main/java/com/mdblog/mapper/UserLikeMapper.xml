@@ -235,4 +235,16 @@
     AND
     Ul_UID2=#{uid2,jdbcType=BIGINT}
   </select>
+
+  <select id="getFollowList" parameterType="Long" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    user_like
+    WHERE
+    UL_UID = #{uid,jdbcType=BIGINT}
+    ORDER BY
+    UL_Createtime
+    DESC
+  </select>
 </mapper>

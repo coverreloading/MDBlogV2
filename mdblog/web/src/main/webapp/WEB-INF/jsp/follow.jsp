@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: loadi
-  Date: 2016/11/8
-  Time: 17:00
+  Date: 2017/3/1
+  Time: 21:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -10,34 +10,40 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>个人信息-MdBlog</title>
+
+    <title id="page-title">关注-MdBlog</title>
+
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <%--<link href="${request.getContextPath()}/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>--%>
-    <%--<script src="${request.getContextPath()}/js/bootstrap.min.js"></script>--%>
-    <script src="${request.getContextPath()}/js/angular.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-index.css">
-    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
+    <script src="${request.getContextPath()}/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="${request.getContextPath()}/layui/css/layui.css">
     <script src="${request.getContextPath()}/layui/layui.js"></script>
     <script src="${request.getContextPath()}/layui/lay/dest/layui.all.js"></script>
     <%-- sweetalert --%>
     <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
+    <script src="${request.getContextPath()}/js/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
-    <%--页面Js文件的引用--%>
-
-</head>
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/mymdstyle.css">
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base-read-mode.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-follow.css">
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/normalize.scss">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/overwrite.scss">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/scaffolding.scss">--%>
+<%--</head>--%>
 <body>
 <div style="position: relative;">
     <jsp:include page="model/leftBar1.jsp"/>
     <jsp:include page="model/leftBar2.jsp"/>
     <jsp:include page="model/topBar.jsp"/>
     <div id="main-bar" style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
-        <jsp:include page="model/userInfoArea.jsp"/>
+        <jsp:include page="model/followArea.jsp"/>
     </div>
 </div>
 </body>
 </html>
-</body>
 <script>
     $(document).ready(function () {
         var winowHeight = document.body.clientHeight;
@@ -48,5 +54,3 @@
 //        $("#main-bar").css("height", winowHeight - 55);
     });
 </script>
-
-</html>

@@ -1,0 +1,306 @@
+/*
+ * 复写
+*/
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  padding-top: 56px;
+  min-width: 768px;
+  color: $grayCommom;
+  font-family: $blackFontFamily;
+  font-size: 17px;
+}
+a {
+  color: $grayCommom;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    color: $grayCommomHover;
+    text-decoration: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+ul {
+  padding-left: 0;
+}
+li {
+  line-height: 20px;
+}
+form {
+  margin: 0 0 20px;
+}
+input:focus {
+  outline: none;
+  box-shadow: none;
+}
+// button
+.btn {
+  &,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: none;
+    }
+  }
+  &:active,
+  &.active {
+    @include box-shadow(none);
+  }
+}
+.btn-default {
+  border-radius: 40px;
+  @include jianshu-button-variant($btn-default-color, $btn-default-bg, $btn-default-border, $grayE6, 0, 3%, 0, 3%);
+}
+.btn-success {
+  border-radius: 40px;
+  @include jianshu-button-variant($btn-success-color, $btn-success-bg, $btn-success-border, $greenCommomHover, 0, 17%, 0, 25%);
+}
+.btn-hollow, .btn-delete, .btn-gray {
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: normal;
+  border-radius: 40px;
+  background: none;
+}
+.btn-hollow {
+  border: 1px solid rgba(59,194,29,0.7);
+  color: $greenCommom !important;
+  &:hover, &:focus {
+    border: 1px solid $greenCommom;
+    color: $greenCommom !important;
+    background-color: rgba(59,194,29,0.05);
+  }
+}
+.btn-delete {
+  border: 1px solid rgba(236,97,73,0.7);
+  color: $redCommom !important;
+  &:hover, &:focus {
+    border: 1px solid $redCommom;
+    color: $redCommom !important;
+    background-color: rgba(236,97,73,0.05);
+  }
+}
+.btn-gray {
+  border: 1px solid rgba(150,150,150,0.7);
+  color: $graySubmenu !important;
+  &:hover, &:focus {
+    border: 1px solid $graySubmenu;
+    color: $graySubmenu !important;
+    background-color: rgba(150,150,150,0.05);
+  }
+}
+// navbar
+.navbar-default {
+  background-color: $white;
+  border-color: $grayBorderLighter;
+  .navbar-nav {
+    > li > a {
+      color: $grayCommom;
+      &:hover,
+      &:focus {
+        background-color: $grayF5;
+      }
+    }
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: $redCommom;
+        background: none;
+      }
+    }
+  }
+}
+.navbar-nav {
+  > .open > a {
+    &,
+    &:hover,
+    &:focus {
+      background-color: $grayF5 !important;
+    }
+  }
+}
+// dropdown
+.dropdown-menu {
+  margin-top: 0;
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+  -webkit-filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+}
+.arrow-top:before, .arrow-top:after {
+  position: absolute;
+  top: -10px;
+  left: 45%;
+  content: '';
+  display: inline-block;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+.arrow-top:after {
+  top: -9px;
+  border-bottom: 9px solid $white;
+}
+.arrow-left:before, .arrow-left:after {
+  position: absolute;
+  top: 39%;
+  left: -10px;
+  content: '';
+  display: inline-block;
+  border-left: 9px solid transparent;
+  border-top: 9px solid transparent;
+  border-bottom: 9px solid transparent;
+}
+.arrow-left:after {
+  left: -18px;
+  border-right: 9px solid $white;
+}
+.dropdown-submenu {
+  position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top:0;
+  right:100%;
+  margin-top:-6px;
+  margin-right:-335px;
+  border-radius:4px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display:block;
+}
+.dropdown-submenu>a:after {
+  display:block;
+  content:" ";
+  float:right;
+  width:0;
+  height:0;
+  border-color:transparent;
+  border-style:solid;
+  border-width:5px 0 5px 5px;
+  border-left-color:$grayBorder;
+  margin-top:5px;
+  margin-right:-10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color:$white;
+}
+// carousel
+.carousel-indicators {
+  bottom: 0px;
+  margin-bottom: 3px;
+  li {
+    width: 7px;
+    height: 7px;
+    border: none;
+    background-color: $grayCommom;
+  }
+  .active {
+    width: 7px;
+    height: 7px;
+    margin: 1px;
+  }
+}
+.carousel-control.left {
+  background-image: none;
+  background-color: rgba(0,0,0,0.4);
+  height: 50px;
+  width: 40px;
+  top: 40%;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.carousel-control.right {
+  background-image: none;
+  background-color: rgba(0,0,0,0.4);
+  height: 50px;
+  width: 40px;
+  top: 40%;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+.ic-previous-s:before {
+  text-shadow: none;
+}
+.ic-next-s:before {
+  text-shadow: none;
+}
+// modal
+.modal-content {
+  overflow: hidden;
+  z-index: 9;
+}
+.modal-header {
+  padding: 20px;
+}
+.close {
+  font-weight: 200;
+  font-size: 26px;
+  outline: none;
+  text-shadow: none;
+}
+.modal-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: $grayCommom;
+}
+.modal-dialog {
+  margin-top: 86px;
+  width: 420px;
+}
+.modal-body {
+  padding: 0;
+  overflow: auto;
+}
+// badge
+.badge {
+  padding: 3px 6px;
+  font-size: 13px !important;
+  background-color: $redCommom;
+}
+// pagination
+.pagination {
+  margin: 60px 0;
+  text-align: center;
+  display: block;
+  li {
+    margin: 0 5px;
+    display: inline-block;
+  }
+  a {
+    font-size: 14px;
+    color: $graySubmenu !important;
+    border: 1px solid $grayDC;
+    border-radius: 4px;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  .active {
+    font-weight: bold;
+    border: none;
+    pointer-events: none;
+  }
+}
+// 媒体查询
+@media (min-width: 992px) {
+  .container {
+    width: 960px;
+  }
+}
+@media (max-width: 1080px) {
+  .container {
+    width: 750px;
+  }
+}
+
+
+/** WEBPACK FOOTER **
+ ** webpack:///app/frontend/stylesheets/web/overwrite.scss
+ **/

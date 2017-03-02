@@ -10,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title id="page-title">文章</title>
+    <title id="page-title">文章-MdBlog</title>
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <%--<link href="${request.getContextPath()}/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>--%>
     <script src="${request.getContextPath()}/js/bootstrap.min.js"></script>

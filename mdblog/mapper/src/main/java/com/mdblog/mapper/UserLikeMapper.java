@@ -32,5 +32,7 @@ public interface UserLikeMapper {
 
     // 确定是否存在该记录
     List<Long> checkExit(@Param("uid1")Long uid1,@Param("uid2")Long uid2);
-    // 删除
+
+    // 关注用户列表
+    List<UserLike> getFollowList(@Param("uid") Long uid);
 }

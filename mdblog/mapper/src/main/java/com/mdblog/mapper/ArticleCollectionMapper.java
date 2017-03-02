@@ -2,7 +2,9 @@ package com.mdblog.mapper;
 
 import com.mdblog.po.ArticleCollection;
 import com.mdblog.po.ArticleCollectionExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface ArticleCollectionMapper {
@@ -27,4 +29,7 @@ public interface ArticleCollectionMapper {
     int updateByPrimaryKeySelective(ArticleCollection record);
 
     int updateByPrimaryKey(ArticleCollection record);
+
+    // 获取收藏夹
+    List<Long> getBookmark(@Param("uid") Long uid, @Param("page") Long page, @Param("num") Long num);
 }

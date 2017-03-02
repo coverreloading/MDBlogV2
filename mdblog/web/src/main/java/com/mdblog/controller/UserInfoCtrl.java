@@ -36,6 +36,20 @@ public class UserInfoCtrl {
         return userInfoService.getUserInfoByToken(token);
     }
 
+    // 访问其他用户页面
+    @RequestMapping(value = "/u/{uid}")
+    public String showUserInfoByUid(@PathVariable Long uid, Model model) {
+        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
+        return "user";
+    }
+
+    // 获取用户信息,关注用户页面用
+    @RequestMapping(value = "/u")
+    @ResponseBody
+    public ResponResult getUserInfoByUid(Long uid) {
+        return ResponResult.ok(userInfoService.getUserInfoByUid(uid));
+    }
+
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
     public ResponResult updateUInfo(String token, UserInfo userInfo, @RequestParam(value = "uiBirth-str") String birstr) throws ParseException {
@@ -48,12 +62,5 @@ public class UserInfoCtrl {
         ResponResult result = userInfoService.updateUserInfo(token, userInfo);
         System.out.println("更新结束");
         return result;
-    }
-
-    // 访问其他用户页面
-    @RequestMapping(value = "/u/{uid}")
-    public String getUserInfoByUid(@PathVariable Long uid, Model model) {
-        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
-        return "user";
     }
 }

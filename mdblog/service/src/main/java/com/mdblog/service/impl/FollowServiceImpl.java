@@ -43,6 +43,8 @@ public class FollowServiceImpl implements FollowService{
         return ResponResult.ok();
     }
 
+
+
     /**
      * 添加关注
      * @param token
@@ -85,14 +87,12 @@ public class FollowServiceImpl implements FollowService{
      */
     @Override
     public ResponResult removeFollow(String token, Long uid) {
-        UserLike userLike = new UserLike();
-
         Long id = userService.getUserIdByToken(token);
         if (id == -1) {
             return ResponResult.build(400, "重新登陆");
         }
-        List<Long> list = userLikeMapper.checkExit(id, uid);
         // 需先查找数据库确定是否已有对应数据,防止重复插入
+        List<Long> list = userLikeMapper.checkExit(id, uid);
         if (list.size()==0) {
             System.out.println("没有对应数据可以删除");
             return ResponResult.build(400, "还没关注");
@@ -103,5 +103,28 @@ public class FollowServiceImpl implements FollowService{
             return ResponResult.build(500,com.mdblog.common.utils.ExceptionUtil.getStackTrace(e));
         }
         return ResponResult.ok();
+    }
+
+
+    /**
+     * 获取关注用户列表
+     * @param token
+     * @param uid
+     * @return
+     */
+    @Override
+    public ResponResult getFollowList(String token) {
+        Long id = userService.getUserIdByToken(token);
+        if (id == -1) {
+            return ResponResult.build(400, "重新登陆");
+        }
+        try {
+            List<UserLike> list = userLikeMapper.getFollowList(id);
+
+            return ResponResult.ok(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponResult.build(500,"boommm");
+        }
     }
 }

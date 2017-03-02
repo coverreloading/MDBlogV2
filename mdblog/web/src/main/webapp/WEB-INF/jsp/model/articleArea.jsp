@@ -6,109 +6,139 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script>
+    $(document).ready(function () {
+        var uid = 0;
+//                  异步获取文章信息,展示
+        $.get(window.location.href + "/getall", function (data) {
+            var obj = new Function("return" + data)();
+            if (obj.status == 200) {
+                $("#ra-title,#page-title").html(obj.data.releaseArticle.raTitle);
+                $("#ra-text").html(obj.data.releaseArticle.raText);
+                $("#ra-like").html("点赞" + obj.data.releaseArticle.raLike);
+                $("#ra-read").html("阅读" + obj.data.releaseArticle.raRead);
+                $("#ra-createtime").html($.myTime.UnixToDate(obj.data.releaseArticle.raCreatetime));
+                $(".ui-uipic").attr("src", obj.data.userInfo.uiPic);
+                $(".ui-uiname").html(obj.data.userInfo.uiNickname);
+                uid = obj.data.userInfo.uiUid;
+            }
+        });
+        // 关注按钮
+        $(".following").hide();
+        $(".follow").hide();
+        // 收藏按钮
+        $("#ic-mark-active").hide();
+        $("#ic-mark").hide();
+
+        var a = window.location.href.split("/");
+        aid = a[a.length - 1];
+        // 检查是否已登录
+        setTimeout(function checkExit() {
+            if ("${token}" == "") {
+                console.log("未登陆");
+            } else {
+                // 检查是否已关注
+                $.post("/follow/checkExit",
+                        {
+                            token: "${token}",
+                            uid: uid
+                        },
+                        function (data) {
+                            var obj = new Function("return" + data)();
+                            if (obj.status == 401) {
+//                                            alert(obj.msg);
+                                $(".following").show(200);
+                            }
+                            else {
+                                $(".follow").show(200);
+                            }
+                        });
+                // 检查是否已收藏文章
+                $.post("/bookmarks/check",
+                        {
+                            token: "${token}",
+                            aid: aid
+                        },
+                        function (data) {
+                            var obj = new Function("return" + data)();
+                            if (obj.status == 200) {
+                                $("#ic-mark-active").show();
+                            }else{
+                                $("#ic-mark").show();
+                            }
+                        }
+                );
+            }
+        }, 300);
+        // 关注
+        $(".follow").click(function () {
+            <%--if ("${token}" == "") {--%>
+            <%--swal("还没有登陆", "请登录", "error");--%>
+            <%--$window.location.href = '/login';--%>
+            <%--}--%>
+            $.post("/follow/add",
+                    {
+                        token: "${token}",
+                        uid: uid
+                    },
+                    function (data) {
+                        $(".follow").hide(200);
+                        $(".following").show(200);
+                    });
+        });
+        $(".following").click(function () {
+            <%--if ("${token}" == "") {--%>
+            <%--swal("还没有登陆", "请登录", "error");--%>
+            <%--$window.location.href = '/login';--%>
+            <%--}--%>
+            $.post("/follow/remove",
+                    {
+                        token: "${token}",
+                        uid: uid
+                    },
+                    function (data) {
+                        $(".following").hide(200);
+                        $(".follow").show(200);
+                    });
+        });
+        // 收藏
+        $("#ic-mark").click(function () {
+            $.post("/bookmarks/add",
+                    {
+                        token: "${token}",
+                        aid: aid
+                    },
+                    function (data) {
+                        var obj = new Function("return" + data)();
+                        if (obj.status == 200) {
+                            $("#ic-mark").hide();
+                            $("#ic-mark-active").show();
+                        }
+                    }
+            );
+        });
+        $("#ic-mark-active").click(function () {
+            $.post("/bookmarks/del",
+                    {
+                        token: "${token}",
+                        aid: aid
+                    },
+                    function (data) {
+                        var obj = new Function("return" + data)();
+                        if (obj.status == 200) {
+                            $("#ic-mark-active").hide();
+                            $("#ic-mark").show();
+                        }
+                    }
+            );
+        });
+    })
+
+</script>
 <div id="main-bar" style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
     <div id="article-area" style="width:90%; position: absolute; left: 5%;">
         <div>
             <script src="/js/lib/utils.js" type="text/javascript"></script>
-            <script>
-                $(document).ready(function () {
-                    var uid = 0;
-//                  异步获取文章信息,展示
-                    $.get(window.location.href + "/getall", function (data) {
-                        var obj = new Function("return" + data)();
-                        if (obj.status == 200) {
-                            $("#ra-title,#page-title").html(obj.data.releaseArticle.raTitle);
-                            $("#ra-text").html(obj.data.releaseArticle.raText);
-                            $("#ra-like").html("点赞" + obj.data.releaseArticle.raLike);
-                            $("#ra-read").html("阅读" + obj.data.releaseArticle.raRead);
-                            $("#ra-createtime").html($.myTime.UnixToDate(obj.data.releaseArticle.raCreatetime));
-                            $(".ui-uipic").attr("src", obj.data.userInfo.uiPic);
-                            $(".ui-uiname").html(obj.data.userInfo.uiNickname);
-                            uid = obj.data.userInfo.uiUid;
-                        }
-                    });
-                    $(".following").hide();
-                    $(".follow").hide();
-
-                    setTimeout(function checkExit(){
-                        if ("${token}" == "") {
-                            console.log("未登陆");
-                        } else {
-                            $.post("/follow/checkExit",
-                                    {
-                                        token: "${token}",
-                                        uid: uid
-                                    },
-                                    function (data) {
-                                        var obj = new Function("return" + data)();
-                                        if (obj.status == 401) {
-//                                            alert(obj.msg);
-                                            $(".following").show(200);
-                                        }
-                                        else {
-                                            $(".follow").show(200);
-                                        }
-                                    });
-                        }
-                    }, 300);
-                    $(".follow").click(function () {
-                        if ("${token}" == "") {
-                            swal("还没有登陆", "请登录", "error");
-                            $window.location.href = '/login';
-                        }
-                        $.post("/follow/add",
-                                {
-                                    token: "${token}",
-                                    uid: uid
-                                },
-                                function (data) {
-                                    $(".follow").hide(200);
-                                    $(".following").show(200);
-                                });
-                    });
-                    $(".following").click(function () {
-                        if ("${token}" == "") {
-                            swal("还没有登陆", "请登录", "error");
-                            $window.location.href = '/login';
-                        }
-                        $.post("/follow/remove",
-                                {
-                                    token: "${token}",
-                                    uid: uid
-                                },
-                                function (data) {
-                                    $(".following").hide(200);
-                                    $(".follow").show(200);
-                                });
-                    });
-                })
-//                raLike 1
-//                raRead 1
-//                raTitle 1
-//                raCreatetime 1
-//                raUpdatetime
-//                raPic
-//                raSubjectId
-//                raText 1
-//                raUid
-//                msg
-//                status
-//                alert(obj.data.raText);
-
-//                userInfo
-
-//                uiUid; 1
-//                uiNickname; 1
-//                uiPic; 1
-//                uiDesc;
-//                uiSex;
-//                uiBirth;
-//                uiOccupation;
-//                uiLivePlace;
-//                uiCreatetime;
-//                uiDel;
-
-            </script>
             <div class="note">
                 <div class="post">
                     <div class="article">
@@ -162,7 +192,10 @@
                             <div class="info">
                                 <a class="avatar" href="">
                                     <img class="ui-uipic" src="" alt="">
-                                </a> <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+                                </a>
+                                <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+                                <a class="btn btn-default following"><i
+                                        class="iconfont ic-followed"></i><span>已关注</span></a>
                                 <a class="title ui-uiname" href=""></a>
                                 <p>写了 174713 字，被 316 人关注，获得了 289 个喜欢</p></div>
                         </div>
@@ -266,16 +299,22 @@
                                 data-original-title="回到顶部">
                                 <a href="#"><i class="iconfont ic-backtop"></i></a>
                             </li>
-                            <li data-placement="left" data-toggle="tooltip" data-container="body"
+                            <li hidden="hidden" data-placement="left" data-toggle="tooltip" data-container="body"
                                 data-original-title="将文章加入专题">
                                 <a class="js-add-to-collection">
                                     <i class="iconfont ic-addcollectionmodal"></i>
                                 </a>
                             </li>
-                            <li data-original-title="" title="">
-                                <a data-action="toggle-bookmark-note" href="javascript:void(null);">
+                            <li id="ic-mark" data-original-title="" title="">
+                                <a data-action="toggle-bookmark-note " href="javascript:void(null);">
                                     <i class="iconfont ic-mark"></i>
-                                </a></li>
+                                </a>
+                            </li>
+                            <li id="ic-mark-active" data-original-title="" title="">
+                                <a data-action="toggle-bookmark-note " href="javascript:void(null);">
+                                    <i class="iconfont ic-mark-active"></i>
+                                </a>
+                            </li>
                             <li data-share-note="" data-placement="left" data-toggle="tooltip" data-container="body"
                                 data-original-title="分享文章">
                                 <a tabindex="0" data-toggle="popover" data-placement="left" data-html="true"
@@ -299,3 +338,4 @@
             <br>
         </div>
     </div>
+</div>
