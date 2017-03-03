@@ -52,4 +52,7 @@ public interface ReleaseArticleMapper {
 
     // 获取指定用户文章
     List<ReleaseArticle> selectHotByUid(@Param("uid")Long uid, @Param("page") Long page, @Param("num") Long num);
+
+    // 获取指定专题文章
+    List<ReleaseArticle> selectListBySubid(@Param("subid") Long subid, @Param("page") Long page, @Param("num") Long num);
 }

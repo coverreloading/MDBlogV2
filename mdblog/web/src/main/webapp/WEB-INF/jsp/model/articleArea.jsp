@@ -8,21 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
     $(document).ready(function () {
-        var uid = 0;
-//                  异步获取文章信息,展示
-        $.get(window.location.href + "/getall", function (data) {
-            var obj = new Function("return" + data)();
-            if (obj.status == 200) {
-                $("#ra-title,#page-title").html(obj.data.releaseArticle.raTitle);
-                $("#ra-text").html(obj.data.releaseArticle.raText);
-                $("#ra-like").html("点赞" + obj.data.releaseArticle.raLike);
-                $("#ra-read").html("阅读" + obj.data.releaseArticle.raRead);
-                $("#ra-createtime").html($.myTime.UnixToDate(obj.data.releaseArticle.raCreatetime));
-                $(".ui-uipic").attr("src", obj.data.userInfo.uiPic);
-                $(".ui-uiname").html(obj.data.userInfo.uiNickname);
-                uid = obj.data.userInfo.uiUid;
-            }
-        });
         // 关注按钮
         $(".following").hide();
         $(".follow").hide();
@@ -41,7 +26,7 @@
                 $.post("/follow/checkExit",
                         {
                             token: "${token}",
-                            uid: uid
+                            uid: ${uif.uiUid}
                         },
                         function (data) {
                             var obj = new Function("return" + data)();
@@ -63,7 +48,7 @@
                             var obj = new Function("return" + data)();
                             if (obj.status == 200) {
                                 $("#ic-mark-active").show();
-                            }else{
+                            } else {
                                 $("#ic-mark").show();
                             }
                         }
@@ -79,7 +64,7 @@
             $.post("/follow/add",
                     {
                         token: "${token}",
-                        uid: uid
+                        uid: ${uif.uiUid}
                     },
                     function (data) {
                         $(".follow").hide(200);
@@ -94,7 +79,7 @@
             $.post("/follow/remove",
                     {
                         token: "${token}",
-                        uid: uid
+                        uid: ${uif.uiUid}
                     },
                     function (data) {
                         $(".following").hide(200);
@@ -134,34 +119,89 @@
         });
     })
 
+    var app = angular.module("articleApp", []);
+    app.controller("articleCtrl", function ($scope, $http) {
+        $('#dislikebtn').show();
+        $('#likebtn').hide();
+        $scope['incrLike'] = incrLikeFun = function (raId) {
+            $http({
+                url: "/RA/addlike",
+                method: 'POST',
+                params: {raId: raId},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                if (response.status == 200) {
+                    $scope.raLike += 1;
+                    $('#dislikebtn').hide();
+                    $('#likebtn').show();
+                }
+            });
+        };
+        $scope['decrLike'] = decrLikeFun = function (raId) {
+            $http({
+                url: "/RA/removelike",
+                method: 'POST',
+                params: {raId: raId},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (response) {
+                if (response.status == 200) {
+                    $('#dislikebtn').show();
+                    $('#likebtn').hide();
+                }
+            });
+        };
+
+        // todo 评论
+        // 默认加载10篇,按照最新的开始排
+        $scope.num = 10;
+        $http.post("" + $scope.num)
+                .success(function (response) {
+                    $scope.records = response.data;
+                    console.log($scope.records);
+                });
+        // 点击按钮添加更多文章每次加5篇
+        $scope['getmore'] = getmoreFun = function (num) {
+            $http.post("" + num + "/5")
+                    .success(function (response) {
+                        angular.forEach(response.data, function (data) {
+                            //data等价于array[index]
+                            $scope.records.push(data);
+                        });
+                        console.log($scope.records);
+                    });
+            $scope.num += 5;
+        }
+    });
 </script>
-<div id="main-bar" style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
+<div ng-app="articleApp" ng-controller="articleCtrl" id="main-bar"
+     style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
     <div id="article-area" style="width:90%; position: absolute; left: 5%;">
         <div>
             <script src="/js/lib/utils.js" type="text/javascript"></script>
             <div class="note">
                 <div class="post">
                     <div class="article">
-                        <h1 id="ra-title" class="title">简书</h1>
+                        <h1 class="title">${ra.raTitle}</h1>
 
                         <!-- 作者区域 -->
                         <div class="author">
                             <a class="avatar" href="">
-                                <img class="ui-uipic" src="" alt="">
+                                <img src="${uif.uiPic}" alt="">
                             </a>
                             <div class="info">
                                 <span class="tag">作者</span>
-                                <span class="name"><a class="ui-uiname" href=""></a></span>
+                                <span class="name"><a href="/uinfo/u/${uif.uiUid}">${uif.uiNickname}</a></span>
                                 <!-- 关注用户按钮 -->
                                 <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
                                 <a class="btn btn-default following"><i
                                         class="iconfont ic-followed"></i><span>已关注</span></a>
                                 <!-- 文章数据信息 -->
                                 <div class="meta">
-                                    <span id="ra-createtime" class="publish-time"></span>
+                                    <span class="publish-time">{{ ${ra.raCreatetime} | date:'yyyy-MM-dd' }} {{ ${ra.raCreatetime} | date:'HH:mm:ss' }}  </span>
                                     <%--<span class="wordage">字数 2830</span>--%>
-                                    <span id="ra-read" class="views-count"></span><span
-                                        class="comments-count">评论 1</span><span id="ra-like" class="likes-count"></span>
+                                    <span class="views-count">阅读 ${ra.raRead}</span>
+                                    <span hidden class="comments-count">评论 1</span>
+                                    <span class="likes-count">喜欢 ${ra.raLike}</span>
                                 </div>
                             </div>
                             <!-- 如果是当前作者，加入编辑按钮 -->
@@ -169,10 +209,9 @@
                         <!-- -->
 
                         <!-- 文章内容 -->
-                        <div id="ra-text" class="show-content">
-
+                        <div class="show-content">
+                            ${ra.raText}
                             <!--  -->
-
                             <div class="show-foot">
                                 <a class="notebook" href="/nb/135489">
                                     <i class="iconfont ic-search-notebook"></i> <span>日记本</span>
@@ -191,12 +230,12 @@
                         <div class="follow-detail">
                             <div class="info">
                                 <a class="avatar" href="">
-                                    <img class="ui-uipic" src="" alt="">
+                                    <img src="${uif.uiPic}" alt="">
                                 </a>
                                 <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
                                 <a class="btn btn-default following"><i
                                         class="iconfont ic-followed"></i><span>已关注</span></a>
-                                <a class="title ui-uiname" href=""></a>
+                                <a class="title ui-uiname" href="/uinfo/u/${uif.uiUid}">${uif.uiNickname}</a><
                                 <p>写了 174713 字，被 316 人关注，获得了 289 个喜欢</p></div>
                         </div>
 
@@ -205,10 +244,23 @@
 
                         <div class="meta-bottom">
                             <div class="like">
-                                <div class="btn like-group">
-                                    <div class="btn-like"><a><i class="iconfont ic-like"></i>喜欢</a></div>
-                                    <div class="modal-wrap"><a>9</a></div>
-                                </div> <!----></div>
+                                <div ng-click="incrLike('${ra.raId}')" id="dislikebtn" class="btn like-group">
+                                    <div class="btn-like">
+                                        <a ><i class="iconfont ic-like"></i>赞</a>
+                                    </div>
+                                    <div class="modal-wrap">
+                                        <a ng-model="raLike">${ra.raLike}</a>
+                                    </div>
+                                </div>
+                                <div ng-click="decrLike('${ra.raId}')" id="likebtn" class="btn like-group active">
+                                    <div class="btn-like">
+                                        <a ><i class="iconfont ic-like"></i>赞</a>
+                                    </div>
+                                    <div class="modal-wrap">
+                                        <a>${ra.raLike+1}</a>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="share-group">
                                 <a class="share-circle" data-action="weixin-share" data-toggle="tooltip"
                                    data-original-title="分享到微信">

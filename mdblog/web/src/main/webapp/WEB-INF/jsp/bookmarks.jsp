@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title id="page-title">收藏夹-MdBlog</title>
+    <title id="page-title">我的收藏夹-MdBlog</title>
 
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <%--<link href="${request.getContextPath()}/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>--%>
@@ -29,8 +29,6 @@
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-index.css">
-
-
 </head>
 <body>
 <div style="position: relative;">

@@ -19,13 +19,13 @@ import java.util.List;
  * Created by Vincent on 16/10/27.
  */
 @Controller
-@RequestMapping(value = "/RA")
+@RequestMapping("/RA")
 public class ReleaseArticleCtrl {
 
     @Autowired
     private ReleaseArticleService releaseArticleService;
 
-    @RequestMapping(value = "/new")
+    @RequestMapping("/new")
     @ResponseBody
     public ResponResult releaseNew(String token, Long articleId, String tipJson, String raSubjectJson, ReleaseArticle releaseArticle) {
         try {
@@ -40,4 +40,17 @@ public class ReleaseArticleCtrl {
             return ResponResult.build(500, ExceptionUtil.getStackTrace(e));
         }
     }
+
+    @RequestMapping("/addlike")
+    @ResponseBody
+    public ResponResult addLike(Long raId) {
+        return releaseArticleService.addLike(raId);
+    }
+
+    @RequestMapping("/removelike")
+    @ResponseBody
+    public ResponResult removeLike(Long raId) {
+        return releaseArticleService.removeLike(raId);
+    }
+
 }

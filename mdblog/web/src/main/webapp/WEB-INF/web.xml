@@ -48,6 +48,13 @@
     <url-pattern>*.ico</url-pattern>
   </servlet-mapping>
 
+
+  <!--自定义404-->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/WEB-INF/jsp/404.jsp</location>
+  </error-page>
+
   <!--<listener>-->
     <!--<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>-->
   <!--</listener>-->

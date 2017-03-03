@@ -26,3 +26,23 @@
         <span class="layui-nav-bar" style="top: 22.5px; height: 0px; opacity: 0;"></span></ul>
     <!--<button class="layui-btn layui-btn-normal" onclick="L_demoNav2.style.display='block'; L_demoNav2.className='layui-nav layui-nav-tree layui-nav-side';">显示侧边导航示例</button>-->
 </div>
+<script>
+    $("document").ready(function () {
+        if ("${token}" != "") {
+            $.post("/uinfo/uibtok/${token}", function (data) {
+                var obj = new Function("return" + data)();
+                console.log("已登录");
+//                console.log(obj.data);
+//                console.log(obj.data.uiPic);
+                $("#uipic").attr("src", obj.data.uiPic);
+
+            })
+            $(".un-log").hide();
+            $(".login-in").show();
+        } else {
+            console.log("尚未登录");
+            $(".un-log").show();
+            $(".login-in").hide();
+        }
+    })
+</script>

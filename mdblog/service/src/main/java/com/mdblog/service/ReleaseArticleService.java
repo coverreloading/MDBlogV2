@@ -8,4 +8,6 @@ import com.mdblog.po.ReleaseArticle;
  */
 public interface ReleaseArticleService {
     ResponResult addRA(String token, Long articleId, String tipJson, ReleaseArticle releaseArticle);
+    ResponResult addLike(Long raId);
+    ResponResult removeLike(Long raId);
 }

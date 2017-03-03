@@ -9,6 +9,7 @@ public interface JedisClient {
 	String hget(String hkey, String key);
 	long hset(String hkey, String key, String value);
 	long incr(String key);
+	long decr(String key);
 	long expire(String key, int second);
 	long ttl(String key);
 	long del(String key);

@@ -1,0 +1,387 @@
+@import '../variables';
+
+/*
+ * 专题详情页
+*/
+.collection .row{
+    padding-top: 30px;
+}
+.collection .main {
+    padding-right: 0;
+    .main-top {
+        margin-bottom: 35px;
+        .avatar-collection {
+            float: left;
+            width: 80px;
+            height: 80px;
+        }
+        .btn {
+            float: right;
+            margin: 23px 0 23px 16px;
+            font-size: 15px;
+        }
+        .btn-hollow {
+            padding: 8px 0;
+            width: 90px;
+        }
+        .disabled {
+            opacity: .5;
+            color: $greenCommom;
+        }
+        .follow, .following, .follow-cancel, .follow-each {
+            padding: 8px 0;
+            width: 100px;
+        }
+        .title {
+            padding: 10px 0 0 100px;
+        }
+        .title .name {
+            display: inline;
+            font-size: 21px;
+            font-weight: bold;
+            vertical-align: middle;
+            &:hover {
+                color: $grayCommomHover;
+            }
+        }
+        .ic-official {
+            margin-left: 5px;
+            font-size: 20px;
+            color: $yellowCommon;
+            vertical-align: middle;
+        }
+        .info {
+            margin-top: 10px;
+            padding-left: 100px;
+            font-size: 14px;
+            color: $graySubmenu;
+            a {
+                color: $graySubmenu;
+                &:hover {
+                    color: $grayCommomHover;
+                }
+            }
+        }
+    }
+}
+.contribute-modal, .follow-list {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -280px 0 0 -280px;
+        width: 560px;
+    }
+    .modal-header {
+        div {
+            margin: 20px 0 0 0;
+            position: relative;
+            .search-input {
+                padding: 0 40px 0 20px;
+                width: 100%;
+                height: 35px;
+                font-size: 14px;
+                background-color: rgba(180,180,180,0.2);
+                border: none;
+                border-radius: 40px;
+            }
+            .search-btn {
+                position: absolute;
+                top: 2px;
+                right: 6px;
+                width: 30px;
+                height: 30px;
+                color: $graySubmenu;
+                text-align: center;
+            }
+            .ic-search {
+                margin: 4px -1px 0 0;
+                display: block;
+            }
+        }
+    }
+    .modal-body {
+        padding: 0;
+        height: 460px;
+        overflow: auto;
+        ul {
+            margin: 0;
+            list-style: none;
+            .default {
+                padding-top: 200px;
+                font-size: 15px;
+                color: $grayText;
+                text-align: center;
+                a {
+                    color: $blueCommom;
+                }
+            }
+        }
+        li {
+            display: block !important;
+            position: relative;
+            padding: 20px 100px 20px 25px;
+            font-size: 15px;
+            border-bottom: 1px solid $grayE6;
+        }
+        .note-name {
+            display: inherit;
+            vertical-align: middle;
+            max-width: 85%;
+        }
+        .status {
+            font-size: 13px;
+            vertical-align: middle;
+        }
+        span.has-add, span.waiting, span.reject {
+            color: $graySubmenu;
+        }
+        .action-btn {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            margin-top: -12px;
+            padding: 2px 5px;
+            font-size: 13px;
+            border-radius: 3px;
+            line-height: normal;
+        }
+        .push, .repush {
+            color: $greenCommom;
+            border: 1px solid $greenCommom;
+            &:hover {
+                background-color: rgba(66,192,46,0.05);
+            }
+        }
+        .revoke {
+            color: $graySubmenu;
+            border: 1px solid $graySubmenu;
+            &:hover {
+                background-color: rgba(180,180,180,0.05);
+            }
+        }
+        .remove {
+            color: $redCommom;
+            border: 1px solid $redCommom;
+            &:hover {
+                background-color: rgba(236,97,73,0.05);
+            }
+        }
+    }
+    .modal-footer {
+        display: none;
+    }
+    .new-note-btn {
+        padding-left: 10px;
+        font-size: 13px;
+        font-weight: normal;
+        color: $greenCommom;
+        vertical-align: middle;
+    }
+}
+.collection .aside {
+    padding: 0;
+    a {
+        color: $blueCommom;
+        &:hover {
+            color: $blueCommomHover;
+        }
+    }
+    .title {
+        float: left;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: $graySubmenu;
+    }
+    .function-btn {
+        float: right;
+        font-size: 13px;
+        color: $graySubmenu;
+        &:hover {
+            color: $grayCommomHover;
+        }
+    }
+    .follow-list {
+        .modal-dialog {
+            width: 560px;
+        }
+        .modal-body {
+            height: 495px;
+            ul {
+                margin: 0;
+                list-style: none;
+            }
+            li {
+                padding: 15px;
+                border-bottom: 1px solid $grayBorderLighter;
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+            .avatar {
+                margin-right: 5px;
+                width: 32px;
+                height: 32px;
+                vertical-align: middle;
+                display: inline-block;
+            }
+            .name {
+                font-size: 15px;
+                color: $grayCommom;
+                vertical-align: middle;
+                display: inline-block;
+                &:hover {
+                    color: $grayCommomHover;
+                }
+            }
+            .follow-time {
+                float: right;
+                margin-top: 7px;
+                font-size: 12px;
+                color: $graySubmenu;
+            }
+        }
+    }
+    .description {
+        position: relative;
+        margin-bottom: 20px;
+        padding: 0 0 16px 0;
+        text-align: left;
+        font-size: 14px;
+        border-bottom: 1px solid $grayBorderLighter;
+        clear: both;
+        word-break: break-word;
+    }
+    .open {
+        color: $graySubmenu;
+        &:hover {
+            color: $grayCommomHover;
+        }
+        i {
+            margin-left: 4px;
+        }
+    }
+    .share {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid $grayBorderLighter;
+        line-height: 30px;
+        span {
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        a {
+            margin-left: 10px;
+            color: $grayCommom;
+            &:hover {
+                .ic-share-weibo {
+                    color: $weibo;
+                }
+                .ic-share-wechat {
+                    color: $weixin;
+                }
+            }
+        }
+        i {
+            font-size: 22px;
+            vertical-align: middle;
+        }
+    }
+    .list {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        list-style: none;
+        border-bottom: 1px solid $grayBorderLighter;
+        clear: both;
+    }
+    .list li {
+        margin-bottom: 10px;
+        a {
+            display: inline-block;
+        }
+    }
+    .check-more {
+        font-size: 14px;
+        line-height: normal;
+        color: $graySubmenu;
+        &:hover {
+            color: $grayCommomHover;
+        }
+        i {
+            margin-left: 4px;
+        }
+    }
+    .avatar, .avatar-collection {
+        margin-right: 5px;
+        width: 32px;
+        height: 32px;
+    }
+    .name {
+        position: relative;
+        max-width: 236px;
+        vertical-align: middle;
+        top: 1px;
+        font-size: 14px;
+        color: $grayCommom;
+        &:hover {
+            color: $grayCommomHover;
+        }
+    }
+    .tag {
+        padding: 1px 3px;
+        margin-left: 2px;
+        border-radius: 3px;
+        font-size: 12px;
+        color: $graySubmenu;
+        border: 1px solid $graySubmenu;
+    }
+    .list.collection-follower li {
+        display: inline-block;
+        &:first-child {
+            margin-left: -3px;
+        }
+        a {
+            margin-right: -10px;
+        }
+        img {
+            border: 3px solid $white;
+            background-color: $white;
+        }
+    }
+    .function-btn {
+        position: absolute;
+        margin-left: 3px;
+        width: 32px;
+        height: 32px;
+        border: 3px solid $white;
+        border-radius: 50%;
+        background-color: $grayBorderLighter;
+        color: $grayText;
+        text-align: center;
+        line-height: 2;
+        &:hover {
+            background-color: $grayBorder;
+        }
+    }
+    .user-action {
+        color: $graySubmenu;
+        a {
+            font-size: 13px;
+            color: $graySubmenu;
+            &:hover {
+                color: $grayCommomHover;
+            }
+        }
+    }
+}
+@media (max-width: 1080px) {
+    .collection .aside .name {
+        max-width: 176px;
+    }
+}
+
+
+
+/** WEBPACK FOOTER **
+ ** webpack:///stylesheets/app/frontend/stylesheets/web/page/collection.scss
+ **/

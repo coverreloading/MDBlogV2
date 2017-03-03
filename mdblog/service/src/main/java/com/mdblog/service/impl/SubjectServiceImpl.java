@@ -9,8 +9,6 @@ package com.mdblog.service.impl;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.beans.factory.annotation.Value;
         import org.springframework.stereotype.Service;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.ResponseBody;
 
         import java.util.List;
 
@@ -40,15 +38,18 @@ public class SubjectServiceImpl implements SubjectService {
         return ResponResult.ok(list);
     }
 
-    /**
-     * 根据id从redis中获取专题对象
+    /** 根据id从redis中获取专题对象
      * @return
      */
     @Override
-    public Subject getSubjectById(Integer SubId) {
+    public Subject getSubjectById(long SubId) {
         return JsonUtils.jsonToPojo(jedisClient.hget(SUBJECT_ITEM_Hash, String.valueOf(SubId)),Subject.class);
     }
 
+    /** 随机获取一定数量专题
+     * @param num 指定数量
+     * @return
+     */
     @Override
     public ResponResult getSubjectRand(Integer num) {
         return ResponResult.ok(subjectMapper.selectRand(num));

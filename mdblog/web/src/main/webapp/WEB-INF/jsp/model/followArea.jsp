@@ -31,8 +31,9 @@
                 </ul> <!----> <!----></div>
             <div class="col-xs-16 col-xs-offset-8 main">
                 <div>
-                    <ul class="note-list">
-                        <div ng-repeat="x in records" id="litop">
+                    <ul class="note-list" >
+                        <div id="litop"></div>
+                        <div ng-repeat="x in records">
                             <li class="have-img"><a href="" target="_blank" class="wrap-img">
                                 <img src="{{uif.uiPic}}"></a>
                                 <div class="content">
@@ -53,7 +54,7 @@
                                 </div>
                             </li>
                         </div>
-                        <a class="load-more" ng-click="getmore(num)">加载更多</a>
+                        <a class="load-more" ng-click="getmore(num,uid)">加载更多</a>
                     </ul> <!---->
                 </div>
             </div>
@@ -78,6 +79,7 @@
         $scope['getuif'] = getuifFun = function (uid) {
             // 初始化  默认加载5篇,按照最新的开始排
             $scope.num = 5;
+            $scope.uid = uid;
             //  获取用户文章
             $http({
                 url: "/uinfo/u",
@@ -102,9 +104,9 @@
         };
 
         // 点击按钮添加更多文章每次加5篇
-        $scope['getmore'] = getmoreFun = function (num) {
+        $scope['getmore'] = getmoreFun = function (num,uid) {
             $http({
-                url: "/bookmarks/" + num + "/5",
+                url: "/a/hot/" + uid +"/"+ num + "/5",
                 method: 'POST',
                 params: {token: '${token}'},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}

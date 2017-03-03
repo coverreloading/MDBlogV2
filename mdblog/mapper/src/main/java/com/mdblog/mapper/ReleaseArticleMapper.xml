@@ -448,7 +448,29 @@ select * from release_article order by RA_Read desc limit #{page,jdbcType=INTEGE
 </select>
 
 <select id="selectHotByUid" resultMap="BaseResultMap" parameterType="Long">
-select * from release_article WHERE RA_UID= #{uid,jdbcType=BIGINT} order by RA_Updatetime  desc limit #{page,jdbcType=BIGINT}, #{num,jdbcType=BIGINT};
+  SELECT
+  *
+  FROM
+  release_article
+  WHERE
+  RA_UID= #{uid,jdbcType=BIGINT}
+  ORDER BY
+  RA_Updatetime DESC
+  limit
+  #{page,jdbcType=BIGINT}, #{num,jdbcType=BIGINT};
 </select>
 
+
+<select id="selectListBySubid" resultMap="BaseResultMap" parameterType="Long">
+  SELECT
+  *
+  FROM
+  release_article
+  WHERE
+  RA_Subject_ID= #{subid,jdbcType=BIGINT}
+  ORDER BY
+  RA_Updatetime DESC
+  limit
+  #{page,jdbcType=BIGINT}, #{num,jdbcType=BIGINT};
+</select>
 </mapper>

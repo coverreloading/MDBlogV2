@@ -2,14 +2,17 @@ package com.mdblog.controller;
 
 import com.mdblog.po.ReleaseArticle;
 import com.mdblog.po.ResponResult;
+import com.mdblog.po.Subject;
 import com.mdblog.po.UserInfo;
 import com.mdblog.pojo.InfoRA;
 import com.mdblog.pojo.UserArticleComment;
 import com.mdblog.service.GetHotArticleService;
 import com.mdblog.service.ShowArticleService;
+import com.mdblog.service.SubjectService;
 import com.mdblog.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,22 +33,14 @@ public class ShowArticleCtrl {
     private UserInfoService userInfoService;
     @Autowired
     private GetHotArticleService getHotArticleService;
+    @Autowired
+    private SubjectService subjectService;
 
     @RequestMapping(value = "/articleArea")
     public String showArticleArea() {
         return "model/articleAreaold";
     }
 
-    /**
-     * 返回页面
-     *
-     * @param RaId
-     * @return
-     */
-    @RequestMapping(value = "/{RaId}")
-    public String showArticlePage(@PathVariable(value = "RaId") Long RaId) {
-        return "article";
-    }
 
     ///**
     // * @param request
@@ -134,27 +129,21 @@ public class ShowArticleCtrl {
      * @param RaId
      * @return
      */
-    @RequestMapping(value = "/{RaId}/getall")
-    @ResponseBody
-    public ResponResult getAll(@PathVariable(value = "RaId") Long RaId) {
+    @RequestMapping(value = "/{RaId}")
+    public String getAll(Model model, @PathVariable(value = "RaId") Long RaId) {
         try {
-            UserArticleComment userArticleComment = new UserArticleComment();
-
             ResponResult responResult = showArticleService.getRaByRaId(RaId);
             if (responResult.getStatus() == 404) {
-                return responResult;
+                return "404";
             }
             ReleaseArticle releaseArticle = (ReleaseArticle)responResult.getData();
+            model.addAttribute("ra", releaseArticle);
+            model.addAttribute("uif", userInfoService.getUserInfoByUid(releaseArticle.getRaUid()));
 
-            userArticleComment.setReleaseArticle(releaseArticle);
-            UserInfo userInfo = userInfoService.getUserInfoByUid(releaseArticle.getRaUid());
-            userArticleComment.setUserInfo(userInfo);
-            // TODO: 2017/2/10 Comment 未赋值
-            return ResponResult.ok(userArticleComment);
-
+            return "article";
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponResult.build(400, "wrong Id,no such article!");
+            return "404";
         }
     }
 
@@ -167,6 +156,7 @@ public class ShowArticleCtrl {
             InfoRA infoRA = new InfoRA();
             infoRA.setRa(ra);
             infoRA.setUi(userInfoService.getUserInfoByUid(ra.getRaUid()));
+            infoRA.setSub(subjectService.getSubjectById(ra.getRaSubjectId()));
             list.add(infoRA);
         }
         Long totalTime = System.currentTimeMillis() - startTime;
@@ -178,7 +168,30 @@ public class ShowArticleCtrl {
     @RequestMapping(value = "/hot/{uid}/{page}/{num}")
     @ResponseBody
     public ResponResult getHotArticleByUid(@PathVariable long uid, @PathVariable long page, @PathVariable long num) {
-        System.out.println("test");
         return ResponResult.ok(getHotArticleService.getHotByUid(uid,page,num));
+    }
+
+    /**
+     * 获取专题指定数量文章
+     *
+     * @param subid
+     * @param page
+     * @param num
+     * @return
+     */
+    @RequestMapping(value = "/{subid}/{page}/{num}")
+    @ResponseBody
+    public ResponResult getHotArticlelist(@PathVariable long subid, @PathVariable long page, @PathVariable long num) {
+        Long startTime = System.currentTimeMillis();
+        List<InfoRA> list = new ArrayList<InfoRA>();
+        for (ReleaseArticle ra : getHotArticleService.getSubjectlist(subid,page,num)) {
+            InfoRA infoRA = new InfoRA();
+            infoRA.setRa(ra);
+            infoRA.setUi(userInfoService.getUserInfoByUid(ra.getRaUid()));
+            list.add(infoRA);
+        }
+        Long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("耗时"+ totalTime +"ms");
+        return ResponResult.ok(list);
     }
 }

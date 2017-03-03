@@ -10,15 +10,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title id="page-title">文章-MdBlog</title>
+    <title id="page-title">${ra.raTitle}-MdBlog</title>
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <%--<link href="${request.getContextPath()}/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>--%>
     <script src="${request.getContextPath()}/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="${request.getContextPath()}/layui/css/layui.css">
     <script src="${request.getContextPath()}/layui/layui.js"></script>
     <script src="${request.getContextPath()}/layui/lay/dest/layui.all.js"></script>
-    <%-- sweetalert --%>
     <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
+    <script src="${request.getContextPath()}/js/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/mymdstyle.css">
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base.css">--%>

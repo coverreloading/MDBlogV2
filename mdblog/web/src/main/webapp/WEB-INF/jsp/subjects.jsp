@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: loadi
-  Date: 2017/2/15
-  Time: 16:00
+  Date: 2017/3/3
+  Time: 11:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title id="page-title">${uif.uiNickname}的主页-MdBlog</title>
+    <title id="page-title">${sub.sTitle}专题-MdBlog</title>
 
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <%--<link href="${request.getContextPath()}/css/bootstrap.min.css" rel='stylesheet' type='text/css'/>--%>
@@ -19,16 +19,17 @@
     <link rel="stylesheet" href="${request.getContextPath()}/layui/css/layui.css">
     <script src="${request.getContextPath()}/layui/layui.js"></script>
     <script src="${request.getContextPath()}/layui/lay/dest/layui.all.js"></script>
-    <script src="${request.getContextPath()}/js/angular.min.js"></script>
     <%-- sweetalert --%>
     <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
+    <script src="${request.getContextPath()}/js/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/mymdstyle.css">
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base.css">--%>
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base-read-mode.css">--%>
     <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
     <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
-    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-user.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-index.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/collection.css">
 
 </head>
 <body>
@@ -37,7 +38,7 @@
     <jsp:include page="model/leftBar2.jsp"/>
     <jsp:include page="model/topBar.jsp"/>
     <div id="main-bar" style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
-        <jsp:include page="model/userArea.jsp"/>
+        <jsp:include page="model/subjectArea.jsp"/>
     </div>
 </div>
 </body>

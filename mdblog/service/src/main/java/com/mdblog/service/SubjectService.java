@@ -8,7 +8,7 @@ import com.mdblog.po.Subject;
  */
 public interface SubjectService {
     ResponResult getSubject();
-    Subject getSubjectById(Integer SubId);
+    Subject getSubjectById(long SubId);
     // 随机获取一定数量专题
     ResponResult getSubjectRand(Integer num);
 }

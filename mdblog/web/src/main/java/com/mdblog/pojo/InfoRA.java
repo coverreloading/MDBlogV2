@@ -1,6 +1,7 @@
 package com.mdblog.pojo;
 
 import com.mdblog.po.ReleaseArticle;
+import com.mdblog.po.Subject;
 import com.mdblog.po.UserInfo;
 
 /**
@@ -9,6 +10,15 @@ import com.mdblog.po.UserInfo;
 public class InfoRA {
     private UserInfo ui;
     private ReleaseArticle ra;
+    private Subject sub;
+
+    public Subject getSub() {
+        return sub;
+    }
+
+    public void setSub(Subject sub) {
+        this.sub = sub;
+    }
 
     public UserInfo getUi() {
         return ui;
@@ -31,6 +41,7 @@ public class InfoRA {
         return "InfoRA{" +
                 "ui=" + ui +
                 ", ra=" + ra +
+                ", sub=" + sub +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import com.mdblog.po.ResponResult;
 import com.mdblog.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,12 @@ public class SubjectCtrl {
 
     @Autowired
     private SubjectService subjectService;
+
+    @RequestMapping("/{subid}")
+    public String showSubject(Model model, @PathVariable long subid) {
+        model.addAttribute("sub",subjectService.getSubjectById(subid));
+        return "subjects";
+    }
 
     /**
      * 获取专题
@@ -34,17 +41,10 @@ public class SubjectCtrl {
         return ResponResult.ok(subjectService.getSubjectById(id));
     }
 
-
     @RequestMapping("/getRand/{num}")
     @ResponseBody
     public ResponResult getSubjectRand(@PathVariable Integer num) {
         return subjectService.getSubjectRand(num);
     }
 
-    @RequestMapping("/subInfo/{id}")
-    @ResponseBody
-    public ResponResult getSubjectInfo(@PathVariable Long id) {
-        // TODO: 2017/2/23
-        return null;
-    }
 }

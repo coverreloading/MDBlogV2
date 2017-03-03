@@ -44,8 +44,7 @@
                         <i class="iconfont ic-navigation-profile"></i><span>我的主页</span>
                     </a></li>
                 <li>
-                    <!-- TODO bookmarks_path -->
-                    <a href="/bookmarks">
+                    <a href="/bookmarks/">
                         <i class="iconfont ic-navigation-mark"></i><span>收藏的文章</span>
                     </a></li>
                 <li>
@@ -71,6 +70,7 @@
 
 </div>
 <script>
+    /*
     $("document").ready(function () {
         if ("${token}" != "") {
             $.post("/uinfo/uibtok/${token}", function (data) {
@@ -89,6 +89,7 @@
             $(".login-in").hide();
         }
     })
+    */
 //    用户下拉栏
     $("#user").hover(function(){
         $("#user").addClass("open");

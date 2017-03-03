@@ -79,7 +79,7 @@
                         <div class="row">
                             <div ng-repeat="x in subjects">
                                 <a class="col-xs-4 col-lg-3 back-drop" target="_blank"
-                                   href="/subInfo/{{x.sId}}">
+                                   href="/subject/{{x.sId}}">
                                     <img src="{{x.sPic}}"
                                          alt="{{x.sDesc}}">
                                     <div class="name">{{x.sTitle}}</div>
@@ -120,10 +120,10 @@
                                         {{x.ra.raDesc}}
                                     </p>
                                     <div class="meta">
-                                        <a class="collection-tag" target="_blank" href="/c/V2CqjW">@IT·互联网</a>
+                                        <a class="collection-tag" target="_blank" href="/c/V2CqjW">{{x.sub.sTitle}}</a>
                                         <a target="_blank" href="/a/{{x.ra.raId}}">
                                             <i class="iconfont ic-list-read"></i> {{x.ra.raRead}}
-                                        </a> <a hidden="hidden" target="_blank" href="/p/48590c669feb#comments">
+                                        </a> <a hidden="hidden" target="_blank" href="/a/{{x.ra.raId}}#comments">
                                         <i class="iconfont ic-list-comments"></i> 13
                                     </a> <span><i class="iconfont ic-list-like"></i> {{x.ra.raLike}}</span>
                                         <span hidden="hidden"><i class="iconfont ic-list-money"></i> 2</span>
@@ -181,6 +181,7 @@
         $http.post("/a/hot/0/10")
                 .success(function (response) {
                     $scope.records = response.data;
+                    console.log(response.data);
                 });
         // 点击按钮添加更多文章
         $scope['getmore'] = getmoreFun = function (num) {

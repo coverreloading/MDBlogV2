@@ -32,7 +32,6 @@
                             $("#ra-like").html(obj.data.releaseArticle.raLike);
                             $("#ra-read").html(obj.data.releaseArticle.raRead);
                             $("#ra-text").html(obj.data.releaseArticle.raText);
-                            // todo
 //                raLike 1
 //                raRead 1
 //                raTitle 1

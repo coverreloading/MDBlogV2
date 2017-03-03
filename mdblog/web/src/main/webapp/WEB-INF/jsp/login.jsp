@@ -10,80 +10,43 @@
 
 <head>
     <title>登录-MdBlog</title>
+
+
+
+    <link rel="stylesheet" href="${request.getContextPath()}/layui/css/layui.css">
+    <script src="${request.getContextPath()}/layui/layui.js"></script>
+    <script src="${request.getContextPath()}/layui/lay/dest/layui.all.js"></script>
+    <%-- sweetalert --%>
+    <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/base-read-mode.css">--%>
+    <%--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/reading-note.css">--%>
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/new-web.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/entry-jianshu-index.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/web-jianshu.css">
+    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/jianshucss/sign.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="${request.getContextPath()}/js/jquery.min.js"></script>
     <script src="${request.getContextPath()}/js/bootstrap.min.js"></script>
-<%--<script src="${request.getContextPath()}/js/angular.min.js"></script>--%>
-
-<%--<link rel="stylesheet" href="./css/bootstrap.min.css">--%>
-<%--<script src="${request.getContextPath()}/js/jquery.min.js"></script>--%>
-<%--<script src="${request.getContextPath()}/js/bootstrap.min.js"></script>--%>
     <script src="${request.getContextPath()}/js/angular.min.js"></script>
-<%-- sweetalert --%>
-    <script src="${request.getContextPath()}/js/sweetalert.min.js"></script>
-<%-- Tagit --%>
-
-    <link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/sweetalert.css">
-
 </head>
-<body>
-<div ng-app="registApp" ng-controller="resgistCtrl" class="well"
-     style="max-width: 400px; margin: 0 auto 10px; margin-top: 150px">
-    <h1 align="center">MD Blog登录</h1>
-    <form ng-submit="formSub()">
-        <div class="form-group">
-            <h3>邮箱</h3><input class="form-control bg-info " type="email" name="email" ng-model="email">
-        </div>
-        <div class="form-group">
-            <h3>密码</h3><input class="form-control bg-info " type="password" name="password" ng-model="password">
-        </div>
-        <button class="btn btn-info btn-block btn-lg" type="submit">登录</button>
-        <div style="padding-top: 15px; padding-bottom: 20px;">
-            <a class="pull-left " onclick="resetPassword()"><h5>忘记密码</h5></a>
-            <a class="pull-right" href="${request.getContextPath()}/register"><h5>注册</h5></a>
-        </div>
-    </form>
+<body style="background-color: #f1f1f1;">
+<div style="position: relative;">
+    <jsp:include page="model/leftBar1.jsp"/>
+    <div id="main-bar" style="background-color: #f1f1f1;width:90%;position:relative;top:0px;left: 10%;">
+        <jsp:include page="model/loginArea.jsp"/>
+    </div>
 </div>
 </body>
+</html>
 <script>
-    function resetPassword() {
-        swal("忘了就忘了", "关我嗨事", "error");
-    }
-</script>
-<script>
-    var app = angular.module("registApp", []);
-    app.controller("resgistCtrl", function ($scope, $http, $timeout, $window) {
-
-        $scope.formSub = function () {
-            $http({
-                method: 'POST',
-                url: '${request.getContextPath()}/user/login',
-                data: "email=" + $scope.email + "&password=" + $scope.password,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-//                            $scope.msg = "登录成功,跳转到主页";
-                            $timeout(function () {
-                                $window.location.href = '${request.getContextPath()}/';
-                            }, 2000);
-                            swal({
-                                title: "登录成功",
-                                text: "恭喜你，成功登陆MD Blog",
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonColor: "#aedef4",
-                                confirmButtonText: "跳转到首页",
-                                closeOnConfirm: false
-                            }, function () {
-                                $window.location.href = '${request.getContextPath()}/';
-                            });
-                        } else {
-                            swal("登录失败", data.msg, "error");
-                        }
-                    });
-        }
+    $(document).ready(function () {
+        var winowHeight = document.body.clientHeight;
+        $("#left-bar2").css("height", winowHeight);
+        $('#left-bar2-img').attr("src", "${request.getContextPath()}/img/bing/" + parseInt(8 * Math.random()) + ".jpg");
+        $('#left-bar2-img').css("max-width", "none");
+        $("#left-bar2-img").css("height", winowHeight);
+//        $("#main-bar").css("height", winowHeight - 55);
     });
 </script>
-</html>

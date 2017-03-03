@@ -23,8 +23,17 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
     private ArticleMapper articleMapper;
     @Autowired
     private ReleaseArticleMapper releaseArticleMapper;
+
     @Autowired
-    private ArticleTipsMapper articleTipsMapper;
+    private JedisClient jedisClient;
+    @Value("${REDIS_RA_SESSION_KEY}")
+    String REDIS_RA_SESSION_KEY;
+    //笔记的过期时间60分钟
+    @Value("${RA_EXPIRE}")
+    Integer RA_EXPIRE;
+    //笔记的阅读量,喜欢数过期时间24小时
+    @Value("${RA_RAndL_EXPIRE}")
+    Integer RA_RAndL_EXPIRE;
 
     @Override
     public ResponResult addRA(String token,Long articleId,String tipJson, ReleaseArticle releaseArticle) {
@@ -64,6 +73,22 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
         }
         */
 
+        return ResponResult.ok();
+    }
+
+    @Override
+    public ResponResult addLike(Long raId) {
+        String baseKey = REDIS_RA_SESSION_KEY + ":" + raId;
+        String likeKey = baseKey + ":like";
+        jedisClient.incr(likeKey);
+        return ResponResult.ok();
+    }
+
+    @Override
+    public ResponResult removeLike(Long raId) {
+        String baseKey = REDIS_RA_SESSION_KEY + ":" + raId;
+        String likeKey = baseKey + ":like";
+        jedisClient.decr(likeKey);
         return ResponResult.ok();
     }
 }

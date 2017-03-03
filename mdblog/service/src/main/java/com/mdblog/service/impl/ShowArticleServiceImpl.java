@@ -31,11 +31,14 @@ public class ShowArticleServiceImpl implements ShowArticleService {
     @Value("${RA_RAndL_EXPIRE}")
     Integer RA_RAndL_EXPIRE;
 
+
+
     @Override
     public ResponResult getRaByRaId(Long RaId) {
         String baseKey = REDIS_RA_SESSION_KEY + ":" + RaId;
         String readKey = baseKey + ":read";
         String likeKey = baseKey + ":like";
+
         ReleaseArticle releaseArticle = new ReleaseArticle();
         releaseArticle = JsonUtils.jsonToPojo(jedisClient.get(baseKey), ReleaseArticle.class);
 
