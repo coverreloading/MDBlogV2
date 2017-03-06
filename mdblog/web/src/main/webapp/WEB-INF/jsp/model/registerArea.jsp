@@ -56,7 +56,8 @@
                     <input placeholder="确认密码"  id="psw2" name="password" type="password" onchange="passwordcheck()">
                     <i class="iconfont ic-password"></i>
                 </div>
-                <button id="registBtn" disabled="disabled" class="sign-up-button" ng-click="regist()">注册</button>
+                <button id="registBtn" disabled="disabled" class="btn btn-info btn-block btn-lg" ng-click="regist()">注册</button>
+                <%--<button id="registBtn2" disabled="disabled" class="sign-up-button" ng-click="regist()">注册</button>--%>
                 <p class="sign-up-msg">点击 “注册” 即表示您同意并愿意遵守<br> <a target="_blank" href="http://www.jianshu.com/p/c44d171298ce">用户协议</a> 和 <a target="_blank" href="http://www.jianshu.com/p/2ov8x3">隐私政策</a> 。</p>
             </form>
             <!-- 更多注册方式 -->

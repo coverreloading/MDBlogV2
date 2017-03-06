@@ -32,19 +32,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponResult add(String token, Comments comments) {
-/*
-        Long UID = userService.getUserIdByToken(token);
-        if (UID == -1) {
-        }
-
-        UserInfo info = userInfoService.getUserInfoByUid(UID);
-*/
-
         UserInfo info = (UserInfo)userInfoService.getUserInfoByToken(token).getData();
         if (info == null) {
             return ResponResult.build(400, "wrong token");
         }
-
         // 普通参数
         comments.setcCreatetime(System.currentTimeMillis());
         comments.setcDel(0);
@@ -78,5 +69,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comments> getParents(Long raId, Long page, Long num) {
         return commentsMapper.selectParentByRaid(raId, page, num);
+    }
+
+    @Override
+    public List<Comments> getChildren(Long pId, Long page, Long num) {
+        return commentsMapper.selectChildByParentId(pId, page, num);
     }
 }

@@ -50,7 +50,7 @@
                                         <div class="name">
                                             <a class="blue-link" target="_blank" href="/uinfo/u/{{x.ui.uiUid}}">{{x.ui.uiNickname}}</a>
                                             <span class="time"
-                                                  data-shared-at="{{ x.ra.raCreatetime | date:'yyyy-MM-dd' }} {{ x.ra.raCreatetime | date:'HH:mm:ss' }}">{{ x.ra.raCreatetime | date:'yyyy-MM-dd' }} {{ x.ra.raCreatetime | date:'HH:mm:ss' }}</span>
+                                                  data-shared-at="{{ x.ra.raCreatetime | date:'yyyy-MM-dd HH:mm:ss' }}">{{ x.ra.raCreatetime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
                                         </div>
                                     </div>
                                     <a class="title" target="_blank" href="/a/{{x.ra.raId}}">{{x.ra.raTitle}}</a>
@@ -69,7 +69,7 @@
                             </li>
                         </div>
                     </ul>
-                    <button class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
+                    <button ng-show="getmore" class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
                 </div>
             </div>
             <div class="col-xs-24 col-sm-7 col-sm-offset-1 aside">
@@ -151,16 +151,23 @@
 
         // todo
         // 默认加载10篇,按照最新的开始排
+        $scope.getmore = true;
         $scope.num = 10;
         $http.post("/a/${sub.sId}/0/" + $scope.num)
                 .success(function (response) {
                     $scope.records = response.data;
                     console.log($scope.records);
+                    if(response.data.length<10) {
+                        $scope.getmore = false;
+                    }
                 });
         // 点击按钮添加更多文章每次加5篇
         $scope['getmore'] = getmoreFun = function (num) {
             $http.post("/a/${sub.sId}/" + num + "/5")
                     .success(function (response) {
+                        if(response.data.length<5) {
+                            $scope.getmore = false;
+                        }
                         angular.forEach(response.data, function (data) {
                             //data等价于array[index]
                             $scope.records.push(data);

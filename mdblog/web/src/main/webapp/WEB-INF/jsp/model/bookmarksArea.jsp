@@ -27,7 +27,7 @@
                                     <a class="blue-link" target="_blank"
                                        href="/uinfo/u/{{x.raUid}}">${uif.uiNickname}</a>
                                     <span class="time"
-                                          data-shared-at="">{{ x.raCreatetime | date:'yyyy-MM-dd' }} {{ x.raCreatetime | date:'HH:mm:ss' }}</span>
+                                          data-shared-at="">{{ x.raCreatetime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
                                 </div>
                             </div>
                             <a class="title" target="_blank" href="/a/{{x.raId}}">{{x.raTitle}}</a>
@@ -47,7 +47,7 @@
                         </div>
                     </li>
                 </div>
-                <button class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
+                <button ng-show="getmore" class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
             </ul>
         </div>
     </div>
@@ -66,6 +66,7 @@
     app.controller("bookmarkCtrl", function ($scope, $http) {
 
         // 默认加载5篇,按照最新的开始排
+        $scope.getmore = true;
         $scope.num = 5;
         $http({
             url: "/bookmarks/0/5",
@@ -76,6 +77,9 @@
             // 回调函数
             $scope.records = response.data;
             console.log($scope.records);
+            if(response.data.length<5) {
+                $scope.getmore = false;
+            }
         })
 
         // 点击按钮添加更多文章每次加5篇
@@ -86,6 +90,9 @@
                 params: {token: '${token}'},
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (response) {
+                if(response.data.length<5) {
+                    $scope.getmore = false;
+                }
                 angular.forEach(response.data, function (data) {
                     //data等价于array[index]
                     $scope.records.push(data);

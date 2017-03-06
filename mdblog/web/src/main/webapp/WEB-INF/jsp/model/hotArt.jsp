@@ -110,7 +110,7 @@
                                         </a>
                                         <div class="name">
                                             <a class="blue-link" target="_blank" href="/uinfo/u/{{x.ui.uiUid}}">{{x.ui.uiNickname}}</a>
-                                            <span id="ra-time-{{x.ra.raId}}" class="time" data-shared-at="">{{ x.ra.raCreatetime | date:'yyyy-MM-dd' }} {{ x.ra.raCreatetime | date:'HH:mm:ss' }}</span>
+                                            <span id="ra-time-{{x.ra.raId}}" class="time" data-shared-at="">{{ x.ra.raCreatetime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
 
                                         </div>
                                     </div>
@@ -133,13 +133,12 @@
                         </div>
                     </ul>
                     <!-- 文章列表模块 -->
-                    <button class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
+                    <button ng-show="getmore" class="btn load-more" style="margin-bottom:100px;" ng-click="getmore(num)">点击加载更多</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     /*
     var app = angular.module('ngHotArt', []);
@@ -177,11 +176,15 @@
     app.controller('HotCtrl', function ($scope, $http ) {
         // 添加热门文章
         var oldrecords ;
+        $scope.getmore = true;
         $scope.num=2;
         $http.post("/a/hot/0/10")
                 .success(function (response) {
                     $scope.records = response.data;
                     console.log(response.data);
+                    if(response.data.length<10) {
+                        $scope.getmore = false;
+                    }
                 });
         // 点击按钮添加更多文章
         $scope['getmore'] = getmoreFun = function (num) {
@@ -189,6 +192,9 @@
                     .success(function (response) {
 //                    console.log(response.data);
 //                        $scope.records.push(response.data);
+                        if(response.data.length<5) {
+                            $scope.getmore = false;
+                        }
                         angular.forEach(response.data, function(data,index,array){
                             //data等价于array[index]
                             $scope.records.push(data);

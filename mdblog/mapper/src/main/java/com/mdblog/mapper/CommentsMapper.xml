@@ -315,6 +315,19 @@
     `comments`.`C_Del`=0
     AND `comments`.`C_ParentID`=0
     AND `comments`.`C_RAID`= #{raId,jdbcType=BIGINT}
+    ORDER BY `C_Createtime`
+    limit #{page,jdbcType=BIGINT} , #{num,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectChildByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    comments
+    WHERE
+    `comments`.`C_Del`=0
+    AND `comments`.`C_ParentID`=#{pId,jdbcType=BIGINT}
+    ORDER BY `C_Createtime`
     limit #{page,jdbcType=BIGINT} , #{num,jdbcType=BIGINT}
   </select>
 

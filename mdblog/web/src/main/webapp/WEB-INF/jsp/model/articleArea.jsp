@@ -151,7 +151,12 @@
             });
         };
 
-        // 添加评论
+        function unlogin() {
+            if ('${token}' == '')
+                swal("尚未登录", '登陆后才能评论', "error");
+        }
+
+        // 添加新评论
         $scope.newcomment = function () {
             $scope.formData.token = '${token}';
             $scope.formData.cRaid = aid;
@@ -165,6 +170,56 @@
             });
         };
 
+        // 回复框
+        $scope.ngshow = function (x) {
+            x.cDel = 1;
+            x.c.cDel = 1;
+        };
+        $scope.nghide = function (x) {
+            x.cDel = 0;
+            x.c.cDel = 0;
+        };
+
+        // 回复评论
+        $scope.reply = function (t) {
+            unlogin();
+            $http({
+                method: 'POST',
+                url: '/c/add',
+                data: {token: '${token}', cRaid: aid, cParentid: t.x.c.cId, cUid2: t.x.c.cUid, cContent: t.content},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},  // set the headers so angular passing info as form data (not request payload)
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var s in obj) {
+                        str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (data) {
+                console.log(data);
+                window.location.reload();
+            });
+        };
+        // 楼中楼回复
+        $scope.replyin = function (t,cId, content) {
+            unlogin();
+            $http({
+                method: 'POST',
+                url: '/c/add',
+                data: {token: '${token}', cRaid: aid, cParentid: cId, cUid2: t.cUid, cContent: content},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},  // set the headers so angular passing info as form data (not request payload)
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var s in obj) {
+                        str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (data) {
+                console.log(data);
+                window.location.reload();
+            });
+        }
         // 举个栗子
         // 编码
 //        window.encodeURIComponent();
@@ -184,7 +239,7 @@
 
         $http({
             method: 'GET',
-            url: '/c/get?raId=' + aid + '&page=0&num=5'
+            url: '/c/getbyraid?raId=' + aid + '&page=0&num=10'
         }).success(function (response) {
             $scope.comments = response.data;
             console.log(response);
@@ -202,7 +257,6 @@
                     });
             $scope.num += 5;
         }
-
     });
 </script>
 <div ng-app="articleApp" ng-controller="articleCtrl" id="main-bar"
@@ -227,7 +281,7 @@
                                         class="iconfont ic-followed"></i><span>已关注</span></a>
                                 <!-- 文章数据信息 -->
                                 <div class="meta">
-                                    <span class="publish-time">{{ ${ra.raCreatetime} | date:'yyyy-MM-dd' }} {{ ${ra.raCreatetime} | date:'HH:mm:ss' }}  </span>
+                                    <span class="publish-time">{{ ${ra.raCreatetime} | date:'yyyy-MM-dd HH:mm:ss' }}  </span>
                                     <%--<span class="wordage">字数 2830</span>--%>
                                     <span class="views-count">阅读 ${ra.raRead}</span>
                                     <span hidden class="comments-count">评论 1</span>
@@ -325,7 +379,6 @@
                                             <span>后发表评论</span></div>
                                     </form>
                                 </div>
-                                <pre>{{formData}}</pre>
                                 <div class="login-in">
                                     <form class="new-comment" ng-submit="newcomment()">
                                         <a class="avatar"><img class="uipic"></a>
@@ -361,17 +414,54 @@
                                                             <a href="/uinfo/u/{{x.c.cUid}}" target="_blank"
                                                                class="name">{{x.c.cUNickname}}</a> <!---->
                                                             <div class="meta">
-                                                                <span>{{index}}楼 ·  {{ x.c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}} </span>
+                                                                <span>{{$index+1}}楼 ·  {{ x.c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}} </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="comment-wrap"><p>迷茫的时候，恰好看到。谢谢你</p>
-                                                        <div class="tool-group">
-                                                            <a>
-                                                                <i class="iconfont ic-zan"></i>
-                                                                <span>2人赞</span>
-                                                            </a>
-                                                            <a>
+
+
+                                                        <div ng-show="x.cl[0].cDel==0||x.cl[0].cDel==1"
+                                                             class="sub-comment-list">
+                                                            <div ng-repeat="c in x.cl">
+                                                                <div id="comment-8581460" class="sub-comment">
+                                                                    <p><a href="/uinfo/u/{{c.cUid}}" target="_blank">{{c.cUNickname}}</a>：
+                                                                        <span>
+                                                                            <a href="/uinfo/u/{{c.cUid2}}"
+                                                                               class="maleskine-author" target="_blank"
+                                                                               data-user-slug="45ae131b4256">{{c.cUNickname2}}
+                                                                          </a> {{c.cContent}}
+                                                                        </span>
+                                                                    </p>
+                                                                    <div class="sub-tool-group">
+                                                                        <span>{{ c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                                                        <a ng-click="ngshow(c)"><i
+                                                                                class="iconfont ic-comment"></i><span>回复</span></a>
+                                                                        <a class="report"><span>举报</span></a> <!---->
+                                                                        <form ng-show="c.cDel" class="new-comment">
+                                                                            <!---->
+                                                                            <textarea ng-model="content"
+                                                                                      placeholder="写下你的评论..."></textarea>
+                                                                            <div class="write-function-block">
+                                                                                <a ng-click="replyin(c,x.c.cId,content)"
+                                                                                   class="btn btn-send">发送</a>
+                                                                                <a
+                                                                                        ng-click="nghide(c,content)"
+                                                                                        class="cancel">取消</a>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="sub-comment more-comment">
+                                                                <br/>
+                                                                <a ng-click="ngshow(x)" class="add-comment-btn">
+                                                                    <i class="iconfont ic-subcomment"></i>
+                                                                    <span>添加新评论</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div ng-show="x.cl.length==0" class="tool-group">
+                                                            <a ng-click="ngshow(x)">
                                                                 <i class="iconfont ic-comment"></i>
                                                                 <span>回复</span>
                                                             </a>
@@ -379,96 +469,21 @@
                                                                 <span>举报</span>
                                                             </a>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div hidden class="sub-comment-list">
-                                                <div id="comment-8581460" class="sub-comment">
-                                                    <p><a href="/u/5f333a4269d9" target="_blank">陈允皓</a>：
-                                                        <span>
-                                                        <a href="/users/45ae131b4256" class="maleskine-author"
-                                                           target="_blank"
-                                                           data-user-slug="45ae131b4256">@疯子已经被注册了
-                                                        </a> 可以关注我公众号
-                                                        </span>
-                                                    </p>
-                                                    <div class="sub-tool-group">
-                                                        <span>2017.03.04 15:27</span>
-                                                        <a><i class="iconfont ic-comment"></i><span>回复</span></a>
-                                                        <a class="report"><span>举报</span></a> <!---->
-                                                    </div>
-                                                </div>
-                                                <div class="sub-comment more-comment">
-                                                    <a class="add-comment-btn">
-                                                        <i class="iconfont ic-subcomment"></i>
-                                                        <span>添加新评论</span></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div hidden>
-                                            <div id="comment-8577554" class="comment">
-                                                <div>
-                                                    <div class="author"><a href="/u/5f333a4269d9" target="_blank"
-                                                                           class="avatar"><img
-                                                            src="http://upload.jianshu.io/users/upload_avatars/2301429/a3abae5753ab.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
-                                                        <div class="info"><a href="/u/5f333a4269d9" target="_blank"
-                                                                             class="name">陈允皓</a> <span
-                                                                class="author-tag">作者</span>
-                                                            <div class="meta"><span>4楼 · 2017.03.04 13:09</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-wrap"><p>欢迎留言</p>
-                                                        <div class="tool-group"><a><i class="iconfont ic-zan"></i>
-                                                            <span>1人赞</span></a> <a><i class="iconfont ic-comment"></i>
-                                                            <span>回复</span></a> <a class="report"><span>举报</span></a>
-                                                            <!----></div>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-comment-list hide"><!----> <!----></div>
-                                            </div>
-                                            <div class="comments-placeholder" style="display: none;">
-                                                <div class="author">
-                                                    <div class="avatar"></div>
-                                                    <div class="info">
-                                                        <div class="name"></div>
-                                                        <div class="meta"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="text"></div>
-                                                <div class="text animation-delay"></div>
-                                                <div class="tool-group"><i class="iconfont ic-zan-active"></i>
-                                                    <div class="zan"></div>
-                                                    <i class="iconfont ic-list-comments"></i>
-                                                    <div class="zan"></div>
-                                                </div>
-                                            </div>
-
-                                            <%-- todo 带评论框--%>
-                                            <div id="comment-8583859" class="comment">
-                                                <div>
-                                                    <div class="author"><a href="/u/2e504095ff9f" target="_blank"
-                                                                           class="avatar"><img
-                                                            src="http://upload.jianshu.io/users/upload_avatars/4164869/cb76de5783e3?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
-                                                        <div class="info"><a href="/u/2e504095ff9f" target="_blank"
-                                                                             class="name">没翅膀的人马</a> <!---->
-                                                            <div class="meta"><span>16楼 · 2017.03.04 17:02</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="comment-wrap"><p>优秀很累，但懒散，更累</p>
-                                                        <div class="tool-group"><a><i class="iconfont ic-zan"></i>
-                                                            <span>赞</span></a> <a><i class="iconfont ic-comment"></i>
-                                                            <span>回复</span></a>
-                                                            <a class="report"><span>举报</span></a> <!----></div>
-                                                    </div>
-                                                </div>
-                                                <div class="sub-comment-list"><!---->
-                                                    <div>
-                                                        <form class="new-comment"><!---->
-                                                            <textarea placeholder="写下你的评论..."></textarea>
-                                                            <div class="write-function-block">
-                                                                <a class="btn btn-send">发送</a> <a class="cancel">取消</a>
+                                                        <div ng-show="x.c.cDel" class="sub-comment-list"><!---->
+                                                            <div>
+                                                                <form class="new-comment"><!---->
+                                                                    <textarea ng-model="content"
+                                                                              placeholder="写下你的评论..."></textarea>
+                                                                    <div class="write-function-block">
+                                                                        <a ng-click="reply(this)" class="btn btn-send">发送</a>
+                                                                        <a
+                                                                                ng-click="nghide(x)"
+                                                                                class="cancel">取消
+                                                                        </a>
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

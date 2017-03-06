@@ -31,4 +31,6 @@ public interface CommentsMapper {
 
     // 自定义方法
     List<Comments> selectParentByRaid(@Param("raId") Long raId, @Param("page") Long page, @Param("num") Long num);
+
+    List<Comments> selectChildByParentId(@Param("pId") Long pId, @Param("page") Long page, @Param("num") Long num);
 }

@@ -28,10 +28,10 @@ public class CommentCtrl {
         return commentService.add(token, comments);
     }
 
-    // 分页
-    @RequestMapping("/get")
+    // 分页, 通过文章id获取指定数量首层回复以及其对应的固定数量楼中楼
+    @RequestMapping("/getbyraid")
     @ResponseBody
-    public ResponResult add(Long raId,Long page,Long num) {
+    public ResponResult getByRaId(Long raId,Long page,Long num) {
 
         List<Comments> list = commentService.getParents(raId, page, num);
 
@@ -40,8 +40,16 @@ public class CommentCtrl {
         for (Comments c : list) {
             CommentsList commentsList = new CommentsList();
             commentsList.setC(c);
+            commentsList.setCl(getByPId(c.getcId(),Long.valueOf(0),Long.valueOf(8)));
             resultList.add(commentsList);
         }
         return ResponResult.ok(resultList);
+    }
+
+    // 通过parentid 获取楼中楼
+    @RequestMapping("/getbypid")
+    @ResponseBody
+    public List<Comments> getByPId(Long pId, Long page, Long num) {
+        return commentService.getChildren(pId, page, num);
     }
 }
