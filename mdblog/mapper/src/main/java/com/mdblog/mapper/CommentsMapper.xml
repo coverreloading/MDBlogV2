@@ -4,10 +4,13 @@
   <resultMap id="BaseResultMap" type="com.mdblog.po.Comments" >
     <id column="C_ID" property="cId" jdbcType="BIGINT" />
     <result column="C_RAID" property="cRaid" jdbcType="BIGINT" />
-    <result column="C_UID" property="cUid" jdbcType="BIGINT" />
     <result column="C_ParentID" property="cParentid" jdbcType="BIGINT" />
+    <result column="C_UID" property="cUid" jdbcType="BIGINT" />
     <result column="C_U_Pic" property="cUPic" jdbcType="CHAR" />
     <result column="C_U_Nickname" property="cUNickname" jdbcType="CHAR" />
+    <result column="C_UID2" property="cUid2" jdbcType="BIGINT" />
+    <result column="C_U_Nickname2" property="cUNickname2" jdbcType="CHAR" />
+    <result column="C_Content" property="cContent" jdbcType="VARCHAR" />
     <result column="C_Createtime" property="cCreatetime" jdbcType="BIGINT" />
     <result column="C_Del" property="cDel" jdbcType="INTEGER" />
   </resultMap>
@@ -70,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    C_ID, C_RAID, C_UID, C_ParentID, C_U_Pic, C_U_Nickname, C_Createtime, C_Del
+    C_ID, C_RAID, C_ParentID, C_UID, C_U_Pic, C_U_Nickname, C_UID2, C_U_Nickname2, C_Content, 
+    C_Createtime, C_Del
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.CommentsExample" >
     select
@@ -103,12 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.mdblog.po.Comments" >
-    insert into comments (C_ID, C_RAID, C_UID, 
-      C_ParentID, C_U_Pic, C_U_Nickname, 
-      C_Createtime, C_Del)
-    values (#{cId,jdbcType=BIGINT}, #{cRaid,jdbcType=BIGINT}, #{cUid,jdbcType=BIGINT}, 
-      #{cParentid,jdbcType=BIGINT}, #{cUPic,jdbcType=CHAR}, #{cUNickname,jdbcType=CHAR}, 
-      #{cCreatetime,jdbcType=BIGINT}, #{cDel,jdbcType=INTEGER})
+    insert into comments (C_ID, C_RAID, C_ParentID, 
+      C_UID, C_U_Pic, C_U_Nickname, C_UID2, 
+      C_U_Nickname2, C_Content, C_Createtime, 
+      C_Del)
+    values (#{cId,jdbcType=BIGINT}, #{cRaid,jdbcType=BIGINT}, #{cParentid,jdbcType=BIGINT}, 
+      #{cUid,jdbcType=BIGINT}, #{cUPic,jdbcType=CHAR}, #{cUNickname,jdbcType=CHAR}, #{cUid2,jdbcType=BIGINT}, 
+      #{cUNickname2,jdbcType=CHAR}, #{cContent,jdbcType=VARCHAR}, #{cCreatetime,jdbcType=BIGINT}, 
+      #{cDel,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.mdblog.po.Comments" >
     insert into comments
@@ -119,17 +125,26 @@
       <if test="cRaid != null" >
         C_RAID,
       </if>
-      <if test="cUid != null" >
-        C_UID,
-      </if>
       <if test="cParentid != null" >
         C_ParentID,
+      </if>
+      <if test="cUid != null" >
+        C_UID,
       </if>
       <if test="cUPic != null" >
         C_U_Pic,
       </if>
       <if test="cUNickname != null" >
         C_U_Nickname,
+      </if>
+      <if test="cUid2 != null" >
+        C_UID2,
+      </if>
+      <if test="cUNickname2 != null" >
+        C_U_Nickname2,
+      </if>
+      <if test="cContent != null" >
+        C_Content,
       </if>
       <if test="cCreatetime != null" >
         C_Createtime,
@@ -145,17 +160,26 @@
       <if test="cRaid != null" >
         #{cRaid,jdbcType=BIGINT},
       </if>
-      <if test="cUid != null" >
-        #{cUid,jdbcType=BIGINT},
-      </if>
       <if test="cParentid != null" >
         #{cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="cUid != null" >
+        #{cUid,jdbcType=BIGINT},
       </if>
       <if test="cUPic != null" >
         #{cUPic,jdbcType=CHAR},
       </if>
       <if test="cUNickname != null" >
         #{cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="cUid2 != null" >
+        #{cUid2,jdbcType=BIGINT},
+      </if>
+      <if test="cUNickname2 != null" >
+        #{cUNickname2,jdbcType=CHAR},
+      </if>
+      <if test="cContent != null" >
+        #{cContent,jdbcType=VARCHAR},
       </if>
       <if test="cCreatetime != null" >
         #{cCreatetime,jdbcType=BIGINT},
@@ -180,17 +204,26 @@
       <if test="record.cRaid != null" >
         C_RAID = #{record.cRaid,jdbcType=BIGINT},
       </if>
-      <if test="record.cUid != null" >
-        C_UID = #{record.cUid,jdbcType=BIGINT},
-      </if>
       <if test="record.cParentid != null" >
         C_ParentID = #{record.cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cUid != null" >
+        C_UID = #{record.cUid,jdbcType=BIGINT},
       </if>
       <if test="record.cUPic != null" >
         C_U_Pic = #{record.cUPic,jdbcType=CHAR},
       </if>
       <if test="record.cUNickname != null" >
         C_U_Nickname = #{record.cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="record.cUid2 != null" >
+        C_UID2 = #{record.cUid2,jdbcType=BIGINT},
+      </if>
+      <if test="record.cUNickname2 != null" >
+        C_U_Nickname2 = #{record.cUNickname2,jdbcType=CHAR},
+      </if>
+      <if test="record.cContent != null" >
+        C_Content = #{record.cContent,jdbcType=VARCHAR},
       </if>
       <if test="record.cCreatetime != null" >
         C_Createtime = #{record.cCreatetime,jdbcType=BIGINT},
@@ -207,10 +240,13 @@
     update comments
     set C_ID = #{record.cId,jdbcType=BIGINT},
       C_RAID = #{record.cRaid,jdbcType=BIGINT},
-      C_UID = #{record.cUid,jdbcType=BIGINT},
       C_ParentID = #{record.cParentid,jdbcType=BIGINT},
+      C_UID = #{record.cUid,jdbcType=BIGINT},
       C_U_Pic = #{record.cUPic,jdbcType=CHAR},
       C_U_Nickname = #{record.cUNickname,jdbcType=CHAR},
+      C_UID2 = #{record.cUid2,jdbcType=BIGINT},
+      C_U_Nickname2 = #{record.cUNickname2,jdbcType=CHAR},
+      C_Content = #{record.cContent,jdbcType=VARCHAR},
       C_Createtime = #{record.cCreatetime,jdbcType=BIGINT},
       C_Del = #{record.cDel,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -223,17 +259,26 @@
       <if test="cRaid != null" >
         C_RAID = #{cRaid,jdbcType=BIGINT},
       </if>
-      <if test="cUid != null" >
-        C_UID = #{cUid,jdbcType=BIGINT},
-      </if>
       <if test="cParentid != null" >
         C_ParentID = #{cParentid,jdbcType=BIGINT},
+      </if>
+      <if test="cUid != null" >
+        C_UID = #{cUid,jdbcType=BIGINT},
       </if>
       <if test="cUPic != null" >
         C_U_Pic = #{cUPic,jdbcType=CHAR},
       </if>
       <if test="cUNickname != null" >
         C_U_Nickname = #{cUNickname,jdbcType=CHAR},
+      </if>
+      <if test="cUid2 != null" >
+        C_UID2 = #{cUid2,jdbcType=BIGINT},
+      </if>
+      <if test="cUNickname2 != null" >
+        C_U_Nickname2 = #{cUNickname2,jdbcType=CHAR},
+      </if>
+      <if test="cContent != null" >
+        C_Content = #{cContent,jdbcType=VARCHAR},
       </if>
       <if test="cCreatetime != null" >
         C_Createtime = #{cCreatetime,jdbcType=BIGINT},
@@ -247,12 +292,30 @@
   <update id="updateByPrimaryKey" parameterType="com.mdblog.po.Comments" >
     update comments
     set C_RAID = #{cRaid,jdbcType=BIGINT},
-      C_UID = #{cUid,jdbcType=BIGINT},
       C_ParentID = #{cParentid,jdbcType=BIGINT},
+      C_UID = #{cUid,jdbcType=BIGINT},
       C_U_Pic = #{cUPic,jdbcType=CHAR},
       C_U_Nickname = #{cUNickname,jdbcType=CHAR},
+      C_UID2 = #{cUid2,jdbcType=BIGINT},
+      C_U_Nickname2 = #{cUNickname2,jdbcType=CHAR},
+      C_Content = #{cContent,jdbcType=VARCHAR},
       C_Createtime = #{cCreatetime,jdbcType=BIGINT},
       C_Del = #{cDel,jdbcType=INTEGER}
     where C_ID = #{cId,jdbcType=BIGINT}
   </update>
+
+
+  <!--自定义方法-->
+  <select id="selectParentByRaid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    comments
+    WHERE
+    `comments`.`C_Del`=0
+    AND `comments`.`C_ParentID`=0
+    AND `comments`.`C_RAID`= #{raId,jdbcType=BIGINT}
+    limit #{page,jdbcType=BIGINT} , #{num,jdbcType=BIGINT}
+  </select>
+
 </mapper>

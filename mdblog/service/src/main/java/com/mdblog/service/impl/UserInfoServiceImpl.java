@@ -35,9 +35,8 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfoMapper.selectByPrimaryKey(Uid);
     }
 
-
     @Override
-    public ResponResult getUserInfoByToken(String token) {
+    public ResponResult getUserInfoByToken(String token)  {
         try {
             UserInfo userInfo = getUserInfoByUid(userService.getUserIdByToken(token));
             if (userInfo == null) {
@@ -49,8 +48,6 @@ public class UserInfoServiceImpl implements UserInfoService {
             return ResponResult.build(500, "something wrong");
         }
     }
-
-
 
     /**
      * 用户信息保存

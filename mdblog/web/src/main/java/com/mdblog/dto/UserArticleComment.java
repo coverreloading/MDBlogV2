@@ -1,8 +1,7 @@
-package com.mdblog.pojo;
+package com.mdblog.dto;
 
 import com.mdblog.po.Comments;
 import com.mdblog.po.ReleaseArticle;
-import com.mdblog.po.User;
 import com.mdblog.po.UserInfo;
 
 /**

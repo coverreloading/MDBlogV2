@@ -34,7 +34,7 @@
                 console.log("已登录");
 //                console.log(obj.data);
 //                console.log(obj.data.uiPic);
-                $("#uipic").attr("src", obj.data.uiPic);
+                $(".uipic").attr("src", obj.data.uiPic);
 
             })
             $(".un-log").hide();

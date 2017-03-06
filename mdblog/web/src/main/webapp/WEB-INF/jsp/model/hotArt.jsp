@@ -120,7 +120,7 @@
                                         {{x.ra.raDesc}}
                                     </p>
                                     <div class="meta">
-                                        <a class="collection-tag" target="_blank" href="/c/V2CqjW">{{x.sub.sTitle}}</a>
+                                        <a class="collection-tag" target="_blank" href="/subject/{{x.sub.sId}}">{{x.sub.sTitle}}</a>
                                         <a target="_blank" href="/a/{{x.ra.raId}}">
                                             <i class="iconfont ic-list-read"></i> {{x.ra.raRead}}
                                         </a> <a hidden="hidden" target="_blank" href="/a/{{x.ra.raId}}#comments">

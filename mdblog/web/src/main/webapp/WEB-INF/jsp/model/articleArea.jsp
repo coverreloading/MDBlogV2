@@ -7,6 +7,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script>
+    // 文章id
+    var a = window.location.href.split("/");
+    aid = a[a.length - 1];
     $(document).ready(function () {
         // 关注按钮
         $(".following").hide();
@@ -14,9 +17,6 @@
         // 收藏按钮
         $("#ic-mark-active").hide();
         $("#ic-mark").hide();
-
-        var a = window.location.href.split("/");
-        aid = a[a.length - 1];
         // 检查是否已登录
         setTimeout(function checkExit() {
             if ("${token}" == "") {
@@ -117,7 +117,7 @@
                     }
             );
         });
-    })
+    });
 
     var app = angular.module("articleApp", []);
     app.controller("articleCtrl", function ($scope, $http) {
@@ -151,14 +151,45 @@
             });
         };
 
+        // 添加评论
+        $scope.newcomment = function () {
+            $scope.formData.token = '${token}';
+            $scope.formData.cRaid = aid;
+            $http({
+                method: 'POST',
+                url: '/c/add',
+                data: $.param($scope.formData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+            }).success(function (data) {
+                console.log(data);
+            });
+        };
+
+        // 举个栗子
+        // 编码
+//        window.encodeURIComponent();
+//        $http({
+//            method: 'POST',
+//            url: 'process.php',
+//            data: $.param($scope.formData),  // pass in data as strings
+//            headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
+//        }).success(function (data) {
+//            console.log(data);
+//        });
+
+
         // todo 评论
         // 默认加载10篇,按照最新的开始排
         $scope.num = 10;
-        $http.post("" + $scope.num)
-                .success(function (response) {
-                    $scope.records = response.data;
-                    console.log($scope.records);
-                });
+
+        $http({
+            method: 'GET',
+            url: '/c/get?raId=' + aid + '&page=0&num=5'
+        }).success(function (response) {
+            $scope.comments = response.data;
+            console.log(response);
+        });
+
         // 点击按钮添加更多文章每次加5篇
         $scope['getmore'] = getmoreFun = function (num) {
             $http.post("" + num + "/5")
@@ -171,18 +202,17 @@
                     });
             $scope.num += 5;
         }
+
     });
 </script>
 <div ng-app="articleApp" ng-controller="articleCtrl" id="main-bar"
      style="background-color: #ffffff;width:70%;position:relative;top:55px;left: 30%;">
     <div id="article-area" style="width:90%; position: absolute; left: 5%;">
         <div>
-            <script src="/js/lib/utils.js" type="text/javascript"></script>
             <div class="note">
                 <div class="post">
                     <div class="article">
                         <h1 class="title">${ra.raTitle}</h1>
-
                         <!-- 作者区域 -->
                         <div class="author">
                             <a class="avatar" href="">
@@ -207,7 +237,6 @@
                             <!-- 如果是当前作者，加入编辑按钮 -->
                         </div>
                         <!-- -->
-
                         <!-- 文章内容 -->
                         <div class="show-content">
                             ${ra.raText}
@@ -225,7 +254,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- 文章底部作者信息 -->
                         <div class="follow-detail">
                             <div class="info">
@@ -238,15 +266,13 @@
                                 <a class="title ui-uiname" href="/uinfo/u/${uif.uiUid}">${uif.uiNickname}</a><
                                 <p>写了 174713 字，被 316 人关注，获得了 289 个喜欢</p></div>
                         </div>
-
                         <div class="support-author"><p>如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</p>
                             <div class="btn btn-pay">赞赏支持</div> <!----> <!----> <!----></div>
-
                         <div class="meta-bottom">
                             <div class="like">
                                 <div ng-click="incrLike('${ra.raId}')" id="dislikebtn" class="btn like-group">
                                     <div class="btn-like">
-                                        <a ><i class="iconfont ic-like"></i>赞</a>
+                                        <a><i class="iconfont ic-like"></i>赞</a>
                                     </div>
                                     <div class="modal-wrap">
                                         <a ng-model="raLike">${ra.raLike}</a>
@@ -254,7 +280,7 @@
                                 </div>
                                 <div ng-click="decrLike('${ra.raId}')" id="likebtn" class="btn like-group active">
                                     <div class="btn-like">
-                                        <a ><i class="iconfont ic-like"></i>赞</a>
+                                        <a><i class="iconfont ic-like"></i>赞</a>
                                     </div>
                                     <div class="modal-wrap">
                                         <a>${ra.raLike+1}</a>
@@ -289,59 +315,173 @@
         " data-original-title="" title="">更多分享</a>
                             </div>
                         </div>
+                        <!-- 评论区域 -->
                         <div>
                             <div id="comment-list" class="comment-list">
-                                <div>
-                                    <form class="new-comment"><a class="avatar"><img
-                                            src="http://upload.jianshu.io/users/upload_avatars/3404627/f8aa0b67f6ee?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
-                                        <textarea placeholder="写下你的评论..."></textarea> <!----></form>
+                                <div class="un-log">
+                                    <form class="new-comment">
+                                        <a class="avatar "><img src="/img/avatar_default.png"></a>
+                                        <div class="sign-container"><a href="/login" class="btn btn-sign">登录</a>
+                                            <span>后发表评论</span></div>
+                                    </form>
+                                </div>
+                                <pre>{{formData}}</pre>
+                                <div class="login-in">
+                                    <form class="new-comment" ng-submit="newcomment()">
+                                        <a class="avatar"><img class="uipic"></a>
+                                        <input hidden ng-model="formData.token">
+                                        <input hidden ng-model="formData.cRaid">
+                                        <textarea placeholder="写下你的评论..." id="cContent"
+                                                  ng-model="formData.cContent"></textarea>
+                                        <div class="write-function-block">
+                                            <button class="btn btn-send" type="submit">发送</button>
+                                            <a class="cancel">取消</a></div>
+                                    </form>
                                 </div>
                                 <div id="normal-comment-list" class="normal-comment-list">
                                     <div>
                                         <div>
-                                            <div class="top"><span>1条评论</span> <a class="author-only">只看作者</a> <a
-                                                    class="close-btn" style="display: none;">关闭评论</a>
-                                                <div class="pull-right"><a class="active">按喜欢排序</a><a class="">按时间正序</a><a
-                                                        class="">按时间倒序</a></div>
+                                            <div class="top"><span>73条评论</span>
+                                                <a class="author-only">只看作者</a>
+                                                <a class="close-btn" style="display: none;">关闭评论</a>
+                                                <div class="pull-right"><a class="active">按喜欢排序</a>
+                                                    <a class="">按时间正序</a>
+                                                    <a class="">按时间倒序</a>
+                                                </div>
                                             </div>
                                         </div> <!----> <!---->
-                                        <div id="comment-8052051" class="comment">
-                                            <div>
-                                                <div class="author"><a href="/u/62af0be6907c" target="_blank"
-                                                                       class="avatar"><img
-                                                        src="http://upload.jianshu.io/users/upload_avatars/3919921/d6b39fc21e1b.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
-                                                    <div class="info"><a href="/u/62af0be6907c" target="_blank"
-                                                                         class="name">麦川小镇</a> <!---->
-                                                        <div class="meta"><span>2楼 · 2017.02.16 13:16</span></div>
+                                        <div ng-repeat="x in comments">
+                                            <div id="comment-{{x.c.cId}}" class="comment">
+                                                <div>
+                                                    <div class="author">
+                                                        <a href="/uinfo/u/{{x.c.cUid}}" target="_blank" class="avatar">
+                                                            <img src="{{x.c.cUPic}}">
+                                                        </a>
+                                                        <div class="info">
+                                                            <a href="/uinfo/u/{{x.c.cUid}}" target="_blank"
+                                                               class="name">{{x.c.cUNickname}}</a> <!---->
+                                                            <div class="meta">
+                                                                <span>{{index}}楼 ·  {{ x.c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}} </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-wrap"><p>迷茫的时候，恰好看到。谢谢你</p>
+                                                        <div class="tool-group">
+                                                            <a>
+                                                                <i class="iconfont ic-zan"></i>
+                                                                <span>2人赞</span>
+                                                            </a>
+                                                            <a>
+                                                                <i class="iconfont ic-comment"></i>
+                                                                <span>回复</span>
+                                                            </a>
+                                                            <a class="report">
+                                                                <span>举报</span>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="comment-wrap"><p>德军的写写</p>
-                                                    <div class="tool-group"><a><i class="iconfont ic-zan"></i>
-                                                        <span>赞</span></a> <a><i class="iconfont ic-comment"></i>
-                                                        <span>回复</span></a>
-                                                        <a class="report"><span>举报</span></a> <!----></div>
+                                            </div>
+                                            <div hidden class="sub-comment-list">
+                                                <div id="comment-8581460" class="sub-comment">
+                                                    <p><a href="/u/5f333a4269d9" target="_blank">陈允皓</a>：
+                                                        <span>
+                                                        <a href="/users/45ae131b4256" class="maleskine-author"
+                                                           target="_blank"
+                                                           data-user-slug="45ae131b4256">@疯子已经被注册了
+                                                        </a> 可以关注我公众号
+                                                        </span>
+                                                    </p>
+                                                    <div class="sub-tool-group">
+                                                        <span>2017.03.04 15:27</span>
+                                                        <a><i class="iconfont ic-comment"></i><span>回复</span></a>
+                                                        <a class="report"><span>举报</span></a> <!---->
+                                                    </div>
+                                                </div>
+                                                <div class="sub-comment more-comment">
+                                                    <a class="add-comment-btn">
+                                                        <i class="iconfont ic-subcomment"></i>
+                                                        <span>添加新评论</span></a>
                                                 </div>
                                             </div>
-                                            <div class="sub-comment-list hide"><!----> <!----></div>
                                         </div>
-                                        <div class="comments-placeholder" style="display: none;">
-                                            <div class="author">
-                                                <div class="avatar"></div>
-                                                <div class="info">
-                                                    <div class="name"></div>
-                                                    <div class="meta"></div>
+                                        <div hidden>
+                                            <div id="comment-8577554" class="comment">
+                                                <div>
+                                                    <div class="author"><a href="/u/5f333a4269d9" target="_blank"
+                                                                           class="avatar"><img
+                                                            src="http://upload.jianshu.io/users/upload_avatars/2301429/a3abae5753ab.jpg?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
+                                                        <div class="info"><a href="/u/5f333a4269d9" target="_blank"
+                                                                             class="name">陈允皓</a> <span
+                                                                class="author-tag">作者</span>
+                                                            <div class="meta"><span>4楼 · 2017.03.04 13:09</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-wrap"><p>欢迎留言</p>
+                                                        <div class="tool-group"><a><i class="iconfont ic-zan"></i>
+                                                            <span>1人赞</span></a> <a><i class="iconfont ic-comment"></i>
+                                                            <span>回复</span></a> <a class="report"><span>举报</span></a>
+                                                            <!----></div>
+                                                    </div>
+                                                </div>
+                                                <div class="sub-comment-list hide"><!----> <!----></div>
+                                            </div>
+                                            <div class="comments-placeholder" style="display: none;">
+                                                <div class="author">
+                                                    <div class="avatar"></div>
+                                                    <div class="info">
+                                                        <div class="name"></div>
+                                                        <div class="meta"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="text"></div>
+                                                <div class="text animation-delay"></div>
+                                                <div class="tool-group"><i class="iconfont ic-zan-active"></i>
+                                                    <div class="zan"></div>
+                                                    <i class="iconfont ic-list-comments"></i>
+                                                    <div class="zan"></div>
                                                 </div>
                                             </div>
-                                            <div class="text"></div>
-                                            <div class="text animation-delay"></div>
-                                            <div class="tool-group"><i class="iconfont ic-zan-active"></i>
-                                                <div class="zan"></div>
-                                                <i class="iconfont ic-list-comments"></i>
-                                                <div class="zan"></div>
+
+                                            <%-- todo 带评论框--%>
+                                            <div id="comment-8583859" class="comment">
+                                                <div>
+                                                    <div class="author"><a href="/u/2e504095ff9f" target="_blank"
+                                                                           class="avatar"><img
+                                                            src="http://upload.jianshu.io/users/upload_avatars/4164869/cb76de5783e3?imageMogr2/auto-orient/strip|imageView2/1/w/114/h/114"></a>
+                                                        <div class="info"><a href="/u/2e504095ff9f" target="_blank"
+                                                                             class="name">没翅膀的人马</a> <!---->
+                                                            <div class="meta"><span>16楼 · 2017.03.04 17:02</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="comment-wrap"><p>优秀很累，但懒散，更累</p>
+                                                        <div class="tool-group"><a><i class="iconfont ic-zan"></i>
+                                                            <span>赞</span></a> <a><i class="iconfont ic-comment"></i>
+                                                            <span>回复</span></a>
+                                                            <a class="report"><span>举报</span></a> <!----></div>
+                                                    </div>
+                                                </div>
+                                                <div class="sub-comment-list"><!---->
+                                                    <div>
+                                                        <form class="new-comment"><!---->
+                                                            <textarea placeholder="写下你的评论..."></textarea>
+                                                            <div class="write-function-block">
+                                                                <a class="btn btn-send">发送</a> <a class="cancel">取消</a>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> <!----> <!----></div>
+                                </div> <!---->
+                                <ul class="pagination"><!---->
+                                    <li><a href="javascript:void(null)" class="active">1</a></li>
+                                    <li><a>2</a></li>
+                                    <li><a>3</a></li>
+                                    <li><a>下一页</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
 

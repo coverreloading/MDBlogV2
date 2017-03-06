@@ -224,66 +224,6 @@ public class CommentsExample {
             return (Criteria) this;
         }
 
-        public Criteria andCUidIsNull() {
-            addCriterion("C_UID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidIsNotNull() {
-            addCriterion("C_UID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidEqualTo(Long value) {
-            addCriterion("C_UID =", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidNotEqualTo(Long value) {
-            addCriterion("C_UID <>", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidGreaterThan(Long value) {
-            addCriterion("C_UID >", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidGreaterThanOrEqualTo(Long value) {
-            addCriterion("C_UID >=", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidLessThan(Long value) {
-            addCriterion("C_UID <", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidLessThanOrEqualTo(Long value) {
-            addCriterion("C_UID <=", value, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidIn(List<Long> values) {
-            addCriterion("C_UID in", values, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidNotIn(List<Long> values) {
-            addCriterion("C_UID not in", values, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidBetween(Long value1, Long value2) {
-            addCriterion("C_UID between", value1, value2, "cUid");
-            return (Criteria) this;
-        }
-
-        public Criteria andCUidNotBetween(Long value1, Long value2) {
-            addCriterion("C_UID not between", value1, value2, "cUid");
-            return (Criteria) this;
-        }
-
         public Criteria andCParentidIsNull() {
             addCriterion("C_ParentID is null");
             return (Criteria) this;
@@ -341,6 +281,66 @@ public class CommentsExample {
 
         public Criteria andCParentidNotBetween(Long value1, Long value2) {
             addCriterion("C_ParentID not between", value1, value2, "cParentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidIsNull() {
+            addCriterion("C_UID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidIsNotNull() {
+            addCriterion("C_UID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidEqualTo(Long value) {
+            addCriterion("C_UID =", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidNotEqualTo(Long value) {
+            addCriterion("C_UID <>", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidGreaterThan(Long value) {
+            addCriterion("C_UID >", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidGreaterThanOrEqualTo(Long value) {
+            addCriterion("C_UID >=", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidLessThan(Long value) {
+            addCriterion("C_UID <", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidLessThanOrEqualTo(Long value) {
+            addCriterion("C_UID <=", value, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidIn(List<Long> values) {
+            addCriterion("C_UID in", values, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidNotIn(List<Long> values) {
+            addCriterion("C_UID not in", values, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidBetween(Long value1, Long value2) {
+            addCriterion("C_UID between", value1, value2, "cUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUidNotBetween(Long value1, Long value2) {
+            addCriterion("C_UID not between", value1, value2, "cUid");
             return (Criteria) this;
         }
 
@@ -481,6 +481,206 @@ public class CommentsExample {
 
         public Criteria andCUNicknameNotBetween(String value1, String value2) {
             addCriterion("C_U_Nickname not between", value1, value2, "cUNickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2IsNull() {
+            addCriterion("C_UID2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2IsNotNull() {
+            addCriterion("C_UID2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2EqualTo(Long value) {
+            addCriterion("C_UID2 =", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2NotEqualTo(Long value) {
+            addCriterion("C_UID2 <>", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2GreaterThan(Long value) {
+            addCriterion("C_UID2 >", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2GreaterThanOrEqualTo(Long value) {
+            addCriterion("C_UID2 >=", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2LessThan(Long value) {
+            addCriterion("C_UID2 <", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2LessThanOrEqualTo(Long value) {
+            addCriterion("C_UID2 <=", value, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2In(List<Long> values) {
+            addCriterion("C_UID2 in", values, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2NotIn(List<Long> values) {
+            addCriterion("C_UID2 not in", values, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2Between(Long value1, Long value2) {
+            addCriterion("C_UID2 between", value1, value2, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUid2NotBetween(Long value1, Long value2) {
+            addCriterion("C_UID2 not between", value1, value2, "cUid2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2IsNull() {
+            addCriterion("C_U_Nickname2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2IsNotNull() {
+            addCriterion("C_U_Nickname2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2EqualTo(String value) {
+            addCriterion("C_U_Nickname2 =", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2NotEqualTo(String value) {
+            addCriterion("C_U_Nickname2 <>", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2GreaterThan(String value) {
+            addCriterion("C_U_Nickname2 >", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2GreaterThanOrEqualTo(String value) {
+            addCriterion("C_U_Nickname2 >=", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2LessThan(String value) {
+            addCriterion("C_U_Nickname2 <", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2LessThanOrEqualTo(String value) {
+            addCriterion("C_U_Nickname2 <=", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2Like(String value) {
+            addCriterion("C_U_Nickname2 like", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2NotLike(String value) {
+            addCriterion("C_U_Nickname2 not like", value, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2In(List<String> values) {
+            addCriterion("C_U_Nickname2 in", values, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2NotIn(List<String> values) {
+            addCriterion("C_U_Nickname2 not in", values, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2Between(String value1, String value2) {
+            addCriterion("C_U_Nickname2 between", value1, value2, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCUNickname2NotBetween(String value1, String value2) {
+            addCriterion("C_U_Nickname2 not between", value1, value2, "cUNickname2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentIsNull() {
+            addCriterion("C_Content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentIsNotNull() {
+            addCriterion("C_Content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentEqualTo(String value) {
+            addCriterion("C_Content =", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentNotEqualTo(String value) {
+            addCriterion("C_Content <>", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentGreaterThan(String value) {
+            addCriterion("C_Content >", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentGreaterThanOrEqualTo(String value) {
+            addCriterion("C_Content >=", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentLessThan(String value) {
+            addCriterion("C_Content <", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentLessThanOrEqualTo(String value) {
+            addCriterion("C_Content <=", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentLike(String value) {
+            addCriterion("C_Content like", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentNotLike(String value) {
+            addCriterion("C_Content not like", value, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentIn(List<String> values) {
+            addCriterion("C_Content in", values, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentNotIn(List<String> values) {
+            addCriterion("C_Content not in", values, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentBetween(String value1, String value2) {
+            addCriterion("C_Content between", value1, value2, "cContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andCContentNotBetween(String value1, String value2) {
+            addCriterion("C_Content not between", value1, value2, "cContent");
             return (Criteria) this;
         }
 

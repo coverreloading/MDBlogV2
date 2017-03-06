@@ -34,7 +34,7 @@
     <div class="login-in">
         <div id="user" class="user">
             <div data-hover="dropdown">
-                <div class="avatar" ><img id="uipic"
+                <div class="avatar" ><img class="uipic"
                         src=""
                         alt="100"></div>
             </div>

@@ -2,8 +2,9 @@ package com.mdblog.mapper;
 
 import com.mdblog.po.Comments;
 import com.mdblog.po.CommentsExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CommentsMapper {
     int countByExample(CommentsExample example);
@@ -27,4 +28,7 @@ public interface CommentsMapper {
     int updateByPrimaryKeySelective(Comments record);
 
     int updateByPrimaryKey(Comments record);
+
+    // 自定义方法
+    List<Comments> selectParentByRaid(@Param("raId") Long raId, @Param("page") Long page, @Param("num") Long num);
 }

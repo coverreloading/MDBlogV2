@@ -2,10 +2,7 @@ package com.mdblog.controller;
 
 import com.mdblog.po.ReleaseArticle;
 import com.mdblog.po.ResponResult;
-import com.mdblog.po.Subject;
-import com.mdblog.po.UserInfo;
-import com.mdblog.pojo.InfoRA;
-import com.mdblog.pojo.UserArticleComment;
+import com.mdblog.dto.InfoRA;
 import com.mdblog.service.GetHotArticleService;
 import com.mdblog.service.ShowArticleService;
 import com.mdblog.service.SubjectService;
@@ -15,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 /**
