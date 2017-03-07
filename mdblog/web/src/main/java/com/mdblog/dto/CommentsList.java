@@ -9,7 +9,16 @@ import java.util.List;
  */
 public class CommentsList {
     private Comments c;
+    private int cCount;
     private List<Comments> cl;
+
+    public int getcCount() {
+        return cCount;
+    }
+
+    public void setcCount(int cCount) {
+        this.cCount = cCount;
+    }
 
     public Comments getC() {
         return c;

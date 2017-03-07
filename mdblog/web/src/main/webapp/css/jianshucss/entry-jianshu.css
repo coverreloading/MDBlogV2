@@ -873,7 +873,7 @@
     margin-right: 6px
 }
 
-.note .post .comment-list .tool-group a {
+.note .post .comment-list .tool-group div a {
     margin-right: 10px;
     font-size: 0;
     color: #969696;

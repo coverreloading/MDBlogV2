@@ -4691,7 +4691,7 @@ tbody.collapse.in {
     display: inline
 }
 
-.pagination > li > a, .pagination > li > span {
+.pagination > li > a,.pagination > span > span > li > a, .pagination > li > span {
     position: relative;
     float: left;
     padding: 6px 12px;

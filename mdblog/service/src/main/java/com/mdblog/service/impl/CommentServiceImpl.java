@@ -3,6 +3,7 @@ package com.mdblog.service.impl;
 import com.alibaba.druid.sql.visitor.functions.Insert;
 import com.mdblog.mapper.CommentsMapper;
 import com.mdblog.po.Comments;
+import com.mdblog.po.CommentsExample;
 import com.mdblog.po.ResponResult;
 import com.mdblog.po.UserInfo;
 import com.mdblog.service.CommentService;
@@ -32,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ResponResult add(String token, Comments comments) {
-        UserInfo info = (UserInfo)userInfoService.getUserInfoByToken(token).getData();
+        UserInfo info = (UserInfo) userInfoService.getUserInfoByToken(token).getData();
         if (info == null) {
             return ResponResult.build(400, "wrong token");
         }
@@ -61,10 +62,6 @@ public class CommentServiceImpl implements CommentService {
         return ResponResult.ok(comments);
     }
 
-    @Override
-    public ResponResult remove(String token, Comments comments) {
-        return null;
-    }
 
     @Override
     public List<Comments> getParents(Long raId, Long page, Long num) {
@@ -74,5 +71,46 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<Comments> getChildren(Long pId, Long page, Long num) {
         return commentsMapper.selectChildByParentId(pId, page, num);
+    }
+
+    @Override
+    public int getParentsCount(Long raId) {
+        CommentsExample example = new CommentsExample();
+        CommentsExample.Criteria criteria = example.createCriteria();
+        criteria.andCDelEqualTo(0);
+        criteria.andCParentidEqualTo(Long.valueOf(0));
+        criteria.andCRaidEqualTo(raId);
+        return commentsMapper.countByExample(example);
+    }
+
+    @Override
+    public int getChildrenCount(Long pId) {
+        CommentsExample example = new CommentsExample();
+        CommentsExample.Criteria criteria = example.createCriteria();
+        criteria.andCDelEqualTo(0);
+        criteria.andCParentidEqualTo(pId);
+        return commentsMapper.countByExample(example);
+    }
+
+    @Override
+    public ResponResult removeComments(String token, Long cId) {
+        Long uid = userService.getUserIdByToken(token);
+        if (uid == null || cId == null) {
+            return ResponResult.build(400, "booom!");
+        }
+        Comments comments = commentsMapper.selectByPrimaryKey(cId);
+        if (comments.getcUid() != uid) {
+            return ResponResult.build(400, "booom!");
+        }
+        // 是否父节点,是,删除子节点
+        if (comments.getcParentid() == 0) {
+            CommentsExample example = new CommentsExample();
+            CommentsExample.Criteria criteria = example.createCriteria();
+            criteria.andCParentidEqualTo(cId);
+            commentsMapper.deleteByExample(example);
+        }
+        // 否,仅删除该节点
+        commentsMapper.deleteByPrimaryKey(cId);
+        return ResponResult.ok();
     }
 }

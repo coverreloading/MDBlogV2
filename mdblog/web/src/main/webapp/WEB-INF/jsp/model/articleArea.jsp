@@ -123,6 +123,7 @@
     app.controller("articleCtrl", function ($scope, $http) {
         $('#dislikebtn').show();
         $('#likebtn').hide();
+        // 点赞
         $scope['incrLike'] = incrLikeFun = function (raId) {
             $http({
                 url: "/RA/addlike",
@@ -137,6 +138,7 @@
                 }
             });
         };
+        // 取消赞
         $scope['decrLike'] = decrLikeFun = function (raId) {
             $http({
                 url: "/RA/removelike",
@@ -150,7 +152,7 @@
                 }
             });
         };
-
+        // 未登陆弹框
         function unlogin() {
             if ('${token}' == '')
                 swal("尚未登录", '登陆后才能评论', "error");
@@ -166,20 +168,20 @@
                 data: $.param($scope.formData),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
             }).success(function (data) {
-                console.log(data);
+//                console.log(data);
+                window.location.reload();
             });
         };
-
-        // 回复框
+        // 回复框 显示
         $scope.ngshow = function (x) {
             x.cDel = 1;
             x.c.cDel = 1;
         };
+        // 隐藏
         $scope.nghide = function (x) {
             x.cDel = 0;
             x.c.cDel = 0;
         };
-
         // 回复评论
         $scope.reply = function (t) {
             unlogin();
@@ -201,7 +203,7 @@
             });
         };
         // 楼中楼回复
-        $scope.replyin = function (t,cId, content) {
+        $scope.replyin = function (t, cId, content) {
             unlogin();
             $http({
                 method: 'POST',
@@ -219,44 +221,92 @@
                 console.log(data);
                 window.location.reload();
             });
-        }
-        // 举个栗子
-        // 编码
-//        window.encodeURIComponent();
-//        $http({
-//            method: 'POST',
-//            url: 'process.php',
-//            data: $.param($scope.formData),  // pass in data as strings
-//            headers: {'Content-Type': 'application/x-www-form-urlencoded'}  // set the headers so angular passing info as form data (not request payload)
-//        }).success(function (data) {
-//            console.log(data);
-//        });
-
-
-        // todo 评论
-        // 默认加载10篇,按照最新的开始排
-        $scope.num = 10;
-
+        };
+        // 删除
+        $scope.remove = function (t) {
+            swal({
+                title: "确定删除吗？",
+                text: "你确定删除该评论吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定删除",
+                cancelButtonText: "不,手滑了",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                $http({
+                    method: 'POST',
+                    url: '/c/remove',
+                    data: {token: '${token}', cId: t},
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},  // set the headers so angular passing info as form data (not request payload)
+                    transformRequest: function (obj) {
+                        var str = [];
+                        for (var s in obj) {
+                            str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                        }
+                        return str.join("&");
+                    }
+                }).success(function (data) {
+//                console.log(data);
+                    window.location.reload();
+                });
+            });
+        };
+        // 默认加载条数,按照最新的开始排
+        $scope.num = 5;
+        // 当前页数
+        $scope.pagenum = 1;
         $http({
             method: 'GET',
-            url: '/c/getbyraid?raId=' + aid + '&page=0&num=10'
+            url: '/c/getbyraid?raId=' + aid + '&page=0&num=' + $scope.num
         }).success(function (response) {
-            $scope.comments = response.data;
+            $scope.comments = response.data.rl;
+            $scope.totalnum = response.data.totalnum;
+            // 页数 数字转数组才能ng-repeat
+            var pageitems = [];
+            for (var i = 0; i < response.data.totalnum / $scope.num; i++) {
+                pageitems.push(i + 1);
+            }
+            $scope.pageitems = pageitems;
             console.log(response);
         });
-
-        // 点击按钮添加更多文章每次加5篇
-        $scope['getmore'] = getmoreFun = function (num) {
-            $http.post("" + num + "/5")
-                    .success(function (response) {
-                        angular.forEach(response.data, function (data) {
-                            //data等价于array[index]
-                            $scope.records.push(data);
-                        });
-                        console.log($scope.records);
-                    });
-            $scope.num += 5;
-        }
+        // 打开第几页评论
+        $scope.changpage = function (index) {
+            console.log(index);
+            $scope.pagenum = index;
+            // 起始条数
+            var startnum = $scope.num * ($scope.pagenum - 1);
+            $http({
+                method: 'GET',
+                url: '/c/getbyraid?raId=' + aid + '&page=' + startnum + '&num=' + $scope.num
+            }).success(function (response) {
+                $scope.comments = response.data.rl;
+                console.log(response);
+            });
+        };
+        // 点击加载更多评论
+        $scope.getmore = function (x, index) {
+            $http({
+                method: 'POST',
+                url: '/c/getbypid',
+                data: {pId: x.c.cId, page: index * 5, num: 5},
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},  // set the headers so angular passing info as form data (not request payload)
+                transformRequest: function (obj) {
+                    var str = [];
+                    for (var s in obj) {
+                        str.push(encodeURIComponent(s) + "=" + encodeURIComponent(obj[s]));
+                    }
+                    return str.join("&");
+                }
+            }).success(function (response) {
+                console.log(response);
+                angular.forEach(response, function (data, index, array) {
+                    //data等价于array[index]
+                    x.cl.push(data);
+                });
+            });
+        };
     });
 </script>
 <div ng-app="articleApp" ng-controller="articleCtrl" id="main-bar"
@@ -284,7 +334,7 @@
                                     <span class="publish-time">{{ ${ra.raCreatetime} | date:'yyyy-MM-dd HH:mm:ss' }}  </span>
                                     <%--<span class="wordage">字数 2830</span>--%>
                                     <span class="views-count">阅读 ${ra.raRead}</span>
-                                    <span hidden class="comments-count">评论 1</span>
+                                    <span class="comments-count">评论 {{totalnum}}</span>
                                     <span class="likes-count">喜欢 ${ra.raLike}</span>
                                 </div>
                             </div>
@@ -394,12 +444,12 @@
                                 <div id="normal-comment-list" class="normal-comment-list">
                                     <div>
                                         <div>
-                                            <div class="top"><span>73条评论</span>
+                                            <div class="top"><span>{{totalnum}}条评论</span>
                                                 <a class="author-only">只看作者</a>
                                                 <a class="close-btn" style="display: none;">关闭评论</a>
-                                                <div class="pull-right"><a class="active">按喜欢排序</a>
-                                                    <a class="">按时间正序</a>
-                                                    <a class="">按时间倒序</a>
+                                                <div class="pull-right"><a>按喜欢排序</a>
+                                                    <a class="" class="active">按时间正序</a>
+                                                    <a hidden class="">按时间倒序</a>
                                                 </div>
                                             </div>
                                         </div> <!----> <!---->
@@ -414,30 +464,41 @@
                                                             <a href="/uinfo/u/{{x.c.cUid}}" target="_blank"
                                                                class="name">{{x.c.cUNickname}}</a> <!---->
                                                             <div class="meta">
-                                                                <span>{{$index+1}}楼 ·  {{ x.c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}} </span>
+                                                                <span>{{num * (pagenum - 1)+$index+1}}楼 ·  {{ x.c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}} </span>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="comment-wrap"><p>迷茫的时候，恰好看到。谢谢你</p>
+                                                    <div class="comment-wrap"><p>{{x.c.cContent}}</p>
+                                                        <div class="tool-group">
 
-
+                                                            <span ng-if="'${uid}'==x.c.cUid">
+                                                                <a class="comment-delete"
+                                                                   ng-click="remove(x.c.cId)"><span>删除</span>
+                                                                </a>
+                                                            </span>
+                                                        </div>
                                                         <div ng-show="x.cl[0].cDel==0||x.cl[0].cDel==1"
                                                              class="sub-comment-list">
+                                                            <!-- cl repeat -->
                                                             <div ng-repeat="c in x.cl">
                                                                 <div id="comment-8581460" class="sub-comment">
                                                                     <p><a href="/uinfo/u/{{c.cUid}}" target="_blank">{{c.cUNickname}}</a>：
-                                                                        <span>
-                                                                            <a href="/uinfo/u/{{c.cUid2}}"
-                                                                               class="maleskine-author" target="_blank"
-                                                                               data-user-slug="45ae131b4256">{{c.cUNickname2}}
-                                                                          </a> {{c.cContent}}
-                                                                        </span>
+                                                                            <span >
+                                                                                <a ng-hide="c.cUid2==c.cUid" href="/uinfo/u/{{c.cUid2}}"
+                                                                                   class="maleskine-author" target="_blank"
+                                                                                   data-user-slug="45ae131b4256">{{c.cUNickname2}}
+                                                                                </a>{{c.cContent}}
+                                                                            </span>
                                                                     </p>
+                                                                    <p>
                                                                     <div class="sub-tool-group">
                                                                         <span>{{ c.cCreatetime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                                                         <a ng-click="ngshow(c)"><i
                                                                                 class="iconfont ic-comment"></i><span>回复</span></a>
-                                                                        <a class="report"><span>举报</span></a> <!---->
+                                                                        <%--<a class="report"><span>举报</span></a> <!---->--%>
+                                                                        <span ng-if="'${uid}'==c.cUid">
+                                                                            <a class="comment-delete"
+                                                                               ng-click="remove(c.cId)"><span>删除</span></a> </span>
                                                                         <form ng-show="c.cDel" class="new-comment">
                                                                             <!---->
                                                                             <textarea ng-model="content"
@@ -446,86 +507,103 @@
                                                                                 <a ng-click="replyin(c,x.c.cId,content)"
                                                                                    class="btn btn-send">发送</a>
                                                                                 <a
-                                                                                        ng-click="nghide(c,content)"
+                                                                                        ng-click="nghide(c)"
                                                                                         class="cancel">取消</a>
                                                                             </div>
                                                                         </form>
                                                                     </div>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <div class="sub-comment more-comment">
                                                                 <br/>
                                                                 <a ng-click="ngshow(x)" class="add-comment-btn">
                                                                     <i class="iconfont ic-subcomment"></i>
-                                                                    <span>添加新评论</span></a>
+                                                                    <span>添加新评论</span>
+                                                                </a>
+                                                                <span ng-if="x.cCount>5"
+                                                                      ng-hide="infloorpage*5>x.cl.length"
+                                                                      ng-click="infloorpage=infloorpage+1"
+                                                                      class="line-warp">
+                                                                    <a ng-click="getmore(x,infloorpage)"
+                                                                       ng-init="infloorpage=1">展开</a>
+                                                                </span>
                                                             </div>
                                                         </div>
-                                                        <div ng-show="x.cl.length==0" class="tool-group">
-                                                            <a ng-click="ngshow(x)">
-                                                                <i class="iconfont ic-comment"></i>
-                                                                <span>回复</span>
-                                                            </a>
-                                                            <a class="report">
-                                                                <span>举报</span>
-                                                            </a>
-                                                        </div>
-                                                        <div ng-show="x.c.cDel" class="sub-comment-list"><!---->
-                                                            <div>
-                                                                <form class="new-comment"><!---->
-                                                                    <textarea ng-model="content"
-                                                                              placeholder="写下你的评论..."></textarea>
-                                                                    <div class="write-function-block">
-                                                                        <a ng-click="reply(this)" class="btn btn-send">发送</a>
-                                                                        <a
-                                                                                ng-click="nghide(x)"
-                                                                                class="cancel">取消
-                                                                        </a>
-                                                                    </div>
-                                                                </form>
+                                                        <div class="tool-group">
+                                                            <div ng-show="x.cl.length==0">
+                                                                <a ng-click="ngshow(x)">
+                                                                    <i class="iconfont ic-comment"></i>
+                                                                    <span>回复</span>
+                                                                </a>
+                                                                <%--<a class="report"> <span>举报</span> </a>--%>
+                                                                <span ng-if="'${uid}'==x.c.cUid">
+                                                                <a class="comment-delete"><span>删除</span></a>
+                                                            </span>
+                                                            </div>
+                                                            <div ng-show="x.c.cDel" class="sub-comment-list"><!---->
+                                                                <div>
+                                                                    <form class="new-comment"><!---->
+                                                                        <textarea ng-model="content"
+                                                                                  placeholder="写下你的评论..."></textarea>
+                                                                        <div class="write-function-block">
+                                                                            <a ng-click="reply(this)"
+                                                                               class="btn btn-send">发送</a>
+                                                                            <a
+                                                                                    ng-click="nghide(x)"
+                                                                                    class="cancel">取消
+                                                                            </a>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div> <!---->
-                                <ul class="pagination"><!---->
-                                    <li><a href="javascript:void(null)" class="active">1</a></li>
-                                    <li><a>2</a></li>
-                                    <li><a>3</a></li>
-                                    <li><a>下一页</a></li>
-                                </ul>
+                                    </div> <!---->
+                                    <ul class="pagination"><!---->
+                                        <span ng-repeat="x in pageitems">
+                                        <span ng-if="$index+1==pagenum">
+                                            <li><a href="javascript:void(null)" class="active">{{$index+1}}</a></li>
+                                        </span>
+                                        <span ng-if="$index+1!=pagenum">
+                                        <li><a href="javascript:void(null)"
+                                               ng-click="changpage($index+1)">{{$index+1}}</a></li>
+                                        </span>
+                                    </span>
+                                        <li><a ng-click="changpage(pagenum+1)">下一页</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="side-tool">
-                        <ul>
-                            <li data-placement="left" data-toggle="tooltip" data-container="body"
-                                data-original-title="回到顶部">
-                                <a href="#"><i class="iconfont ic-backtop"></i></a>
-                            </li>
-                            <li hidden="hidden" data-placement="left" data-toggle="tooltip" data-container="body"
-                                data-original-title="将文章加入专题">
-                                <a class="js-add-to-collection">
-                                    <i class="iconfont ic-addcollectionmodal"></i>
-                                </a>
-                            </li>
-                            <li id="ic-mark" data-original-title="" title="">
-                                <a data-action="toggle-bookmark-note " href="javascript:void(null);">
-                                    <i class="iconfont ic-mark"></i>
-                                </a>
-                            </li>
-                            <li id="ic-mark-active" data-original-title="" title="">
-                                <a data-action="toggle-bookmark-note " href="javascript:void(null);">
-                                    <i class="iconfont ic-mark-active"></i>
-                                </a>
-                            </li>
-                            <li data-share-note="" data-placement="left" data-toggle="tooltip" data-container="body"
-                                data-original-title="分享文章">
-                                <a tabindex="0" data-toggle="popover" data-placement="left" data-html="true"
-                                   data-trigger="focus" href="javascript:void(0);" data-content="
+                        <div class="side-tool">
+                            <ul>
+                                <li data-placement="left" data-toggle="tooltip" data-container="body"
+                                    data-original-title="回到顶部">
+                                    <a href="#"><i class="iconfont ic-backtop"></i></a>
+                                </li>
+                                <li hidden="hidden" data-placement="left" data-toggle="tooltip" data-container="body"
+                                    data-original-title="将文章加入专题">
+                                    <a class="js-add-to-collection">
+                                        <i class="iconfont ic-addcollectionmodal"></i>
+                                    </a>
+                                </li>
+                                <li id="ic-mark" data-original-title="" title="">
+                                    <a data-action="toggle-bookmark-note " href="javascript:void(null);">
+                                        <i class="iconfont ic-mark"></i>
+                                    </a>
+                                </li>
+                                <li id="ic-mark-active" data-original-title="" title="">
+                                    <a data-action="toggle-bookmark-note " href="javascript:void(null);">
+                                        <i class="iconfont ic-mark-active"></i>
+                                    </a>
+                                </li>
+                                <li data-share-note="" data-placement="left" data-toggle="tooltip" data-container="body"
+                                    data-original-title="分享文章">
+                                    <a tabindex="0" data-toggle="popover" data-placement="left" data-html="true"
+                                       data-trigger="focus" href="javascript:void(0);" data-content="
           <ul class=&quot;share-list&quot;>
             <li><a class data-action=&quot;weixin-share&quot;><i class=&quot;social-icon-sprite social-icon-weixin&quot;></i><span>分享到微信</span></a></li>
             <li><a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=1881139527',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','http://cwb.assets.jianshu.io/notes/images/9160389/weibo/image_1652a0d39d81.jpg', '推荐 谁动了我的窝头 的文章《中统、军统，密码技术哪家强》（ 分享自 @简书 ）','http://www.jianshu.com/p/1697a93b0113?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo','页面编码gb2312|utf-8默认gb2312'));&quot;><i class=&quot;social-icon-sprite social-icon-weibo&quot;></i><span>分享到微博</span></a></li>
@@ -537,12 +615,13 @@
             <li><a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e('http://www.jianshu.com/p/1697a93b0113?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban')+'&amp;title='+e('中统、军统，密码技术哪家强')+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;><i class=&quot;social-icon-sprite social-icon-douban&quot;></i><span>分享到豆瓣</span></a></li>
           </ul>
         " data-original-title="" title=""><i class="iconfont ic-share"></i></a>
-                            </li>
-                        </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                <br>
             </div>
-            <br>
         </div>
     </div>
 </div>

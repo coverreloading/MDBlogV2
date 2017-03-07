@@ -12,11 +12,15 @@ public interface CommentService {
 
     ResponResult add(String token,Comments comments);
 
-    ResponResult remove(String token,Comments comments);
-
     // 分页
     // 根据文章id获取首层评论
     List<Comments> getParents(Long raId, Long page, Long num);
+
     // 根据首层评论id获取楼中楼
     List<Comments> getChildren(Long pId, Long page, Long num);
+    int getChildrenCount(Long pId);
+
+    int getParentsCount(Long raId);
+
+    ResponResult removeComments(String token,Long cId);
 }
