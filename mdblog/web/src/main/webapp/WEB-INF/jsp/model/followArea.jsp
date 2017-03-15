@@ -54,7 +54,7 @@
                                 </div>
                             </li>
                         </div>
-                        <a ng-show="getmore" class="load-more" ng-click="getmore(num,uid)">加载更多</a>
+                        <a ng-show="getmoreshow" class="load-more" ng-click="getmore(num,uid)">加载更多</a>
                     </ul> <!---->
                 </div>
             </div>
@@ -78,7 +78,7 @@
         // 获取用户信息以及对应文章
         $scope['getuif'] = getuifFun = function (uid) {
             // 初始化  默认加载5篇,按照最新的开始排
-            $scope.getmore = true;
+            $scope.getmoreshow = true;
             $scope.num = 5;
             $scope.uid = uid;
             //  获取用户文章
@@ -102,13 +102,13 @@
                 $scope.records = response.data;
                 console.log("文章列表:" + $scope.records);
                 if(response.data.length<5) {
-                    $scope.getmore = false;
+                    $scope.getmoreshow = false;
                 }
             })
         };
 
         // 点击按钮添加更多文章每次加5篇
-        $scope['getmore'] = getmoreFun = function (num,uid) {
+        $scope['getmore'] = function (num,uid) {
             $http({
                 url: "/a/hot/" + uid +"/"+ num + "/5",
                 method: 'POST',
@@ -116,7 +116,7 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).success(function (response) {
                 if(response.data.length<5) {
-                    $scope.getmore = false;
+                    $scope.getmoreshow = false;
                 }
                 angular.forEach(response.data, function (data) {
                     //data等价于array[index]

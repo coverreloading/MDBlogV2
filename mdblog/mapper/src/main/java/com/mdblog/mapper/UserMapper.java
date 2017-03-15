@@ -27,4 +27,10 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    //  自定义方法
+    List<User> selectLimit(@Param("offset") Integer offset, @Param("num") Integer num);
+
+    int selectCount();
+
 }

@@ -1,4 +1,4 @@
-package com.mdblog.manageController;
+package com.mdblog.manage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -11,7 +11,8 @@
         <tx:attributes>
             <tx:method name="get*" propagation="REQUIRED"/>
             <tx:method name="update*" propagation="REQUIRED"/>
-            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="del*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
             <tx:method name="add*" propagation="REQUIRED"/>
             <tx:method name="download*" propagation="REQUIRED"/>
             <tx:method name="upload*" propagation="REQUIRED"/>

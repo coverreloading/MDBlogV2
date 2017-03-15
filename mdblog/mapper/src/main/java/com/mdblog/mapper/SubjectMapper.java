@@ -31,6 +31,12 @@ public interface SubjectMapper {
 
     List<Subject> selectAll();
 
-    //随机取条数
+    // 随机取条数
     List<Subject> selectRand(@Param("num") Integer num);
+
+    // 分页
+    List<Subject> selectLimit(@Param("page") Integer page, @Param("num") Integer num);
+
+    // 计数
+    int getCount();
 }

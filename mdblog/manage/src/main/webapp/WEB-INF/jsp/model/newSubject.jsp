@@ -37,8 +37,8 @@
     <button class="layui-btn"  ng-click="setRedis()">刷新专题缓存</button>
     <button class="layui-btn"  ng-click="updateRA()">保存文章阅读喜欢数</button>
 </div>
-
 <script>
+
     layui.use(['form', 'upload'], function () {
         var form = layui.form()
                 , layer = layui.layer
@@ -48,6 +48,9 @@
             , success: function (res) {
                 LAY_demo_upload.src = res.url;
                 $('#newSubjectPicUrl').val(res.url);
+                $('#SubjectPicUrl').val(res.url);
+                $('#LAY_upload').removeAttr('src');
+                $('#LAY_upload').attr('src',res.url);
             }
         });
         // 自定义图片校验

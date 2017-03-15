@@ -66,9 +66,14 @@
                 </div>
                 <div style="overflow:scroll; overflow-x:hidden; height:{{articleListHeight}}px;background-color:#337ab7; ">
                     <div ng-repeat="article in articles">
-                        <a class="list-group-item " ng-click="getArticle(article.aId)">{{article.aTitle}}</a>
+                        <a class="list-group-item abt" ng-click="getArticle(article.aId)" style="border-radius: 0px;">{{article.aTitle}}</a>
                     </div>
-
+                    <script>
+                        $('.abt').on('click', function () {
+                            $('.abt').removeClass('btn-default');
+                            $(this).addClass('btn-default');
+                        })
+                    </script>
                 </div>
             </div>
         </nav>
@@ -91,7 +96,11 @@
                     <a class="btn btn-info btn-block btn-lg" data-toggle="modal"
                        data-target=".download-type-modal">下载</a>
                 </div>
-                <div style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
+                <div ng-show="released" style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
+                    <a class="btn btn-success btn-block btn-lg"
+                        ng-click="removeRelease()">取消发布</a>
+                </div>
+                <div ng-show="!released" style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
                     <a class="btn btn-info btn-block btn-lg" data-toggle="modal"
                        data-target=".release-article-modal" ng-click="getSubject()">发布</a>
                 </div>
@@ -236,7 +245,7 @@
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
                     .success(function (data) {
-                        console.log(data);
+//                        console.log(data);
                         if (data.status == 200) {
                             $scope.articles = data.data;
                             $scope.check = 1;
@@ -303,24 +312,24 @@
                 url: '${request.getContextPath()}/article/getArticle',
                 data: "token=${token}&articleId=" + articleId,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (respon) {
-                        console.log(respon);
-                        if (respon.status == 200) {
-                            testEditor.setMarkdown(respon.data.aText);
-                            $scope.articleInActiveaId = articleId;
-                            $scope.articleInActiveaTitle = respon.data.aTitle;
-                            $scope.articleInActiveaText = respon.data.aText;
-                            $scope.articleInActiveaCreatetime = respon.data.aCreatetime;
-                            $scope.articleInActiveaUpdatetime = respon.data.aUpdatetime;
-                            $scope.articleInActiveaDel = respon.data.aDel;
-                            $scope.articleInActiveaUid = respon.data.aUid;
+            }).success(function (respon) {
+                console.log(respon);
+                if (respon.status == 200) {
+                    testEditor.setMarkdown(respon.data.aText);
+                    $scope.articleInActiveaId = articleId;
+                    $scope.articleInActiveaTitle = respon.data.aTitle;
+                    $scope.articleInActiveaText = respon.data.aText;
+                    $scope.articleInActiveaCreatetime = respon.data.aCreatetime;
+                    $scope.articleInActiveaUpdatetime = respon.data.aUpdatetime;
+                    $scope.articleInActiveaDel = respon.data.aDel;
+                    $scope.articleInActiveaUid = respon.data.aUid;
 
-                        } else {
-                            swal("session过期", "请重新登录3", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
-                        }
-                    });
+                } else {
+                    swal("session过期", "请重新登录3", "error");
+                    $window.location.href = '${request.getContextPath()}/login';
+                }
+            });
+            checkRelease(articleId);
         }
 
         // 文章删除方法
@@ -430,6 +439,21 @@
             autpUpdate($scope.articleInActiveaId);
         }, 300000);
 
+        var checkRelease = function (aId) {
+            $scope.released = false;
+            $http({
+                method: 'POST',
+                url: '${request.getContextPath()}/RA/check',
+                data: "token=${token}&aId=" + aId,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).success(function (respon) {
+                if (respon.status == 200) {
+                    $scope.released = true;
+                } else if (respon.status = 400) {
+                    $scope.released = false;
+                }
+            })
+        }
         // 文章下载方法
         $scope['downloadArticle'] = downloadArticleFun = function (type) {
             var content = "";
@@ -456,10 +480,8 @@
         }
         // 发布文章前: 初始化上传插件, 获取专题
         $scope['getSubject'] = getSubjectFun = function () {
-
             //    调用上传插件
             initFileInput("file-Portrait", "/Pic/uploadAPic");
-
             $http({
                 method: 'get',
                 url: '${request.getContextPath()}/subject/getsubject',
@@ -494,7 +516,7 @@
                         data: "token=${token}" +
                         "&articleId=" + $scope.articleInActiveaId +
                         "&tipJson=" + $('#articleTagsValues').val() +
-                        "&raSubjectJson=" + $scope.selectSubject+
+                        "&raSubjectJson=" + $scope.selectSubject +
                         "&raTitle=" + $scope.raTitle +
                         "&raDesc=" + $scope.raDesc +
                         "&raText=" + gethtml,
@@ -509,6 +531,38 @@
                                     $window.location.href = '${request.getContextPath()}/login';
                                 }
                             });
+                }
+            });
+        }
+        // 取消发布
+        $scope['removeRelease'] = function (articleInActiveaId) {
+            swal({
+                title: "取消？",
+                text: "确定取消发布该文章吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#66ccff",
+                confirmButtonText: "确定",
+                cancelButtonText: "不,手滑了",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    $http({
+                        method: 'POST',
+                        url: '${request.getContextPath()}/RA/remove',
+                        data: "token=${token}" + "&aId=" + $scope.articleInActiveaId,
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).success(function (data) {
+                        console.log(data);
+                        if (data != null) {
+                            swal("取消发布成功", "success");
+                            checkRelease($scope.articleInActiveaId);
+                        } else {
+                            swal("session过期", "请重新登录8", "error");
+                            $window.location.href = '${request.getContextPath()}/login';
+                        }
+                    });
                 }
             });
         }

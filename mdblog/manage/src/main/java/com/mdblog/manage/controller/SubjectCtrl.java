@@ -1,7 +1,8 @@
-package com.mdblog.manageController;
+package com.mdblog.manage.controller;
 
 import com.mdblog.po.Subject;
 import com.mdblog.service.ManageSubjectService;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import com.mdblog.po.ResponResult;
@@ -9,8 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +33,21 @@ public class SubjectCtrl {
 
             manageSubjectService.addSubject(subject);
         }
-        return "manage";
+        return "manageSubject";
+    }
+
+    @RequestMapping(value = "/update")
+    public void uploadSubject(Subject subject, HttpServletResponse response) {
+        if (StringUtils.isNotBlank(subject.getsTitle()) &&
+                StringUtils.isNotBlank(subject.getsDesc()) &&
+                StringUtils.isNotBlank(subject.getsPic())) {
+            manageSubjectService.updateSubject(subject);
+        }
+        try {
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = "/setRedis")
@@ -42,21 +58,29 @@ public class SubjectCtrl {
 
     @RequestMapping(value = "/get")
     @ResponseBody
-    public List<Subject> getSubject(Integer limit, Integer offset) {
+    public Map getSubject(Integer limit, Integer offset) {
         Map hashMap = new HashMap();
-        Integer page=0;
-        Integer rows=0;
+        Integer page = 0;
+        Integer rows = 0;
         Integer total = 88;
         if (limit != null && offset != null) {
 
-            page = offset/limit+1;
-            rows=limit;
+            page = offset / limit + 1;
 
-            //
             //hashMap.put("total",total);
             //hashMap.put("rows", 10);
-            return manageSubjectService.getTable(page,rows);
+
+            hashMap.put("rows", manageSubjectService.getTable(offset, limit));
+            hashMap.put("total", manageSubjectService.getCount());
+            return hashMap;
         }
         return null;
+    }
+
+    // 删除一个专题
+    @RequestMapping("/del")
+    @ResponseBody
+    public ResponResult delsubject(Long sId) {
+        return manageSubjectService.del(sId);
     }
 }

@@ -1,4 +1,4 @@
-package com.mdblog.manageController;
+package com.mdblog.manage.controller;
 
 import com.mdblog.service.ManagePictureService;
 import org.springframework.beans.factory.annotation.Autowired;

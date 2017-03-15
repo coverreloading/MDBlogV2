@@ -4,11 +4,9 @@ import com.mdblog.dto.CommentsList;
 import com.mdblog.po.Comments;
 import com.mdblog.po.ResponResult;
 import com.mdblog.service.CommentService;
-import com.sun.xml.internal.rngom.ast.builder.CommentList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;

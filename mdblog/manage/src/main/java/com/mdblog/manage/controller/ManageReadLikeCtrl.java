@@ -1,4 +1,4 @@
-package com.mdblog.manageController;
+package com.mdblog.manage.controller;
 
 import com.mdblog.po.ResponResult;
 import com.mdblog.service.ManageReadLikeCount;

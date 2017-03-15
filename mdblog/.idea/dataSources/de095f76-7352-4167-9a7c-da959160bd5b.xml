@@ -179,13 +179,13 @@
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="52" parent="17" name="C_UID">
-      <comment>评论人id</comment>
+    <column id="52" parent="17" name="C_ParentID">
+      <comment>父级id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="53" parent="17" name="C_ParentID">
-      <comment>父级id</comment>
+    <column id="53" parent="17" name="C_UID">
+      <comment>评论人id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
@@ -199,334 +199,348 @@
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="56" parent="17" name="C_Createtime">
+    <column id="56" parent="17" name="C_UID2">
+      <comment>回复对象id</comment>
+      <mandatory>1</mandatory>
+      <data-type>bigint(20)|0</data-type>
+    </column>
+    <column id="57" parent="17" name="C_U_Nickname2">
+      <comment>回复对象昵称(冗余)</comment>
+      <mandatory>1</mandatory>
+      <data-type>char(255)|0</data-type>
+    </column>
+    <column id="58" parent="17" name="C_Content">
+      <mandatory>1</mandatory>
+      <data-type>varchar(255)|0</data-type>
+    </column>
+    <column id="59" parent="17" name="C_Createtime">
       <comment>评论时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="57" parent="17" name="C_Del">
+    <column id="60" parent="17" name="C_Del">
       <comment>删除</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <key id="58" parent="17" name="PRIMARY">
+    <key id="61" parent="17" name="PRIMARY">
       <columns>C_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="59" parent="18" name="NL_ID">
+    <column id="62" parent="18" name="NL_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="60" parent="18" name="NL_From_UID">
+    <column id="63" parent="18" name="NL_From_UID">
       <comment>FromUID</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="61" parent="18" name="NL_To_UID">
+    <column id="64" parent="18" name="NL_To_UID">
       <comment>ToUID</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="62" parent="18" name="NL_Text">
+    <column id="65" parent="18" name="NL_Text">
       <comment>文本</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="63" parent="18" name="NL_IsRead">
+    <column id="66" parent="18" name="NL_IsRead">
       <comment>已阅</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <column id="64" parent="18" name="NL_Createtime">
+    <column id="67" parent="18" name="NL_Createtime">
       <comment>时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <key id="65" parent="18" name="PRIMARY">
+    <key id="68" parent="18" name="PRIMARY">
       <columns>NL_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="66" parent="19" name="RA_ID">
+    <column id="69" parent="19" name="RA_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="67" parent="19" name="RA_Article_ID">
+    <column id="70" parent="19" name="RA_Article_ID">
       <comment>文章id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="68" parent="19" name="RA_UID">
+    <column id="71" parent="19" name="RA_UID">
       <comment>用户id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="69" parent="19" name="RA_Subject_ID">
+    <column id="72" parent="19" name="RA_Subject_ID">
       <comment>专题id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="70" parent="19" name="RA_Title">
+    <column id="73" parent="19" name="RA_Title">
       <comment>文章标题(冗余)</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="71" parent="19" name="RA_Pic">
+    <column id="74" parent="19" name="RA_Pic">
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="72" parent="19" name="RA_Desc">
+    <column id="75" parent="19" name="RA_Desc">
       <comment>描述html</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="73" parent="19" name="RA_Text">
+    <column id="76" parent="19" name="RA_Text">
       <comment>文本html</comment>
       <mandatory>1</mandatory>
       <data-type>text|0</data-type>
     </column>
-    <column id="74" parent="19" name="RA_Read">
+    <column id="77" parent="19" name="RA_Read">
       <comment>阅读量</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="75" parent="19" name="RA_Like">
+    <column id="78" parent="19" name="RA_Like">
       <comment>like</comment>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="76" parent="19" name="RA_Createtime">
+    <column id="79" parent="19" name="RA_Createtime">
       <comment>发布时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="77" parent="19" name="RA_Updatetime">
+    <column id="80" parent="19" name="RA_Updatetime">
       <comment>更新时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="78" parent="19" name="RA_Del">
+    <column id="81" parent="19" name="RA_Del">
       <comment>del</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <key id="79" parent="19" name="PRIMARY">
+    <key id="82" parent="19" name="PRIMARY">
       <columns>RA_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="80" parent="20" name="S_ID">
+    <column id="83" parent="20" name="S_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="81" parent="20" name="S_Title">
+    <column id="84" parent="20" name="S_Title">
       <comment>标题</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="82" parent="20" name="S_Pic">
+    <column id="85" parent="20" name="S_Pic">
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="83" parent="20" name="S_Desc">
+    <column id="86" parent="20" name="S_Desc">
       <comment>描述</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="84" parent="20" name="S_Createtime">
+    <column id="87" parent="20" name="S_Createtime">
       <comment>创建时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="85" parent="20" name="S_Del">
+    <column id="88" parent="20" name="S_Del">
       <comment>删除</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <key id="86" parent="20" name="PRIMARY">
+    <key id="89" parent="20" name="PRIMARY">
       <columns>S_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="87" parent="21" name="SI_ID">
+    <column id="90" parent="21" name="SI_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="88" parent="21" name="SI_SID">
+    <column id="91" parent="21" name="SI_SID">
       <comment>专题id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="89" parent="21" name="SI_RA_ID">
+    <column id="92" parent="21" name="SI_RA_ID">
       <comment>文章id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="90" parent="21" name="SI_Title">
+    <column id="93" parent="21" name="SI_Title">
       <comment>文章标题(冗余)</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="91" parent="21" name="SI_Desc">
+    <column id="94" parent="21" name="SI_Desc">
       <comment>文章描述(冗余)</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="92" parent="21" name="SI_Createtime">
+    <column id="95" parent="21" name="SI_Createtime">
       <comment>创建日期</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="93" parent="21" name="SI_Updatetime">
+    <column id="96" parent="21" name="SI_Updatetime">
       <comment>更新日期</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <key id="94" parent="21" name="PRIMARY">
+    <key id="97" parent="21" name="PRIMARY">
       <columns>SI_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="95" parent="22" name="Sys_Msg_ID">
+    <column id="98" parent="22" name="Sys_Msg_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="96" parent="22" name="Sys_Msg_UID">
+    <column id="99" parent="22" name="Sys_Msg_UID">
       <comment>发布人ID</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="97" parent="22" name="Sys_Msg_Title">
+    <column id="100" parent="22" name="Sys_Msg_Title">
       <comment>标题</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="98" parent="22" name="Sys_Msg_Text">
+    <column id="101" parent="22" name="Sys_Msg_Text">
       <comment>文本内容</comment>
       <mandatory>1</mandatory>
       <data-type>text|0</data-type>
     </column>
-    <column id="99" parent="22" name="Sys_Msg_Createtime">
+    <column id="102" parent="22" name="Sys_Msg_Createtime">
       <comment>发布时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="100" parent="22" name="Sys_Msg_Del">
+    <column id="103" parent="22" name="Sys_Msg_Del">
       <comment>删除标志</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <key id="101" parent="22" name="PRIMARY">
+    <key id="104" parent="22" name="PRIMARY">
       <columns>Sys_Msg_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="102" parent="23" name="U_ID">
+    <column id="105" parent="23" name="U_ID">
       <comment>用户id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="103" parent="23" name="U_Email">
+    <column id="106" parent="23" name="U_Email">
       <comment>邮箱</comment>
       <mandatory>1</mandatory>
       <data-type>char(50)|0</data-type>
     </column>
-    <column id="104" parent="23" name="U_Phone">
+    <column id="107" parent="23" name="U_Phone">
       <comment>手机</comment>
       <data-type>char(20)|0</data-type>
     </column>
-    <column id="105" parent="23" name="U_Password">
+    <column id="108" parent="23" name="U_Password">
       <comment>密码</comment>
       <mandatory>1</mandatory>
       <data-type>char(50)|0</data-type>
     </column>
-    <key id="106" parent="23" name="PRIMARY">
+    <key id="109" parent="23" name="PRIMARY">
       <columns>U_ID</columns>
       <primary>1</primary>
     </key>
-    <column id="107" parent="24" name="UI_UID">
+    <column id="110" parent="24" name="UI_UID">
       <comment>用户id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="108" parent="24" name="UI_Nickname">
+    <column id="111" parent="24" name="UI_Nickname">
       <comment>昵称</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="109" parent="24" name="UI_Pic">
+    <column id="112" parent="24" name="UI_Pic">
       <comment>头像</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="110" parent="24" name="UI_Desc">
+    <column id="113" parent="24" name="UI_Desc">
       <comment>简介</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="111" parent="24" name="UI_Sex">
+    <column id="114" parent="24" name="UI_Sex">
       <comment>性别</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="112" parent="24" name="UI_Birth">
+    <column id="115" parent="24" name="UI_Birth">
       <comment>出生</comment>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="113" parent="24" name="UI_Occupation">
+    <column id="116" parent="24" name="UI_Occupation">
       <comment>职业</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="114" parent="24" name="UI_Live_Place">
+    <column id="117" parent="24" name="UI_Live_Place">
       <comment>居住地</comment>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="115" parent="24" name="UI_Createtime">
+    <column id="118" parent="24" name="UI_Createtime">
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="116" parent="24" name="UI_Del">
+    <column id="119" parent="24" name="UI_Del">
       <comment>del</comment>
       <mandatory>1</mandatory>
       <data-type>int(11)|0</data-type>
     </column>
-    <key id="117" parent="24" name="PRIMARY">
+    <key id="120" parent="24" name="PRIMARY">
       <columns>UI_UID</columns>
       <primary>1</primary>
     </key>
-    <column id="118" parent="25" name="UL_ID">
+    <column id="121" parent="25" name="UL_ID">
       <comment>id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
       <sequence-identity>1</sequence-identity>
     </column>
-    <column id="119" parent="25" name="UL_UID">
+    <column id="122" parent="25" name="UL_UID">
       <comment>用户id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="120" parent="25" name="UL_UID2">
+    <column id="123" parent="25" name="UL_UID2">
       <comment>关注对象id</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <column id="121" parent="25" name="UL_Nickname">
+    <column id="124" parent="25" name="UL_Nickname">
       <comment>对象昵称(冗余)</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="122" parent="25" name="UL_Pic">
+    <column id="125" parent="25" name="UL_Pic">
       <comment>对象头像(冗余)</comment>
       <mandatory>1</mandatory>
       <data-type>char(255)|0</data-type>
     </column>
-    <column id="123" parent="25" name="UL_Createtime">
+    <column id="126" parent="25" name="UL_Createtime">
       <comment>关注时间</comment>
       <mandatory>1</mandatory>
       <data-type>bigint(20)|0</data-type>
     </column>
-    <key id="124" parent="25" name="PRIMARY">
+    <key id="127" parent="25" name="PRIMARY">
       <columns>UL_ID</columns>
       <primary>1</primary>
     </key>

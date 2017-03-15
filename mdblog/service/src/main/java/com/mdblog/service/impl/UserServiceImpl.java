@@ -88,7 +88,6 @@ public class UserServiceImpl implements UserService {
         }
         User user = list.get(0);
         String mdpsw = DigestUtils.md5DigestAsHex(password.getBytes());
-
         if (!mdpsw.equals(user.getuPassword())){
             return ResponResult.build(500, "用户名或密码错了");
         }

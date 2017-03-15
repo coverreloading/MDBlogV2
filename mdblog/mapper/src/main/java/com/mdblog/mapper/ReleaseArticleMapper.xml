@@ -123,6 +123,8 @@
     <include refid="Blob_Column_List"/>
     from release_article
     where RA_ID = #{raId,jdbcType=BIGINT}
+    AND
+    mdblog.release_article.RA_Del=0
 </select>
 <select id="selectByPrimaryKeyWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
     select
@@ -444,7 +446,7 @@
 </update>
 
 <select id="selectHot" resultMap="BaseResultMap" parameterType="Int">
-select * from release_article order by RA_Read desc limit #{page,jdbcType=INTEGER}, #{num,jdbcType=INTEGER};
+select * from release_article WHERE mdblog.release_article.RA_Del=0 order by RA_Read desc limit #{page,jdbcType=INTEGER}, #{num,jdbcType=INTEGER};
 </select>
 
 <select id="selectHotByUid" resultMap="BaseResultMap" parameterType="Long">
@@ -454,6 +456,8 @@ select * from release_article order by RA_Read desc limit #{page,jdbcType=INTEGE
   release_article
   WHERE
   RA_UID= #{uid,jdbcType=BIGINT}
+  AND
+  mdblog.release_article.RA_Del=0
   ORDER BY
   RA_Updatetime DESC
   limit
@@ -468,6 +472,8 @@ select * from release_article order by RA_Read desc limit #{page,jdbcType=INTEGE
   release_article
   WHERE
   RA_Subject_ID= #{subid,jdbcType=BIGINT}
+  AND
+  mdblog.release_article.RA_Del=0
   ORDER BY
   RA_Updatetime DESC
   limit

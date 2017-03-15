@@ -41,6 +41,18 @@ public class ReleaseArticleCtrl {
         }
     }
 
+    @RequestMapping("/remove")
+    @ResponseBody
+    public ResponResult remove(String token,Long aId) {
+        return releaseArticleService.removeRA(token,aId);
+    }
+
+    @RequestMapping("/check")
+    @ResponseBody
+    public ResponResult checkRelease(String token,Long aId) {
+        return releaseArticleService.checkExitRA(token,aId);
+    }
+
     @RequestMapping("/addlike")
     @ResponseBody
     public ResponResult addLike(Long raId) {

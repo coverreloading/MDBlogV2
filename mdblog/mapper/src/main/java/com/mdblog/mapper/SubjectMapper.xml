@@ -232,4 +232,16 @@
   <select id="selectRand" parameterType="Integer" resultMap="BaseResultMap">
     SELECT * FROM subject ORDER BY RAND()  limit #{num,jdbcType=INTEGER}
   </select>
+
+  <!-- 分页 -->
+  <select id="selectLimit" parameterType="Integer" resultMap="BaseResultMap">
+    SELECT *
+    FROM subject
+    ORDER BY S_ID
+    LIMIT #{page,jdbcType=INTEGER} ,#{num,jdbcType=INTEGER} ;
+  </select>
+
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(mdblog.subject.S_ID) from mdblog. subject;
+  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.mdblog.service.impl;
 
+import com.mdblog.po.SubjectExample;
 import com.mdblog.service.ManageSubjectService;
 import com.mdblog.po.JedisClient;
 import com.mdblog.po.ResponResult;
@@ -48,8 +49,14 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
         subjectMapper.insert(subject);
     }
 
+    @Override
+    public void updateSubject(Subject subject) {
+        subjectMapper.updateByPrimaryKeySelective(subject);
+    }
+
     /**
      * 存入redis
+     *
      * @return
      */
     @Override
@@ -59,12 +66,12 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
         jedisClient.set(SUBJECT_ITEM, JsonUtils.objectToJson(subjectList));
 
         Subject subject = new Subject();
-        Iterator ite=subjectList.iterator();
-        while (ite.hasNext()){
-            subject= (Subject) ite.next();
+        Iterator ite = subjectList.iterator();
+        while (ite.hasNext()) {
+            subject = (Subject) ite.next();
 
             // 将每个专题单独存入redis, 然后只留下id和名称
-            jedisClient.hset(SUBJECT_ITEM_Hash, String.valueOf(subject.getsId()),JsonUtils.objectToJson(subject));
+            jedisClient.hset(SUBJECT_ITEM_Hash, String.valueOf(subject.getsId()), JsonUtils.objectToJson(subject));
 
             subject.setsPic(null);
             subject.setsCreatetime(null);
@@ -76,20 +83,35 @@ public class ManageSubjectServiceImpl implements ManageSubjectService {
     }
 
     @Override
-    public List getTable(Integer page, Integer rows) {
+    public List getTable(Integer offset, Integer limit) {
 
+        // id 不连续
+        /*
+        SubjectExample example = new SubjectExample();
+        SubjectExample.Criteria criteria = example.createCriteria();
+        criteria.andSIdBetween(Long.valueOf(page * rows - rows), Long.valueOf(page * rows));
+        List<Subject> list = subjectMapper.selectByExample(example);
+        */
+
+        // redis取数据
+        /*
         String str = jedisClient.get(SUBJECT_ITEM);
         List<Subject> list = JsonUtils.jsonToList(str, Subject.class);
+        */
 
-        //Subject subject = new Subject();
-        //Iterator ite=list.iterator();
-        //while (ite.hasNext()){
-        //    subject= (Subject) ite.next();
-        //
-        //}
-
-        //System.out.println(str);
+        // 自定义limit
+        List<Subject> list = subjectMapper.selectLimit(offset, limit);
         return list;
     }
 
+    @Override
+    public Integer getCount() {
+        return subjectMapper.getCount();
+    }
+
+    @Override
+    public ResponResult del(Long sId) {
+        subjectMapper.deleteByPrimaryKey(sId);
+        return ResponResult.build(200, "项目已成功删除");
+    }
 }

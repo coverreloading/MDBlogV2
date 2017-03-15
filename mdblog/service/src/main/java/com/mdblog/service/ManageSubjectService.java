@@ -10,6 +10,9 @@ import java.util.List;
  */
 public interface ManageSubjectService {
     void addSubject(Subject subject);
+    void updateSubject(Subject subject);
     ResponResult setSubjectRedis();
-    List getTable(Integer limit, Integer offset);
+    List getTable(Integer offset, Integer limit);
+    Integer getCount();
+    ResponResult del(Long sId);
 }

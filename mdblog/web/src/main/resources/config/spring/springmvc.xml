@@ -59,7 +59,9 @@
             <mvc:mapping path="/pic/**"/>
             <mvc:mapping path="/RA/**"/>
             <!--特殊指定-->
-            <mvc:mapping path="/userinfo/update/**"/>
+            <mvc:mapping path="/userinfo/update"/>
+            <mvc:mapping path="/c/add"/>
+            <mvc:mapping path="/c/remove"/>
 
             <bean class="com.mdblog.interceptor.LoginInterceptor"></bean>
         </mvc:interceptor>

@@ -54,8 +54,8 @@ public class ShowArticleServiceImpl implements ShowArticleService {
         }
         // 为空即查询数据库,文章插入redis,更新时间
         releaseArticle = releaseArticleMapper.selectByPrimaryKeyWithBLOBs(RaId);
-        if (releaseArticle == null) {
-            return ResponResult.build(404, "wrong Id , no suck article");
+        if (releaseArticle == null || releaseArticle.getRaDel()==1) {
+            return ResponResult.build(404, "wrong Id , no such article");
         }
         jedisClient.set(baseKey, JsonUtils.objectToJson(releaseArticle));
         jedisClient.expire(baseKey, RA_EXPIRE);

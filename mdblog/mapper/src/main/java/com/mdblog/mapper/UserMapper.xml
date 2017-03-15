@@ -193,4 +193,15 @@
       U_Password = #{uPassword,jdbcType=CHAR}
     where U_ID = #{uId,jdbcType=BIGINT}
   </update>
+
+  <!--自定义方法-->
+  <select id="selectLimit" parameterType="Integer" resultMap="BaseResultMap">
+    select U_ID,U_Email
+    from mdblog.user
+    limit #{offset,jdbcType=INTEGER} ,#{num,jdbcType=INTEGER} ;
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(mdblog.user.U_ID) from mdblog. user;
+  </select>
 </mapper>

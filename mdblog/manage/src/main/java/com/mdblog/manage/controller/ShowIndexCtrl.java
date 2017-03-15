@@ -1,4 +1,4 @@
-package com.mdblog.manageController;
+package com.mdblog.manage.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ShowIndexCtrl {
     @RequestMapping({"/index","/"})
     public String ShowManage(){
-        return "manage";
+        return "manageSubject";
     }
 }
