@@ -444,7 +444,7 @@
                                 <div id="normal-comment-list" class="normal-comment-list">
                                     <div>
                                         <div>
-                                            <div class="top"><span>{{totalnum}}条评论</span>
+                                            <div id="comment_top" class="top"><span>{{totalnum}}条评论</span>
                                                 <a class="author-only">只看作者</a>
                                                 <a class="close-btn" style="display: none;">关闭评论</a>
                                                 <div class="pull-right"><a>按喜欢排序</a>
@@ -522,9 +522,9 @@
                                                                     <span>添加新评论</span>
                                                                 </a>
                                                                 <span ng-if="x.cCount>5"
-                                                                      ng-hide="infloorpage*5>x.cl.length"
-                                                                      ng-click="infloorpage=infloorpage+1"
-                                                                      class="line-warp">
+                                                                              ng-hide="infloorpage*5>x.cl.length"
+                                                                              ng-click="infloorpage=infloorpage+1"
+                                                                              class="line-warp">
                                                                     <a ng-click="getmore(x,infloorpage)"
                                                                        ng-init="infloorpage=1">展开</a>
                                                                 </span>
@@ -569,7 +569,7 @@
                                             <li><a href="javascript:void(null)" class="active">{{$index+1}}</a></li>
                                         </span>
                                         <span ng-if="$index+1!=pagenum">
-                                        <li><a href="javascript:void(null)"
+                                        <li><a
                                                ng-click="changpage($index+1)">{{$index+1}}</a></li>
                                         </span>
                                     </span>

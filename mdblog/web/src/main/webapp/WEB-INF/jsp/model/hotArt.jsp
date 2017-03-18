@@ -177,7 +177,7 @@
         // 添加热门文章
         var oldrecords ;
         $scope.getmore = true;
-        $scope.num=2;
+        $scope.num=10;
         $http.post("/a/hot/0/10")
                 .success(function (response) {
                     $scope.records = response.data;

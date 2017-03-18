@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.MultiQueryMapper" >
+  <select id="solrInsert" resultType="dto.SolrInsertItem">
+
+SELECT u.UI_UID,u.UI_Nickname,u.UI_Pic,u.UI_Sex,r.RA_ID,r.RA_Subject_ID,r.RA_Title,r.RA_Pic,r.RA_Desc,r.RA_Read,r.RA_Like,r.RA_Text
+FROM
+user_info u LEFT JOIN release_article r
+ON u.UI_UID = r.RA_UID
+WHERE u.UI_Nickname !=''
+AND u.UI_Del=0
+AND r.RA_Del=0
+AND (UNIX_TIMESTAMP()*1000- r.RA_Updatetime)/3600/24/1000>=#{days,jdbcType=INTEGER}
+
+  </select>
+</mapper>

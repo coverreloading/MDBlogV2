@@ -8,14 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<nav id="top-bar" style="background-color: #3f3f3f;width:70%;height: 55px; float: left;position: fixed;right: 0px;z-index: 9999">
+<nav id="top-bar"
+     style="background-color: #3f3f3f;width:70%;height: 55px; float: left;position: fixed;right: 0px;z-index: 9999">
     <%--搜索框--%>
     <ul class="nav navbar-nav">
         <li class="search">
             <form target="_blank" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden"
                                                                                               value="✓">
                 <input type="text" name="q" id="q" value="" placeholder="搜索" class="search-input">
-                <a class="search-btn" href="javascript:void(null)"
+                <a onclick="searchfun()" class="search-btn" href="javascript:void(null)"
                    style="border-radius: 50%; color: rgb(255, 255, 255) !important; background-color: rgb(150, 150, 150);"><i
                         class="iconfont ic-search"></i></a>
                 <!-- <div id="navbar-trending-search"></div> -->
@@ -34,9 +35,9 @@
     <div class="login-in">
         <div id="user" class="user">
             <div data-hover="dropdown">
-                <div class="avatar" ><img class="uipic"
-                        src=""
-                        alt="100"></div>
+                <div class="avatar"><img class="uipic"
+                                         src=""
+                                         alt="100"></div>
             </div>
             <ul class="dropdown-menu" style="z-index:9999">
                 <li>
@@ -70,7 +71,7 @@
 
 </div>
 <script>
-    /*
+    <%--
     $("document").ready(function () {
         if ("${token}" != "") {
             $.post("/uinfo/uibtok/${token}", function (data) {
@@ -89,11 +90,23 @@
             $(".login-in").hide();
         }
     })
-    */
-//    用户下拉栏
-    $("#user").hover(function(){
+    --%>
+    var searchfun = function () {
+
+        window.location.href="/search/query?query="+ $('#q').val() +"&page=1&row=10";
+        /*$.get("/search/query", {
+            query: window.encodeURIComponent($('#q').val()),
+            page: '1',
+            row: '5'
+        }, function (result) {
+            console.log(result);
+        });*/
+    };
+
+    //    用户下拉栏
+    $("#user").hover(function () {
         $("#user").addClass("open");
-    },function(){
+    }, function () {
         $("#user").removeClass("open");
     });
 </script>
