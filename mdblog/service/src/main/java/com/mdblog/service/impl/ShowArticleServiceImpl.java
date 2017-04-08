@@ -35,28 +35,34 @@ public class ShowArticleServiceImpl implements ShowArticleService {
 
     @Override
     public ResponResult getRaByRaId(Long RaId) {
+        // 设置好对应的key值
         String baseKey = REDIS_RA_SESSION_KEY + ":" + RaId;
         String readKey = baseKey + ":read";
         String likeKey = baseKey + ":like";
-
+        // 先从redis文章
         ReleaseArticle releaseArticle = new ReleaseArticle();
         releaseArticle = JsonUtils.jsonToPojo(jedisClient.get(baseKey), ReleaseArticle.class);
-
-        // redis中取RA, 不为空即更新时间和read,返回对象
+        // 文章不为空即更新时间和read,返回对象
         if (releaseArticle != null) {
+            // 阅读数+1
             jedisClient.incr(readKey);
+            // 更新阅读数、点赞数
             releaseArticle.setRaRead(Long.valueOf(jedisClient.get(readKey)));
             releaseArticle.setRaLike(Long.valueOf(jedisClient.get(likeKey)));
+            // 更新过期时间
             jedisClient.expire(baseKey, RA_EXPIRE);
             jedisClient.expire(readKey, RA_RAndL_EXPIRE);
             jedisClient.expire(likeKey, RA_RAndL_EXPIRE);
+            // 返回对象
             return ResponResult.ok(releaseArticle);
         }
         // 为空即查询数据库,文章插入redis,更新时间
         releaseArticle = releaseArticleMapper.selectByPrimaryKeyWithBLOBs(RaId);
+        // 数据库查询不到，文章id不正确
         if (releaseArticle == null || releaseArticle.getRaDel()==1) {
             return ResponResult.build(404, "wrong Id , no such article");
         }
+        // 查询到文章，将文章对象存入redis，设置过期时间
         jedisClient.set(baseKey, JsonUtils.objectToJson(releaseArticle));
         jedisClient.expire(baseKey, RA_EXPIRE);
         // 再查read是否为空, 不为空,将取到的值代入,再取like的值,代入,更新时间,返回对象

@@ -57,7 +57,6 @@ public class BookmarksCtrl {
     @RequestMapping("/{page}/{num}")
     @ResponseBody
     public ResponResult getBookmark( String token, @PathVariable long page, @PathVariable long num) {
-        // TODO: 2017/3/1
         return bookmarksService.getBookmark(token, page, num);
     }
 }

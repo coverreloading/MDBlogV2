@@ -47,39 +47,45 @@ public class PictureServiceImpl implements PictureService {
 	public Map uploadPicture(String token,String imagePath, MultipartFile uploadFile) {
 		// 万物根本 返回json包含(success,message,url)
 		Map resultMap = new HashMap();
-		// 验证用户session
+		// 验证用户token是否过期
 		Long userId = userService.getUserIdByToken(token);
+		// token过期，返回错误状态码
 		if (userId == -1) {
 			resultMap.put("success", 0);
 			resultMap.put("message", "文件上传失败");
 			return resultMap;
 		}
 		try {
-			//生成一个新的文件名
-			//取原始文件名
+			// 生成一个新的文件名
+			// 取原始文件名
 			String oldName = uploadFile.getOriginalFilename();
-			//生成新文件名
-			//UUID.randomUUID();
+			// 生成新文件名
+			// UUID.randomUUID();
+			// 本处使用工具类生成新文件名，不使用uuid
 			String newName = IDUtils.genImageName();
+			// 补全文件后缀
 			newName = newName + oldName.substring(oldName.lastIndexOf("."));
-			//图片上传
+			// 图片上传地址，加上userId作为分类文件夹分类标准
 			imagePath="/"+ userId + imagePath;
+			// 调用方法上传文件
 			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD,
 					FTP_BASE_PATH, imagePath, newName, uploadFile.getInputStream());
-			//返回结果
+			// 返回结果
 			if(!result) {
+				// 失败，返回失败状态
 				resultMap.put("success", 0);
 				resultMap.put("message", "文件上传失败");
 				return resultMap;
 			}
+			// 组合文件地址，用于返回到前端
 			String url =IMAGE_BASE_URL + imagePath + "/" + newName;
+			// 成功，存入map，返回
 			resultMap.put("success", 1);
-			resultMap.put("message","上传成功123123");
+			resultMap.put("message","上传成功");
 			resultMap.put("url", url);
-
 			return resultMap;
-
 		} catch (Exception e) {
+			// 异常，返回失败状态
 			resultMap.put("success", 0);
 			resultMap.put("message", "文件上传发生异常");
 			return resultMap;

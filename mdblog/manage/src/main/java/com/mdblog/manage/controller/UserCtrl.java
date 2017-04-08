@@ -45,7 +45,6 @@ public class UserCtrl {
                 fullUser.setUserInfo(userInfoService.getUserInfoByUid(user.getuId()));
                 resultList.add(fullUser);
             }
-
             hashMap.put("rows",resultList);
             hashMap.put("total", manageUserService.getCount());
             return hashMap;

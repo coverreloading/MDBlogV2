@@ -464,7 +464,6 @@ select * from release_article WHERE mdblog.release_article.RA_Del=0 order by RA_
   #{page,jdbcType=BIGINT}, #{num,jdbcType=BIGINT};
 </select>
 
-
 <select id="selectListBySubid" resultMap="BaseResultMap" parameterType="Long">
   SELECT
   *
@@ -478,5 +477,10 @@ select * from release_article WHERE mdblog.release_article.RA_Del=0 order by RA_
   RA_Updatetime DESC
   limit
   #{page,jdbcType=BIGINT}, #{num,jdbcType=BIGINT};
+</select>
+
+<select id="selectAllLimit" resultMap="BaseResultMap" parameterType="Int">
+        SELECT * FROM release_article ORDER BY RA_Createtime DESC
+        LIMIT #{offset,jdbcType=INTEGER}, #{row,jdbcType=INTEGER};
 </select>
 </mapper>

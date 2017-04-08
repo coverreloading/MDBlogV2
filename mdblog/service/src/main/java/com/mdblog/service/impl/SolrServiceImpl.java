@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by loading2013(win10) for project(mdblog) on 2017/3/18.13:45.
@@ -33,10 +35,28 @@ public class SolrServiceImpl implements SolrService {
 
     @Override
     public ResponResult solrInsert(Integer days) {
+        long startTime = System.currentTimeMillis();
         try {
-            //查询商品列表
+            //查询整个列表
             List<SolrInsertItem> list = multiQueryMapper.solrInsert(days);
-            //把商品信息写入索引库
+            /*
+            //定义script的正则表达式
+            String regEx_script="<script[^>]*?>[\\s\\S]*?<\\/script>";
+            //定义style的正则表达式
+            String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>";
+            */
+            //定义HTML标签的正则表达式
+            String regEx_html="<[^>]+>";
+            /*
+            Pattern p_script=Pattern.compile(regEx_script,Pattern.CASE_INSENSITIVE);
+            Pattern p_style=Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
+            */
+            Pattern p_html=Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
+            //String tempText = null;
+            StringBuffer sb1 = new StringBuffer();
+            StringBuffer sb2 = new StringBuffer();
+
+            //把item信息写入索引库
             for (SolrInsertItem item : list) {
                 //创建一个SolrInputDocument对象
                 SolrInputDocument document = new SolrInputDocument();
@@ -50,17 +70,39 @@ public class SolrServiceImpl implements SolrService {
                 document.setField("RA_Desc", item.getRA_Desc());
                 document.setField("RA_Read", item.getRA_Read());
                 document.setField("RA_Like", item.getRA_Like());
-                document.setField("RA_Text", item.getRA_Text());
+
+                //tempText = item.getRA_Text();
+                /*
+                //过滤script标签
+                Matcher m_script=p_script.matcher(tempText);
+                tempText=m_script.replaceAll("");
+                //过滤style标签
+                Matcher m_style=p_style.matcher(tempText);
+                tempText=m_style.replaceAll("");
+                */
+                /*
+                //过滤html标签
+                Matcher m_html=p_html.matcher(tempText);
+                tempText=m_html.replaceAll("");
+                //返回文本字符串
+                document.setField("RA_Text",tempText.trim());
+                */
+                sb1.append(item.getRA_Text());
+                Matcher m_html = p_html.matcher(sb1);
+                sb2.delete(0,sb1.length()-1);
+                sb2.append(m_html.replaceAll(""));
+                document.setField("RA_Text",sb2);
                 //写入索引库
                 solrClient.add(document);
             }
             //提交修改
             solrClient.commit();
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponResult.build(500, ExceptionUtil.getStackTrace(e));
         }
-        return ResponResult.ok();
+        return ResponResult.ok("耗时"+ (System.currentTimeMillis()-startTime)+"ms");
     }
 
     @Override
@@ -77,13 +119,17 @@ public class SolrServiceImpl implements SolrService {
         query.setRows(rows);
         //设置默认搜素域
         query.set("df", "item_keywords");
+
         //设置高亮显示
         query.setHighlight(true);
-        query.addHighlightField("RA_Title");
-        query.addHighlightField("RA_Text");
-        query.addHighlightField("RA_Desc");
-        query.setHighlightSimplePre("<em style=\"color:red\">");
-        query.setHighlightSimplePost("</em>");
+        //query.addHighlightField("RA_Title");
+        query.addHighlightField("item_keywords");
+        //query.addHighlightField("RA_Desc");
+        query.setHighlightSimplePre("<font color='red'>");//标记，高亮关键字前缀
+        query.setHighlightSimplePost("</font>");//后缀
+        query.setHighlightSnippets(1);//结果分片数，默认为1
+        query.setHighlightFragsize(100);//每个分片的最大长度，
+
         //执行查询
         SearchResult searchResult = search(query);
         //计算查询结果总页数
@@ -106,13 +152,13 @@ public class SolrServiceImpl implements SolrService {
         SolrDocumentList solrDocumentList = queryResponse.getResults();
         //取查询结果总数量
         result.setRecordCount(solrDocumentList.getNumFound());
-        //商品列表
+        //列表
         List<SolrInsertItem> itemList = new ArrayList<>();
         //取高亮显示
         Map<String, Map<String, List<String>>> highlighting = queryResponse.getHighlighting();
-        //取商品列表
+        //取列表
         for (SolrDocument solrDocument : solrDocumentList) {
-            //创建一商品对象
+            //创建一对象
             SolrInsertItem item = new SolrInsertItem();
             item.setRA_ID(Long.valueOf(solrDocument.get("id").toString()));
             //取高亮显示的结果
@@ -133,7 +179,7 @@ public class SolrServiceImpl implements SolrService {
             item.setRA_Read((Long) solrDocument.get("RA_Read"));
             item.setRA_Like((Long) solrDocument.get("RA_Like"));
             item.setRA_Text((String) solrDocument.get("RA_Text"));
-            //添加的商品列表
+            //添加item列表
             itemList.add(item);
         }
         result.setItemList(itemList);

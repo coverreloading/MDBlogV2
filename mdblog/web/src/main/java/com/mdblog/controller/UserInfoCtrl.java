@@ -36,7 +36,7 @@ public class UserInfoCtrl {
         return userInfoService.getUserInfoByToken(token);
     }
 
-    // 访问其他用户页面
+    // 访问用户主页
     @RequestMapping(value = "/u/{uid}")
     public String showUserInfoByUid(@PathVariable Long uid, Model model) {
         model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));

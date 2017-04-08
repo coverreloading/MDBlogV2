@@ -64,10 +64,10 @@ public class ArticleServiceImpl implements ArticleService {
         article.setaDel(0);
         articleMapper.insertAndGetId(article);
         // 存入redis
-        jedisClient.set(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(article));
+        jedisClient.set(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(article));
         // 更新redis时间
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":" + token, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
         return ResponResult.ok(article);
     }
 
@@ -80,11 +80,11 @@ public class ArticleServiceImpl implements ArticleService {
         }
         Article article = new Article();
         // 1. redis查询token获取userid
-        String json = jedisClient.get(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
+        String json = jedisClient.get(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
         // 非空判定
         if (org.apache.commons.lang3.StringUtils.isNotBlank(json)) {
             article = JsonUtils.jsonToPojo(json, Article.class);
-        }else{
+        } else {
             // 2. 直接查数据库
             article = articleMapper.selectByPrimaryKey(articleId);
         }
@@ -93,11 +93,11 @@ public class ArticleServiceImpl implements ArticleService {
             return ResponResult.build(400, "又一个搞事的");
         }
         // 直接查数据库需要更新redis
-        jedisClient.set(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, JsonUtils.objectToJson(article));
+        jedisClient.set(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, JsonUtils.objectToJson(article));
 
         // 更新session时效
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, SSO_SESSION_EXPIRE);
         return ResponResult.ok(article);
     }
 
@@ -114,8 +114,8 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         Article articleFromDB = articleMapper.selectByPrimaryKey(article.getaId());
-        if(articleFromDB==null){
-            return ResponResult.build(400,"没有指定保存的文章");
+        if (articleFromDB == null) {
+            return ResponResult.build(400, "没有指定保存的文章");
         }
 
         //article.setaText(new String(article.getaText().getBytes("iso8859-1"),"utf-8"));
@@ -127,44 +127,52 @@ public class ArticleServiceImpl implements ArticleService {
 
         articleMapper.updateByPrimaryKeyWithBLOBs(articleFromDB);
         // 存入redis
-        jedisClient.set(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(articleFromDB));
+        jedisClient.set(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(articleFromDB));
         // 更新redis时间
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
         return ResponResult.ok();
     }
 
     @Override
     public ResponResult getAllArticle(String token, int getFromRedis) {
+        // 调用方法查询redis是否存在该用户信息，有代表已登陆。
         Long UID = userService.getUserIdByToken(token);
         if (UID == -1) {
             return ResponResult.build(401, "session已过期,请重新登录");
         }
+        //
         List<Article> list = new ArrayList<>();
-        // redis 中获取
+        // redis 中获取 ，1代表去redis中读取，0代表数据库读取
         if (getFromRedis == 1) {
+            // 从数据库中读取该用户全部文章的id列表
             List<Long> ids = articleMapper.selectIdListByUserId(UID);
+            // 遍历，从redis中读取该id列表对应的文章，添加到list中
             for (Long id : ids) {
-                //System.out.println(id);
-                list.add(JsonUtils.jsonToPojo(jedisClient.get(REDIS_USER_SESSION_KEY +":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + id), Article.class));
+                list.add(JsonUtils.jsonToPojo(jedisClient.get(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + id), Article.class));
             }
         } else if (getFromRedis == 0) {
             // ArticleExample 查询所有userid==userid的文章
             ArticleExample example = new ArticleExample();
             ArticleExample.Criteria criteria = example.createCriteria();
             criteria.andAUidEqualTo(UID);
+            // 执行查询，获得该用户对应的所有文章的list
             list = articleMapper.selectByExampleWithBLOBs(example);
+            // 为空，返回状态码500
             if (list == null || list.size() == 0) {
                 return ResponResult.build(500, "没有文章");
             }
+            // 不为空，将其存入redis，方便下次可以快速获取数据。
             for (Article article : list) {
                 // 存入redis
-                jedisClient.set(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(article));
+                jedisClient.set(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), JsonUtils.objectToJson(article));
                 // 更新redis时间
-                jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
+                jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + article.getaId(), SSO_SESSION_EXPIRE);
             }
         }
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+        // 更新过期时间
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+        // 返回状态码200
         return ResponResult.ok(list);
     }
 
@@ -177,15 +185,15 @@ public class ArticleServiceImpl implements ArticleService {
         }
         Article article = new Article();
         // 1. redis查询token获取userid
-        String json = jedisClient.get(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
+        String json = jedisClient.get(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
         // 非空判定
         if (org.apache.commons.lang3.StringUtils.isNotBlank(json)) {
             article = JsonUtils.jsonToPojo(json, Article.class);
-        }else{
+        } else {
             // 2. 直接查数据库
             article = articleMapper.selectByPrimaryKey(articleId);
         }
-        if(article==null){
+        if (article == null) {
             return ResponResult.build(400, "这个文章已经被删除了");
         }
         // token对应用户id与文章的UID不一致
@@ -194,11 +202,11 @@ public class ArticleServiceImpl implements ArticleService {
         }
         articleMapper.deleteByPrimaryKey(articleId);
         // 直接查数据库需要更新redis
-        jedisClient.del(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
+        jedisClient.del(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId);
 
         // 更新session时效
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
-        jedisClient.expire(REDIS_USER_SESSION_KEY+":"+REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token, SSO_SESSION_EXPIRE);
+        jedisClient.expire(REDIS_USER_SESSION_KEY + ":" + REDIS_ARTICLE_SESSION_KEY + ":" + token + ":" + articleId, SSO_SESSION_EXPIRE);
         return ResponResult.ok(article);
     }
 }

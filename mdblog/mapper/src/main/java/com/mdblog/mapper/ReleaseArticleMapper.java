@@ -55,4 +55,7 @@ public interface ReleaseArticleMapper {
 
     // 获取指定专题文章
     List<ReleaseArticle> selectListBySubid(@Param("subid") Long subid, @Param("page") Long page, @Param("num") Long num);
+
+    // 管理端获取所有文章分页
+    List<ReleaseArticle> selectAllLimit(@Param("offset") int offset, @Param("row") int row);
 }

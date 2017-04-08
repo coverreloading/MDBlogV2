@@ -7,7 +7,7 @@ import java.util.List;
 
 public class SearchResult {
 
-    //商品列表
+    //查询列表
     private List<SolrInsertItem> itemList;
     //总记录数
     private long recordCount;

@@ -64,7 +64,7 @@
                             </div>
                             <a href="/a/{{x.rA_ID}}" target="_blank" class="title">{{x.rA_Title}}</a>
                             <p class="abstract" style="text-overflow : clip;">
-                                {{x.rA_Desc}}
+                                {{x.rA_Text}}
                             </p>
                             <div class="meta"><a href="/a/{{x.rA_ID}}" target="_blank"><i class="iconfont ic-list-read"></i> {{x.rA_Read}} </a>
                                 <a hidden href="/p/ca185fff7ccb#comments" target="_blank"><i class="iconfont ic-list-comments"></i> 30 </a>

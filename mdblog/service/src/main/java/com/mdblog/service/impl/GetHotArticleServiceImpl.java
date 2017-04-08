@@ -50,6 +50,12 @@ public class GetHotArticleServiceImpl implements GetHotArticleService {
         return privateMethod(list);
     }
 
+    @Override
+    public List<ReleaseArticle> selectAllLimit(Integer offset, Integer rows) {
+        List<ReleaseArticle> list = releaseArticleMapper.selectAllLimit(offset, rows);
+        return privateMethod(list);
+    }
+
     /**内部方法 用于从redis中更新read和like
      * @param list
      * @return

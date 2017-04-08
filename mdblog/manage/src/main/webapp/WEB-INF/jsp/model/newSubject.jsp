@@ -6,42 +6,51 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
-<div >
-    <div>
-        <input type="file" name="uploadFile" class="layui-upload-file"><br>
-        <img style="height: 100px;" id="LAY_demo_upload">
+<br>
+<div>
+    <input type="file" name="uploadFile" class="layui-upload-file"><br>
+    <img style="height: 100px;" id="LAY_demo_upload">
+</div>
+<br>
+<form class="layui-form layui-form-pane" method="post" action="${request.getContextPath()}/subject/add">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sTitle" lay-verify="required" placeholder="请输入" autocomplete="off"
+                   class="layui-input">
+        </div>
     </div>
-    <br>
-    <form class="layui-form layui-form-pane" method="post" action="${request.getContextPath()}/subject/add">
-        <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
-            <div class="layui-input-inline">
-                <input type="text" name="sTitle" lay-verify="required" placeholder="请输入" autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
 
-        <input id="newSubjectPicUrl" hidden="hidden" name="sPic" lay-verify="sPic">
+    <input id="newSubjectPicUrl" hidden="hidden" name="sPic" lay-verify="sPic">
 
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">专题描述</label>
-            <div class="layui-input-block">
-                <textarea name="sDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
-            </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">专题描述</label>
+        <div class="layui-input-block">
+            <textarea name="sDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
         </div>
-        <div class="layui-form-item">
-            <button class="layui-btn" lay-submit="" lay-filter="NSForm" >提交</button>
+    </div>
+    <div class="layui-form-item">
+        <button class="layui-btn" lay-submit="" lay-filter="NSForm">提交</button>
+    </div>
+</form>
+<br>
+<div>
+    <button class="layui-btn" ng-click="setRedis()">刷新专题缓存</button>
+    <button class="layui-btn" ng-click="updateRA()">保存文章阅读喜欢数</button>
+    </br>
+    </br>
+    <div>
+        <label class="layui-form-label" style="width:150px;">刷新距今几天文章</label>
+        <div class="layui-input-inline">
+            <input type="number" ng-model="days"  placeholder="请输入天数" autocomplete="off" class="layui-input">
         </div>
-    </form>
-    <br>
-    <button class="layui-btn"  ng-click="setRedis()">刷新专题缓存</button>
-    <button class="layui-btn"  ng-click="updateRA()">保存文章阅读喜欢数</button>
+        <button class="layui-btn" ng-click="importSolr(days)">更新solr索引</button>
+    </div>
 </div>
 <script>
-
     layui.use(['form', 'upload'], function () {
         var form = layui.form()
-                , layer = layui.layer
+            , layer = layui.layer
         layui.upload({
             url: '/pic/subjectPic'
             , method: 'post' //上传接口的http类型
@@ -50,13 +59,13 @@
                 $('#newSubjectPicUrl').val(res.url);
                 $('#SubjectPicUrl').val(res.url);
                 $('#LAY_upload').removeAttr('src');
-                $('#LAY_upload').attr('src',res.url);
+                $('#LAY_upload').attr('src', res.url);
             }
         });
         // 自定义图片校验
         form.verify({
-            sPic: function(value){
-                if(value=="0"){
+            sPic: function (value) {
+                if (value == "0") {
                     return '还没上传图片';
                 }
             }

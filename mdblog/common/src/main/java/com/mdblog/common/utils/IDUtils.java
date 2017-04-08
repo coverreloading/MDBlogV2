@@ -30,7 +30,7 @@ public class IDUtils {
 	}
 	
 	/**
-	 * 商品id生成
+	 * id生成
 	 */
 	public static long genItemId() {
 		//取当前时间的长整形值包含毫秒

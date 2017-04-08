@@ -12,9 +12,9 @@
             <%--<button id="btn_add" type="button" class="btn btn-default"  >--%>
             <%--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增--%>
             <%--</button>--%>
-            <button hidden id="btn_edit" type="button" class="btn btn-default" ng-click="resource_edit();">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
-            </button>
+            <%--<button hidden id="btn_edit" type="button" class="btn btn-default" ng-click="resource_edit();">--%>
+                <%--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改--%>
+            <%--</button>--%>
             <button id="btn_delete" type="button" class="btn btn-default" onclick="resource_delete();">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
