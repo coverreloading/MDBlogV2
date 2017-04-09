@@ -1,8 +1,7 @@
 package com.mdblog.manage.controller;
 
-import com.mdblog.manage.dto.FullUser;
+import com.mdblog.manage.VO.FullUser;
 import com.mdblog.po.User;
-import com.mdblog.po.UserInfo;
 import com.mdblog.service.ManageUserService;
 import com.mdblog.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

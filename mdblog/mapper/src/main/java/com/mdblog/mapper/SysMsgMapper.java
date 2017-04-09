@@ -33,4 +33,11 @@ public interface SysMsgMapper {
     int updateByPrimaryKeyWithBLOBs(SysMsg record);
 
     int updateByPrimaryKey(SysMsg record);
+
+    //--------------------------------自定义方法-------------------------------------
+
+    //分页
+    List<SysMsg> selectLimit(@Param("offset") int offset, @Param("limit") int limit);
+
+    int totalCout();
 }

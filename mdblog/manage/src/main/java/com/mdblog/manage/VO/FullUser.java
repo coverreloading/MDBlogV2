@@ -1,4 +1,4 @@
-package com.mdblog.manage.dto;
+package com.mdblog.manage.VO;
 
 import com.mdblog.po.User;
 import com.mdblog.po.UserInfo;

@@ -67,7 +67,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setUiUid(uid);
 
         try {
-            System.out.println("用户详细信息为" + userInfo.toString());
+            //System.out.println("用户详细信息为" + userInfo.toString());
 
             UserInfoExample userInfoExample = new UserInfoExample();
             UserInfoExample.Criteria criteria = userInfoExample.createCriteria();

@@ -18,7 +18,7 @@
             <a href="/user">用户管理</a>
         </li>
         <li id="msg_nav" class="layui-nav-item">
-            <a href="" ng-click="messageManage()">通知管理</a>
+            <a href="/msg">通知管理</a>
         </li>
         <li id="tip_nav" class="layui-nav-item">
             <a href="" ng-click="tipsManage">标签库查看</a>

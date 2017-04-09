@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdblog.mapper.UserMsgMiddleMapper" >
+  <resultMap id="BaseResultMap" type="com.mdblog.po.UserMsgMiddle" >
+    <id column="UMM_ID" property="ummId" jdbcType="BIGINT" />
+    <result column="UMM_UID" property="ummUid" jdbcType="BIGINT" />
+    <result column="UMM_MID" property="ummMid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    UMM_ID, UMM_UID, UMM_MID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.mdblog.po.UserMsgMiddleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_msg_middle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_msg_middle
+    where UMM_ID = #{ummId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_msg_middle
+    where UMM_ID = #{ummId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.mdblog.po.UserMsgMiddleExample" >
+    delete from user_msg_middle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.mdblog.po.UserMsgMiddle" >
+    insert into user_msg_middle (UMM_ID, UMM_UID, UMM_MID
+      )
+    values (#{ummId,jdbcType=BIGINT}, #{ummUid,jdbcType=BIGINT}, #{ummMid,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.mdblog.po.UserMsgMiddle" >
+    insert into user_msg_middle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ummId != null" >
+        UMM_ID,
+      </if>
+      <if test="ummUid != null" >
+        UMM_UID,
+      </if>
+      <if test="ummMid != null" >
+        UMM_MID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ummId != null" >
+        #{ummId,jdbcType=BIGINT},
+      </if>
+      <if test="ummUid != null" >
+        #{ummUid,jdbcType=BIGINT},
+      </if>
+      <if test="ummMid != null" >
+        #{ummMid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.mdblog.po.UserMsgMiddleExample" resultType="java.lang.Integer" >
+    select count(*) from user_msg_middle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_msg_middle
+    <set >
+      <if test="record.ummId != null" >
+        UMM_ID = #{record.ummId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ummUid != null" >
+        UMM_UID = #{record.ummUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.ummMid != null" >
+        UMM_MID = #{record.ummMid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_msg_middle
+    set UMM_ID = #{record.ummId,jdbcType=BIGINT},
+      UMM_UID = #{record.ummUid,jdbcType=BIGINT},
+      UMM_MID = #{record.ummMid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mdblog.po.UserMsgMiddle" >
+    update user_msg_middle
+    <set >
+      <if test="ummUid != null" >
+        UMM_UID = #{ummUid,jdbcType=BIGINT},
+      </if>
+      <if test="ummMid != null" >
+        UMM_MID = #{ummMid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where UMM_ID = #{ummId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mdblog.po.UserMsgMiddle" >
+    update user_msg_middle
+    set UMM_UID = #{ummUid,jdbcType=BIGINT},
+      UMM_MID = #{ummMid,jdbcType=BIGINT}
+    where UMM_ID = #{ummId,jdbcType=BIGINT}
+  </update>
+</mapper>

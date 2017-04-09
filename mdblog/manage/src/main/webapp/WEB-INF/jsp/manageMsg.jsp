@@ -35,7 +35,7 @@
 </head>
 <body >
 <div >
-    <jsp:include page="model/leftBar.jsp" ></jsp:include>
+    <jsp:include page="model/leftBar.jsp"/>
     <div id="main-bar" style="background-color: #ffffff;width:70%;float: left;">
         <div>
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief"
@@ -46,11 +46,8 @@
                 </ul>
                 <div id="subject-tab-item" class="layui-tab-content"
                      style="height: 100px;overflow-y: auto;overflow-x: hidden">
-                    <div ng-app="indexApp" ng-controller="indexCtrl" class="layui-tab-item ">
-                        <jsp:include page="model/newSubject.jsp"flush="true"></jsp:include>
-                    </div>
                     <div class="layui-tab-item layui-show">
-                        <jsp:include page="model/showSubject.jsp"flush="true"></jsp:include>
+                        <jsp:include page="model/showMsg.jsp"></jsp:include>
                     </div>
                 </div>
             </div>
@@ -70,9 +67,8 @@
 </html>
 
 <script>
-    alert("sldkfj");
-    $('#sub_nav').addClass('layui-this');
-    $('#sub_nav').addClass('fixed');
+    $('#msg_nav').addClass('layui-this');
+    $('#msg_nav').addClass('fixed');
 
 
     var app = angular.module("indexApp", []);

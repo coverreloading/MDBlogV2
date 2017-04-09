@@ -60,16 +60,7 @@ public class SubjectCtrl {
     @ResponseBody
     public Map getSubject(Integer limit, Integer offset) {
         Map hashMap = new HashMap();
-        Integer page = 0;
-        Integer rows = 0;
-        Integer total = 88;
         if (limit != null && offset != null) {
-
-            page = offset / limit + 1;
-
-            //hashMap.put("total",total);
-            //hashMap.put("rows", 10);
-
             hashMap.put("rows", manageSubjectService.getTable(offset, limit));
             hashMap.put("total", manageSubjectService.getCount());
             return hashMap;

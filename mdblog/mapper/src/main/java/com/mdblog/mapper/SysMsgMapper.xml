@@ -180,7 +180,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+    <update id="updateByExampleSelective" parameterType="map" >
     update sys_msg
     <set >
       <if test="record.sysMsgId != null" >
@@ -267,4 +267,12 @@
       Sys_Msg_Del = #{sysMsgDel,jdbcType=INTEGER}
     where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
   </update>
+<!--自定义方法-->
+  <select id="selectLimit" resultType="com.mdblog.po.SysMsg">
+    SELECT * FROM mdblog.sys_msg LIMIT #{offset},#{limit};
+  </select>
+  <select id="totalCout" resultType="java.lang.Integer">
+    select count(mdblog.sys_msg.Sys_Msg_ID) from mdblog.sys_msg;
+  </select>
+
 </mapper>
