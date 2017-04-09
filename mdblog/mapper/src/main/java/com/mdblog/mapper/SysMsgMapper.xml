@@ -268,11 +268,11 @@
     where Sys_Msg_ID = #{sysMsgId,jdbcType=BIGINT}
   </update>
 <!--自定义方法-->
-  <select id="selectLimit" resultType="com.mdblog.po.SysMsg">
-    SELECT * FROM mdblog.sys_msg LIMIT #{offset},#{limit};
+  <select id="selectLimit" parameterType="int" resultMap="ResultMapWithBLOBs">
+    SELECT * FROM sys_msg limit #{offset,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}
   </select>
   <select id="totalCout" resultType="java.lang.Integer">
-    select count(mdblog.sys_msg.Sys_Msg_ID) from mdblog.sys_msg;
+    select count(sys_msg.Sys_Msg_ID) from mdblog.sys_msg
   </select>
 
 </mapper>

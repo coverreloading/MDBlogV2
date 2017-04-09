@@ -9,12 +9,13 @@
 <div ng-app="modelApp" ng-controller="modelCtrl">
     <div class="panel-body" style="padding-bottom:0px;">
         <div id="toolbar" class="btn-group">
-            <%--<button id="btn_add" type="button" class="btn btn-default"  >--%>
-            <%--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增--%>
-            <%--</button>--%>
+            <button id="btn_add" type="button" class="btn btn-default" onclick="resource_add();">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
             <%--<button hidden id="btn_edit" type="button" class="btn btn-default" ng-click="resource_edit();">--%>
-                <%--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改--%>
+            <%--<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改--%>
             <%--</button>--%>
+
             <button id="btn_delete" type="button" class="btn btn-default" onclick="resource_delete();">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
             </button>
@@ -22,35 +23,30 @@
         <table id="subject_table"></table>
     </div>
     <!-- 模态框（Modal） -->
-    <div class="modal fade" id="subjectModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">修改专题</h4>
+                    <h4 class="modal-title" id="myModalLabel">修改新增</h4>
                 </div>
                 <div class="modal-body">
                     <form class="layui-form layui-form-pane" method="post"
-                          action="${request.getContextPath()}/subject/update">
+                          action="${request.getContextPath()}/msg/add">
                         <input id="sId" name="sId" hidden>
                         <div class="layui-form-item">
                             <label class="layui-form-label">标题</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="sTitle" lay-verify="required" id="uploadsTitle"
+                                <input type="text" name="sysMsgTitle" lay-verify="required" id="sysMsgTitle"
                                        autocomplete="off"
                                        class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <input type="file" name="uploadFile" class="layui-upload-file"><br>
-                            <img style="height: 100px;" id="LAY_upload">
-                        </div>
-                        <input id="SubjectPicUrl" hidden="hidden" name="sPic" lay-verify="sPic">
                         <div class="layui-form-item layui-form-text">
-                            <label class="layui-form-label">专题描述</label>
+                            <label class="layui-form-label">文本</label>
                             <div class="layui-input-block">
-                                <textarea name="sDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                                <textarea name="sysMsgText" placeholder="请输入内容" class="layui-textarea"></textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
@@ -133,28 +129,22 @@
                 showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
                 cardView: false,                    //是否显示详细视图
                 detailView: false,                   //是否显示父子表
-                idField: 'sId',
+                idField: 'sysMsgId',
                 columns: [{
                     checkbox: true
                 }, {
-                    field: 'sId',
-                    title: '专题id',
+                    field: 'sysMsgId',
+                    title: 'id',
                     width: 20
                 }, {
-                    field: 'sTitle',
+                    field: 'sysMsgTitle',
                     title: '标题',
                     width: 100
                 }, {
-                    field: 'sPic',
-                    title: '图片',
-                    formatter: function (value, row, index) {
-                        return '<img  src="' + value + '" class="img-rounded" width="50px">';
-                    }
-                }, {
-                    field: 'sDesc',
+                    field: 'sysMsgText',
                     title: '描述'
-                },{
-                    field: 'sCreatetime',
+                }, {
+                    field: 'sysMsgCreatetime',
                     title: '创建时间',
                     width: 200,
                     formatter: function (value) {
@@ -192,10 +182,16 @@
 
         return oInit;
     };
+    resource_add = function () {
+        var selectIndex = $('input[name="btSelectItem"]:checked ').val();
+//        addItem($subjectTable, "/msg/add", selectIndex, true);
+        $('#msgModal').modal('show');
+    };
+
     // 删除
     resource_delete = function () {
         var selectIndex = $('input[name="btSelectItem"]:checked ').val();
-        deleteItem($subjectTable, "/subject/del", selectIndex, true);
+        deleteItem($subjectTable, "/msg/del", selectIndex, true);
     };
     function deleteItem($table, requestUrl, selectIndex, reLoad) {
         var selRow = $table.bootstrapTable('getSelections');
@@ -254,14 +250,14 @@
                 data: datas,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-                            swal("成功", "", "success");
-                        } else {
-                            swal("失败", "请重新添加", "error");
-                        }
-                    });
+                .success(function (data) {
+                    console.log(data);
+                    if (data.status == 200) {
+                        swal("成功", "", "success");
+                    } else {
+                        swal("失败", "请重新添加", "error");
+                    }
+                });
         }
     })
     // 按钮事件

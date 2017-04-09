@@ -41,8 +41,7 @@
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief"
                  style="background-color: #ffffff;margin: 0px ">
                 <ul class="layui-tab-title">
-                    <li >新增专题</li>
-                    <li class="layui-this">专题管理</li>
+                    <li class="layui-this">通知管理</li>
                 </ul>
                 <div id="subject-tab-item" class="layui-tab-content"
                      style="height: 100px;overflow-y: auto;overflow-x: hidden">
@@ -60,7 +59,6 @@
         <div id="subject" hidden="hidden">
             <div id="demo2"></div>
         </div>
-
     </div>
 </div>
 </body>

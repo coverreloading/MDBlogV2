@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +29,14 @@ public class MsgCtrl {
     }
 
     @RequestMapping("/add")
-    @ResponseBody
-    public ResponResult add(SysMsg sysMsg) {
-        return manageMsgService.addMsg(sysMsg);
+    public void add(SysMsg sysMsg, HttpServletResponse response) throws IOException {
+        try {
+            manageMsgService.addMsg(sysMsg);
+            response.sendRedirect("/msg");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/msg");
+        }
     }
 
     @RequestMapping("/del")
@@ -48,7 +55,7 @@ public class MsgCtrl {
     @ResponseBody
     public Map getSubject(Integer limit, Integer offset) {
         if (limit!=null && offset != null) {
-            return manageMsgService.getTable(offset, limit);
+            return manageMsgService.getTable(0, 5);
         }
         return null;
     }

@@ -47,10 +47,10 @@
                 <div id="subject-tab-item" class="layui-tab-content"
                      style="height: 100px;overflow-y: auto;overflow-x: hidden">
                     <div ng-app="indexApp" ng-controller="indexCtrl" class="layui-tab-item ">
-                        <jsp:include page="model/newSubject.jsp"flush="true"></jsp:include>
+                        <jsp:include page="model/newSubject.jsp" ></jsp:include>
                     </div>
                     <div class="layui-tab-item layui-show">
-                        <jsp:include page="model/showSubject.jsp"flush="true"></jsp:include>
+                        <jsp:include page="model/showSubject.jsp" ></jsp:include>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,6 @@
 </html>
 
 <script>
-    alert("sldkfj");
     $('#sub_nav').addClass('layui-this');
     $('#sub_nav').addClass('fixed');
 

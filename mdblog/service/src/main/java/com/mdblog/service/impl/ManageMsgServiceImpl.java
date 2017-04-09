@@ -1,5 +1,6 @@
 package com.mdblog.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.mdblog.common.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,6 +72,7 @@ public class ManageMsgServiceImpl implements ManageMsgService {
     @Override
     public Map getTable(int offset, int limit) {
         Map map = new HashMap();
+        System.out.println(JSON.toJSON(sysMsgMapper.selectLimit(0, 5)));
         map.put("rows", sysMsgMapper.selectLimit(offset, limit));
         map.put("total", sysMsgMapper.totalCout());
         return map;
