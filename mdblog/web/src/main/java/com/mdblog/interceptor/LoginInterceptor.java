@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.druid.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 /**
@@ -43,7 +44,7 @@ public class LoginInterceptor implements HandlerInterceptor{
         HttpSession session = request.getSession();
         String token = (String)session.getAttribute("token");
 
-        if(token != null){
+        if(!StringUtils.isEmpty(token)){
             return true;
         }
         //不符合条件的，跳转到登录界面

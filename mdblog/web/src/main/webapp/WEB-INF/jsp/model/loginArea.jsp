@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div class="sign" ng-app="registApp" ng-controller="resgistCtrl">
-    <div hidden  class="well"
+    <div hidden class="well"
          style="max-width: 400px; margin: 0 auto 10px; margin-top: 150px">
         <h1 align="center">MD Blog登录</h1>
         <form ng-submit="formSub()">
@@ -34,13 +34,13 @@
             </div>
         </h4>
         <div class="js-sign-in-container">
-            <form  accept-charset="UTF-8" method="post"ng-submit="formSub()">
+            <form accept-charset="UTF-8" method="post" ng-submit="formSub()">
                 <div class="input-prepend restyle js-normal ">
-                    <input placeholder="手机号或邮箱" type="text"  name="email" ng-model="email" >
+                    <input placeholder="手机号或邮箱" type="text" name="email" ng-model="email">
                     <i class="iconfont ic-user"></i>
                 </div>
                 <div class="input-prepend">
-                    <input placeholder="密码" type="password" name="password" ng-model="password" >
+                    <input placeholder="密码" type="password" name="password" ng-model="password">
                     <i class="iconfont ic-password"></i>
                 </div>
 
@@ -57,7 +57,7 @@
                         <li><a target="_blank" href="/p/498a9fa7da08">无法用 Google 帐号登录</a></li>
                     </ul>
                 </div>
-                <input type="submit"  value="登录" class="sign-in-button">
+                <input type="submit" value="登录" class="sign-in-button">
             </form>
             <!-- 手机验证码登录modal -->
 
@@ -95,34 +95,33 @@
                 url: '${request.getContextPath()}/user/login',
                 data: "email=" + $scope.email + "&password=" + $scope.password,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
+            }).success(function (data) {
+                console.log(data);
+                if (data.status == 200) {
 //                            $scope.msg = "登录成功,跳转到主页";
-                            $timeout(function () {
-                                $window.location.href = '${request.getContextPath()}/';
-                            }, 2000);
-                            /*
-                             swal({
-                             title: "登录成功",
-                             text: "恭喜你，成功登陆MD Blog",
-                             type: "success",
-                             showCancelButton: false,
-                             confirmButtonColor: "#aedef4",
-                             confirmButtonText: "跳转到首页",
-                             closeOnConfirm: false
-                             }, function () {
-                             $window.location.href = '
-                            <%--${request.getContextPath()}/';--%>
-                             });
-                             */
-                            $window.location.href = '${request.getContextPath()}/';
+                    $timeout(function () {
+                        $window.location.href = '${request.getContextPath()}/';
+                    }, 2000);
+                    /*
+                     swal({
+                     title: "登录成功",
+                     text: "恭喜你，成功登陆MD Blog",
+                     type: "success",
+                     showCancelButton: false,
+                     confirmButtonColor: "#aedef4",
+                     confirmButtonText: "跳转到首页",
+                     closeOnConfirm: false
+                     }, function () {
+                     $window.location.href = '
+                    <%--${request.getContextPath()}/';--%>
+                     });
+                     */
+                    $window.location.href = '${request.getContextPath()}/';
 
-                        } else {
-                            swal("登录失败", data.msg, "error");
-                        }
-                    });
+                } else {
+                    swal("登录失败", data.msg, "error");
+                }
+            });
         }
     });
 </script>

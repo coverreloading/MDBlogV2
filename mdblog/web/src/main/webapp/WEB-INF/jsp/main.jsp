@@ -64,7 +64,7 @@
                 <div>
                     <a href="#" class="list-group-item active" ng-click="addArticle()">新建文章</a>
                 </div>
-                <div style="overflow:scroll; overflow-x:hidden; height:{{articleListHeight}}px;background-color:#337ab7; ">
+                <div id="artlist" style="overflow:scroll; overflow-x:hidden; background-color:#337ab7; ">
                     <div ng-repeat="article in articles">
                         <a class="list-group-item abt" ng-click="getArticle(article.aId)" style="border-radius: 0px;">{{article.aTitle}}</a>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div ng-show="released" style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
                     <a class="btn btn-success btn-block btn-lg"
-                        ng-click="removeRelease()">取消发布</a>
+                       ng-click="removeRelease()">取消发布</a>
                 </div>
                 <div ng-show="!released" style="width: 100px;height: 20px;position:absolute;right:15px;bottom: 210px;">
                     <a class="btn btn-info btn-block btn-lg" data-toggle="modal"
@@ -230,37 +230,38 @@
     var text = null;
     var app = angular.module("articleApp", []);
     app.controller("articleCtrl", function ($scope, $http, $window, $timeout, $interval) {
-        $scope.articleListHeight = winowHeight - 51;
+//        $scope.articleListHeight = winowHeight - 51;
+        $('#articleListHeight').css('height',winowHeight - 51);
         // 未登录跳转
+        console.log("${token}");
         if ("${token}" == "") {
-            $window.location.href = '${request.getContextPath()}/login';
+            <%--$window.location.href = '${request.getContextPath()}/login';--%>
         }
         // 获取所有文章 check用于判断是从redis中获取数据 loadTheFirstArticle用于判断是否自动加载第一个文章(删除方法调用)
         $scope.check = 0;
         var getAllArticle = function (loadTheFirstArticle) {
             $http({
                 method: 'POST',
-                url: '${request.getContextPath()}/article/getAllArticle',
-                data: "token=${token}&check=" + $scope.check,
+                url: '/article/getAllArticle',
+                data: 'token=${token}&check=' + $scope.check,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-//                        console.log(data);
-                        if (data.status == 200) {
-                            $scope.articles = data.data;
-                            $scope.check = 1;
-                            if (loadTheFirstArticle == 1) {
-                                getArticleFun(data.data[0].aId);
-                            }
-                        } else if (data.status == 500) {
-                            $scope.check = 1;
-                            swal("还没有文章", "点击左边新建文章开始写markdown", "warning");
-                        }
-                        else {
-                            swal("session过期", "请重新登录1", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    $scope.articles = data.data;
+                    $scope.check = 1;
+                    if (loadTheFirstArticle == 1) {
+                        getArticleFun(data.data[0].aId);
+                    }
+                } else if (data.status == 500) {
+                    $scope.check = 1;
+                    swal("还没有文章", "点击左边新建文章开始写markdown", "warning");
+                }
+                else {
+                    swal("session过期", "请重新登录1", "error");
+                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                }
+            });
         };
 
         // 获取所有文章
@@ -276,18 +277,17 @@
                 url: '${request.getContextPath()}/article/addArticle',
                 data: "token=${token}",
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-                            getAllArticle(1);
-                            $('#addSuccessMsg').fadeIn("fast");
-                            $('#addSuccessMsg').fadeOut(1000);
-                        } else {
-                            swal("session过期", "请重新登录2", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    getAllArticle(1);
+                    $('#addSuccessMsg').fadeIn("fast");
+                    $('#addSuccessMsg').fadeOut(1000);
+                } else {
+                    swal("session过期", "请重新登录2", "error");
+                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                }
+            });
         }
         // 编辑器初始化
         <%--function initMdEditor(articleId) {--%>
@@ -326,7 +326,7 @@
 
                 } else {
                     swal("session过期", "请重新登录3", "error");
-                    $window.location.href = '${request.getContextPath()}/login';
+                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
                 }
             });
             checkRelease(articleId);
@@ -351,23 +351,22 @@
                         url: '${request.getContextPath()}/article/delArticle',
                         data: "token=${token}&articleId=" + articleId,
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                            .success(function (respon) {
-                                console.log(respon);
-                                if (respon.status == 200) {
-                                    getAllArticle(1);
-                                    swal("删除成功", "文章已成功删除", "success");
-                                    $timeout(function () {
-                                        swal.close();
-                                    }, 2000);
-                                } else if (respon.status == 400) {
-                                    swal("出错啦", respon.msg, "error");
-                                }
-                                else {
-                                    swal("session过期", "请重新登录4", "error");
-                                    $window.location.href = '${request.getContextPath()}/login';
-                                }
-                            });
+                    }).success(function (respon) {
+                        console.log(respon);
+                        if (respon.status == 200) {
+                            getAllArticle(1);
+                            swal("删除成功", "文章已成功删除", "success");
+                            $timeout(function () {
+                                swal.close();
+                            }, 2000);
+                        } else if (respon.status == 400) {
+                            swal("出错啦", respon.msg, "error");
+                        }
+                        else {
+                            swal("session过期", "请重新登录4", "error");
+                            <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                        }
+                    });
                 } else {
                     swal("手滑了", "下次别再手滑了= = ", "error");
                 }
@@ -389,26 +388,25 @@
                 "&aText=" + getmd +
                 "&aUid=" + $scope.articleInActiveaUid,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-                            getAllArticle(0);
-                            swal("保存成功", "文章" + $scope.articleInActiveaTitle + "已成功保存", "success");
-                            $timeout(function () {
-                                swal.close();
-                            }, 2000);
-                        } else if (data.status == 400) {
-                            swal("错啦", data.msg + ",重新选中一篇文章开始编辑吧", "error");
-                            $timeout(function () {
-                                swal.close();
-                            }, 2000);
-                        }
-                        else {
-                            swal("session过期", "请重新登录5", "error");
-                            <%--$window.location.href = '${request.getContextPath()}/login';--%>
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    getAllArticle(0);
+                    swal("保存成功", "文章" + $scope.articleInActiveaTitle + "已成功保存", "success");
+                    $timeout(function () {
+                        swal.close();
+                    }, 2000);
+                } else if (data.status == 400) {
+                    swal("错啦", data.msg + ",重新选中一篇文章开始编辑吧", "error");
+                    $timeout(function () {
+                        swal.close();
+                    }, 2000);
+                }
+                else {
+                    swal("session过期", "请重新登录5", "error");
+                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                }
+            });
         }
         // 文章自动保存方法
         var autpUpdate = function (articleId) {
@@ -420,18 +418,17 @@
                 "&aText=" + getmd +
                 "&aUid=" + $scope.articleInActiveaUid,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data.status == 200) {
-                            getAllArticle(0);
-                            $('#updateSuccessMsg').fadeIn("slow");
-                            $('#updateSuccessMsg').fadeOut(3000);
-                        } else {
-                            swal("session过期", "请重新登录6", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data.status == 200) {
+                    getAllArticle(0);
+                    $('#updateSuccessMsg').fadeIn("slow");
+                    $('#updateSuccessMsg').fadeOut(3000);
+                } else {
+                    swal("session过期", "请重新登录6", "error");
+                    $window.location.href = '${request.getContextPath()}/login';
+                }
+            });
         }
 
         // 自动保存
@@ -467,16 +464,15 @@
                 url: '${request.getContextPath()}/file/download/${token}/' + type,
                 data: "content=" + content,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data != null) {
-                            swal("下载成功", "success")
-                        } else {
-                            swal("session过期", "请重新登录7", "error");
-                            $window.location.href = '${request.getContextPath()}/login';
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data != null) {
+                    swal("下载成功", "success")
+                } else {
+                    swal("session过期", "请重新登录7", "error");
+                    $window.location.href = '${request.getContextPath()}/login';
+                }
+            });
         }
         // 发布文章前: 初始化上传插件, 获取专题
         $scope['getSubject'] = getSubjectFun = function () {
@@ -486,14 +482,13 @@
                 method: 'get',
                 url: '${request.getContextPath()}/subject/getsubject',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            })
-                    .success(function (data) {
-                        console.log(data);
-                        if (data != null) {
-                            $scope.subjects = data.data;
-                        } else {
-                        }
-                    });
+            }).success(function (data) {
+                console.log(data);
+                if (data != null) {
+                    $scope.subjects = data.data;
+                } else {
+                }
+            });
         }
         // 发布文章
         $scope['releaseArticle'] = releaseArticleFun = function () {
@@ -521,16 +516,15 @@
                         "&raDesc=" + $scope.raDesc +
                         "&raText=" + gethtml,
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    })
-                            .success(function (data) {
-                                console.log(data);
-                                if (data != null) {
-                                    swal("发布成功", "success");
-                                } else {
-                                    swal("session过期", "请重新登录8", "error");
-                                    $window.location.href = '${request.getContextPath()}/login';
-                                }
-                            });
+                    }).success(function (data) {
+                        console.log(data);
+                        if (data != null) {
+                            swal("发布成功", "success");
+                        } else {
+                            swal("session过期", "请重新登录8", "error");
+                            $window.location.href = '${request.getContextPath()}/login';
+                        }
+                    });
                 }
             });
         }
