@@ -33,7 +33,7 @@ public class FileCtrl {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "download/{token}/{type}", method = RequestMethod.POST)
+    @RequestMapping(value = "download/{token}/{type}")
     public ResponseEntity<byte[]> download(HttpServletRequest request,
                                            @PathVariable(value = "token") String token,
                                            @PathVariable(value = "type") String type,

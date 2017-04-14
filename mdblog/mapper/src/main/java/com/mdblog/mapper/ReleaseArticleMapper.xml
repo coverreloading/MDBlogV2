@@ -483,4 +483,7 @@ select * from release_article WHERE mdblog.release_article.RA_Del=0 order by RA_
         SELECT * FROM release_article ORDER BY RA_Createtime DESC
         LIMIT #{offset,jdbcType=INTEGER}, #{row,jdbcType=INTEGER};
 </select>
+    <select id="sumOfLike" resultType="java.lang.Integer">
+        SELECT sum(mdblog.release_article.RA_Like) FROM mdblog.release_article WHERE mdblog.release_article.RA_UID=#{uid};
+    </select>
 </mapper>

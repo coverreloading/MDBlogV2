@@ -13,14 +13,14 @@
         </li>
         <li class="layui-nav-item layui-this">
             <a href="/" ng-click="subjectManage()"><span class="layui-icon">&#xe609;</span> 首页</a>
-        <li class="layui-nav-item">
+        <%--<li class="layui-nav-item">
             <a href="" ng-click="userManage()"><span class="layui-icon ">&#xe62a;</span> 专题</a>
         </li>
         <li class="layui-nav-item login-in">
             <a href="" ng-click="messageManage()"><span class="layui-icon ">&#xe613;</span> 简友圈</a>
-        </li>
+        </li>--%>
         <li class="layui-nav-item login-in">
-            <a href="" ng-click="tipsManage"><span class="layui-icon ">&#xe642;</span> 写文章</a>
+            <a href="/main" ng-click="tipsManage"><span class="layui-icon ">&#xe642;</span> 写文章</a>
         </li>
         <!--<li class="layui-nav-item"><a href="javascript:;" onclick="L_demoNav2.style.display='none';">关闭该导航演示</a></li>-->
         <span class="layui-nav-bar" style="top: 22.5px; height: 0px; opacity: 0;"></span></ul>

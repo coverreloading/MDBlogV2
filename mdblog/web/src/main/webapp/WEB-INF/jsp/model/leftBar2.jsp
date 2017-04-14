@@ -8,5 +8,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div id="left-bar2" style="background-color: cornflowerblue;width:20%; position: fixed;left: 10%;;overflow: hidden">
-    <img id="left-bar2-img"  src="">
+    <div><img id="left-bar2-img"  src="" style="position: relative"><span hidden style="position: absolute;font-size: 100px;bottom:50px;left: 50px;" >MDOL</span></div>
 </div>

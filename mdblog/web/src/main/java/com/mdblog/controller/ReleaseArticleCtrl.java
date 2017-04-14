@@ -32,9 +32,7 @@ public class ReleaseArticleCtrl {
             raSubjectJson = raSubjectJson.trim();
             String[] str = raSubjectJson.split("\\.");
             releaseArticle.setRaSubjectId(Long.valueOf(str[0]));
-
-            releaseArticleService.addRA(token, articleId, tipJson, releaseArticle);
-            return ResponResult.ok();
+            return releaseArticleService.addRA(token, articleId, tipJson, releaseArticle);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponResult.build(500, ExceptionUtil.getStackTrace(e));

@@ -14,8 +14,10 @@
                     <img src="${uif.uiPic}"
                          alt="240">
                 </a>
+                <%--
                 <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
                 <a class="btn btn-hollow" href="/notifications#/chats/new?mail_to=1703620">发简信</a>
+                --%>
 
                 <div class="title">
                     <a class="name" href="/u/${uif.uiUid}">${uif.uiNickname}</a>
@@ -24,34 +26,34 @@
                     <ul>
                         <li>
                             <div class="meta-block">
-                                <p>1</p>
+                                <p>${couts.followerCounts}</p>
                                 <a href="/users/e832b926acf9/following">
                                     关注 <i class="iconfont ic-arrow"></i>
                                 </a></div>
                         </li>
                         <li>
                             <div class="meta-block">
-                                <p>119</p>
+                                <p>${couts.fansCounts}</p>
                                 <a href="/users/e832b926acf9/followers">
                                     粉丝 <i class="iconfont ic-arrow"></i>
                                 </a></div>
                         </li>
                         <li>
                             <div class="meta-block">
-                                <p>33</p>
+                                <p>${couts.articleCounts}</p>
                                 <a href="/u/e832b926acf9">
                                     文章 <i class="iconfont ic-arrow"></i>
                                 </a></div>
                         </li>
-                        <li>
+                        <%--<li>
                             <div class="meta-block">
                                 <p>96763</p>
                                 <div>字数</div>
                             </div>
-                        </li>
+                        </li>--%>
                         <li>
                             <div class="meta-block">
-                                <p>261</p>
+                                <p>${couts.likeCounts}</p>
                                 <div>收获喜欢</div>
                             </div>
                         </li>
@@ -62,10 +64,12 @@
             <ul class="trigger-menu" data-pjax-container="#list-container">
                 <li class="active"><a href="/u/e832b926acf9?order_by=shared_at"><i class="iconfont ic-articles"></i> 文章</a>
                 </li>
-                <li class=""><a href="/users/e832b926acf9/timeline"><i class="iconfont ic-feed"></i> 动态</a></li>
-                <li class=""><a href="/u/e832b926acf9?order_by=commented_at"><i class="iconfont ic-latestcomments"></i>
+                <%--
+                <li  class=""><a href="/users/e832b926acf9/timeline"><i class="iconfont ic-feed"></i> 动态</a></li>
+                <li hidden class=""><a href="/u/e832b926acf9?order_by=commented_at"><i class="iconfont ic-latestcomments"></i>
                     最新评论</a></li>
-                <li class=""><a href="/u/e832b926acf9?order_by=top"><i class="iconfont ic-hot"></i> 热门</a></li>
+                <li hidden class=""><a href="/u/e832b926acf9?order_by=top"><i class="iconfont ic-hot"></i> 热门</a></li>
+                --%>
             </ul>
 
             <div id="list-container">
@@ -124,7 +128,7 @@
 " data-original-title="" title=""></a>
 
             </div>
-            <ul class="list user-dynamic">
+            <ul hidden class="list user-dynamic">
                 <li>
                     <a href="/users/e832b926acf9/subscriptions">
                         <i class="iconfont ic-collection"></i> <span>他关注的专题/文集</span>
@@ -137,7 +141,7 @@
                 </li>
             </ul>
             <!-- 专题和文集 -->
-            <div>
+            <div hidden>
                 <div><!----> <!----></div> <!---->
                 <div>
                     <div class="title">他的文集</div>
@@ -154,7 +158,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="user-action">
+            <div hidden class="user-action">
                 <a class="js-block-button" data-user-id="1703620" href="javascript:void(null);">加入黑名单</a>
                 ·
                 <a class="js-report-button" data-reportable-id="1703620" data-reportable-type="user">举报用户</a>

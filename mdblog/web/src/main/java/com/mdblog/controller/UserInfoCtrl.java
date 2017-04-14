@@ -1,7 +1,9 @@
 package com.mdblog.controller;
 
+import com.mdblog.VO.userCounts;
 import com.mdblog.po.ResponResult;
 import com.mdblog.po.UserInfo;
+import com.mdblog.service.CountsService;
 import com.mdblog.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,11 +24,13 @@ public class UserInfoCtrl {
 
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private CountsService countsService;
 
     @RequestMapping("/userinfo")
     public String showUserInfo(Model model, HttpSession session) {
         Long uid = Long.valueOf(session.getAttribute("uid").toString());
-        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
+        model.addAttribute("uif", userInfoService.getUserInfoByUid(uid));
         return "userInfo";
     }
 
@@ -39,7 +43,14 @@ public class UserInfoCtrl {
     // 访问用户主页
     @RequestMapping(value = "/u/{uid}")
     public String showUserInfoByUid(@PathVariable Long uid, Model model) {
-        model.addAttribute("uif",userInfoService.getUserInfoByUid(uid));
+        UserInfo uif = userInfoService.getUserInfoByUid(uid);
+        model.addAttribute("uif", uif);
+        userCounts userCounts = new userCounts();
+        userCounts.setFollowerCounts(countsService.followerCount(uif.getUiUid()));
+        userCounts.setArticleCounts(countsService.articleCount(uif.getUiUid()));
+        userCounts.setFansCounts(countsService.fansCount(uif.getUiUid()));
+        userCounts.setLikeCounts(countsService.likeCount(uif.getUiUid()));
+        model.addAttribute("couts", userCounts);
         return "user";
     }
 
@@ -50,7 +61,7 @@ public class UserInfoCtrl {
         return ResponResult.ok(userInfoService.getUserInfoByUid(uid));
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public ResponResult updateUInfo(String token, UserInfo userInfo, @RequestParam(value = "uiBirth-str") String birstr) throws ParseException {
         System.out.println("更新用户信息");

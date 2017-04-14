@@ -164,7 +164,7 @@
                                         <input id="file-Portrait" name="mainPic"
                                                class="form-control file-caption kv-fileinput-caption" type="file">
                                     </div>
-                                    <div id="container">
+                                    <div hidden id="container">
                                         <p><b>输入标签</b></p>
                                         <ul id="myTags">
                                         </ul>
@@ -235,7 +235,7 @@
         // 未登录跳转
         console.log("${token}");
         if ("${token}" == "") {
-            <%--$window.location.href = '${request.getContextPath()}/login';--%>
+            $window.location.href = '${request.getContextPath()}/login';
         }
         // 获取所有文章 check用于判断是从redis中获取数据 loadTheFirstArticle用于判断是否自动加载第一个文章(删除方法调用)
         $scope.check = 0;
@@ -259,7 +259,7 @@
                 }
                 else {
                     swal("session过期", "请重新登录1", "error");
-                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                    $window.location.href = '${request.getContextPath()}/login';
                 }
             });
         };
@@ -285,7 +285,7 @@
                     $('#addSuccessMsg').fadeOut(1000);
                 } else {
                     swal("session过期", "请重新登录2", "error");
-                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                    $window.location.href = '${request.getContextPath()}/login';
                 }
             });
         }
@@ -326,7 +326,7 @@
 
                 } else {
                     swal("session过期", "请重新登录3", "error");
-                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                    $window.location.href = '${request.getContextPath()}/login';
                 }
             });
             checkRelease(articleId);
@@ -343,7 +343,7 @@
                 confirmButtonText: "确定删除",
                 cancelButtonText: "不,手滑了",
                 closeOnConfirm: false,
-                closeOnCancel: false
+                closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http({
@@ -364,7 +364,7 @@
                         }
                         else {
                             swal("session过期", "请重新登录4", "error");
-                            <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                            $window.location.href = '${request.getContextPath()}/login';
                         }
                     });
                 } else {
@@ -404,7 +404,7 @@
                 }
                 else {
                     swal("session过期", "请重新登录5", "error");
-                    <%--$window.location.href = '${request.getContextPath()}/login';--%>
+                    $window.location.href = '${request.getContextPath()}/login';
                 }
             });
         }
@@ -467,6 +467,7 @@
             }).success(function (data) {
                 console.log(data);
                 if (data != null) {
+                    $window.location.href = '${request.getContextPath()}/file/download/${token}/' + type;
                     swal("下载成功", "success")
                 } else {
                     swal("session过期", "请重新登录7", "error");
@@ -501,7 +502,7 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "不,手滑了",
                 closeOnConfirm: false,
-                closeOnCancel: false
+                closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     var gethtml = window.encodeURIComponent(testEditor.getPreviewedHTML());
@@ -510,7 +511,7 @@
                         url: '${request.getContextPath()}/RA/new',
                         data: "token=${token}" +
                         "&articleId=" + $scope.articleInActiveaId +
-                        "&tipJson=" + $('#articleTagsValues').val() +
+//                        "&tipJson=" + $('#articleTagsValues').val() +
                         "&raSubjectJson=" + $scope.selectSubject +
                         "&raTitle=" + $scope.raTitle +
                         "&raDesc=" + $scope.raDesc +
@@ -518,8 +519,14 @@
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).success(function (data) {
                         console.log(data);
-                        if (data != null) {
+                        if (data.status == 200) {
+                            console.log(data);
                             swal("发布成功", "success");
+                            swal({
+                                title: "发布成功",
+                                text: '文章<b>'+$scope.raTitle+'</b>已成功发布<a href=\"/a/'+data.data+'\" target=\"_blank\">点击</a>查看文章',
+                                html: true
+                            });
                         } else {
                             swal("session过期", "请重新登录8", "error");
                             $window.location.href = '${request.getContextPath()}/login';
@@ -539,7 +546,7 @@
                 confirmButtonText: "确定",
                 cancelButtonText: "不,手滑了",
                 closeOnConfirm: false,
-                closeOnCancel: false
+                closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
                     $http({

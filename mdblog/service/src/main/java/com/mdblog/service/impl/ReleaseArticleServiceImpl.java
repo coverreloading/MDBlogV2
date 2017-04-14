@@ -78,8 +78,10 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
 
         try {
             releaseArticleMapper.insertAndGetId(releaseArticle);
+            return ResponResult.ok(releaseArticle.getRaId());
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponResult.build(500, "insert error");
         }
         // TODO: 2017/2/23 tip保存方式有毒
         /*
@@ -93,7 +95,7 @@ public class ReleaseArticleServiceImpl implements ReleaseArticleService {
         }
         */
 
-        return ResponResult.ok();
+
     }
 
     @Override

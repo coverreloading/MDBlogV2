@@ -24,7 +24,7 @@
                         <li data-target="#indexCarousel" data-slide-to="5" class=""></li>
                         <li data-target="#indexCarousel" data-slide-to="6" class=""></li>
                     </ol>
-                    <div class="carousel-inner">
+                    <div hidden class="carousel-inner">
                         <div class="item">
                             <a target="_blank"
                                href="http://www.jianshu.com/p/829ac0c17ac4?utm_medium=index-banner&amp;utm_source=desktop"><img

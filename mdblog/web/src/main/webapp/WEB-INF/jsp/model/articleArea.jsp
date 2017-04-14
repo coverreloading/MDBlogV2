@@ -353,7 +353,7 @@
                                      data-original-title="转载请联系作者获得授权。">
                                     © 著作权归作者所有
                                 </div>
-                                <div class="modal-wrap" data-report-note="">
+                                <div hidden class="modal-wrap" data-report-note="">
                                     <a id="report-modal">举报文章</a>
                                 </div>
                             </div>
@@ -368,9 +368,9 @@
                                 <a class="btn btn-default following"><i
                                         class="iconfont ic-followed"></i><span>已关注</span></a>
                                 <a class="title ui-uiname" href="/uinfo/u/${uif.uiUid}">${uif.uiNickname}</a><
-                                <p>写了 174713 字，被 316 人关注，获得了 289 个喜欢</p></div>
+                                <p hidden>写了 174713 字，被 316 人关注，获得了 289 个喜欢</p></div>
                         </div>
-                        <div class="support-author"><p>如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</p>
+                        <div hidden class="support-author"><p>如果觉得我的文章对您有用，请随意打赏。您的支持将鼓励我继续创作！</p>
                             <div class="btn btn-pay">赞赏支持</div> <!----> <!----> <!----></div>
                         <div class="meta-bottom">
                             <div class="like">
@@ -453,6 +453,10 @@
                                                 </div>
                                             </div>
                                         </div> <!----> <!---->
+                                        <div ng-if="totalnum==0" class="no-comment"></div>
+                                        <div ng-if="totalnum==0" class="text">
+                                            智慧如你，不想发表一点想法咩~
+                                        </div>
                                         <div ng-repeat="x in comments">
                                             <div id="comment-{{x.c.cId}}" class="comment">
                                                 <div>

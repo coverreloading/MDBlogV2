@@ -58,4 +58,6 @@ public interface ReleaseArticleMapper {
 
     // 管理端获取所有文章分页
     List<ReleaseArticle> selectAllLimit(@Param("offset") int offset, @Param("row") int row);
+
+    int sumOfLike(long uid);
 }
